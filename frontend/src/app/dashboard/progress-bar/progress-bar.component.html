@@ -1,0 +1,12 @@
+<div>
+  <p-progress-bar
+    [value]="(value / max) * 100"
+    [unit]="unit"
+    [style]="heightStyle"
+    [showValue]="false"
+  >
+  </p-progress-bar>
+  @if (showValue) {
+    <span [ngClass]="valueClass">{{ value }} / {{ max }} {{ unit }}</span>
+  }
+</div>

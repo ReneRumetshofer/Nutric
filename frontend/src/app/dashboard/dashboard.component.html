@@ -1,0 +1,42 @@
+<div class="p-2">
+  <div class="relative">
+    <app-progress-bar
+      [value]="900"
+      [max]="1800"
+      [unit]="'kcal'"
+      [height]="'2.5rem'"
+      [showValue]="false"
+    />
+    <div class="absolute inset-0 flex items-center justify-center">
+      <p-tag severity="contrast" [style]="{ background: '#ffffffcc' }"
+        >62 übrig</p-tag
+      >
+    </div>
+  </div>
+
+  <div class="flex justify-around">
+    <div class="w-1/3 p-2">
+      Kohlenhydrate:
+      <app-progress-bar [value]="217" [max]="350" [unit]="'g'" />
+    </div>
+    <div class="w-1/3 p-2">
+      Protein:
+      <app-progress-bar [value]="0" [max]="350" [unit]="'g'" />
+    </div>
+    <div class="w-1/3 p-2">
+      Fett:
+      <app-progress-bar [value]="1" [max]="100" [unit]="'g'" />
+    </div>
+  </div>
+
+  <div>
+    <p-card>
+      <ng-template #title>
+        <span class="text-base">Frühstück</span>
+      </ng-template>
+    </p-card>
+    <p-card header="Mittagessen" />
+    <p-card header="Abendessen" />
+    <p-card header="Snacks" />
+  </div>
+</div>
