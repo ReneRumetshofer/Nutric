@@ -1,5 +1,7 @@
 <div class="p-2">
-  <div class="relative">
+  <div class="text-3xl font-bold">Nutric</div>
+
+  <div class="mt-6 relative">
     <app-progress-bar
       [value]="900"
       [max]="1800"
@@ -14,7 +16,7 @@
     </div>
   </div>
 
-  <div class="flex justify-around">
+  <div class="mt-4 flex justify-around">
     <div class="w-1/3 p-2">
       Kohlenhydrate:
       <app-progress-bar [value]="217" [max]="350" [unit]="'g'" />
@@ -29,14 +31,14 @@
     </div>
   </div>
 
-  <div>
-    <p-card>
-      <ng-template #title>
-        <span class="text-base">Frühstück</span>
-      </ng-template>
-    </p-card>
-    <p-card header="Mittagessen" />
-    <p-card header="Abendessen" />
-    <p-card header="Snacks" />
+  <div class="mt-4 flex flex-col gap-2">
+    <app-meal-card mealName="Frühstück" [calories]="300" [maxCalories]="500" />
+    <app-meal-card
+      mealName="Mittagessen"
+      [calories]="300"
+      [maxCalories]="500"
+    />
+    <app-meal-card mealName="Abendessen" [calories]="300" [maxCalories]="500" />
+    <app-meal-card mealName="Snacks" [calories]="300" [maxCalories]="500" />
   </div>
 </div>

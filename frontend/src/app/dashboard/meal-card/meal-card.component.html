@@ -1,0 +1,18 @@
+<p-card [style]="{ 'body.padding': '16rem' }">
+  <ng-template #title>
+    <div class="flex justify-between items-start">
+      {{ mealName }}
+      <p-button icon="pi pi-plus" [rounded]="true" />
+    </div>
+  </ng-template>
+  <div class="flex items-center mt-2">
+    <p class="mr-4 text-sm">{{ calories }} kcal</p>
+    <div class="flex-1">
+      <app-progress-bar
+        [value]="calories"
+        [max]="maxCalories"
+        [showValue]="false"
+      />
+    </div>
+  </div>
+</p-card>
