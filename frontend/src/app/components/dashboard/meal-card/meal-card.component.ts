@@ -3,10 +3,11 @@ import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { Panel } from 'primeng/panel';
+import {Divider} from 'primeng/divider';
 
 @Component({
   selector: 'app-meal-card',
-  imports: [Card, Button, ProgressBarComponent, Panel],
+  imports: [Card, Button, ProgressBarComponent, Panel, Divider],
   templateUrl: './meal-card.component.html',
   standalone: true,
   styleUrl: './meal-card.component.scss',
