@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Builder(toBuilder = true)
 public record DayData (
-        Long id,
         LocalDate day,
         UUID userUuid,
         Integer calorieGoal,

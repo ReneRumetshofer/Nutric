@@ -39,7 +39,6 @@ public class GetDayUseCase {
 
     private DayData toDayData(DayDbModel dayDbModel) {
         return DayData.builder()
-                .id(dayDbModel.getId())
                 .day(dayDbModel.getDay())
                 .userUuid(dayDbModel.getUserUuid())
                 .calorieGoal(dayDbModel.getCalorieGoal())

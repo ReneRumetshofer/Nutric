@@ -1,12 +1,27 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import {AutoRefreshTokenService, provideKeycloak, UserActivityService, withAutoRefreshToken} from 'keycloak-angular';
-import {environment} from '../environments/environment';
+import {
+  AutoRefreshTokenService,
+  createInterceptorCondition,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  IncludeBearerTokenCondition,
+  includeBearerTokenInterceptor,
+  provideKeycloak,
+  UserActivityService,
+  withAutoRefreshToken,
+} from 'keycloak-angular';
+import { environment } from '../environments/environment';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+
+const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: /^\/api(\/.*)?$/i,
+  bearerPrefix: 'Bearer',
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,10 +48,15 @@ export const appConfig: ApplicationConfig = {
       features: [
         withAutoRefreshToken({
           onInactivityTimeout: 'logout',
-          sessionTimeout: 60000
-        })
+          sessionTimeout: 60000,
+        }),
       ],
-      providers: [AutoRefreshTokenService, UserActivityService]
+      providers: [AutoRefreshTokenService, UserActivityService],
     }),
+    {
+      provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+      useValue: [urlCondition],
+    },
+    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
   ],
 };

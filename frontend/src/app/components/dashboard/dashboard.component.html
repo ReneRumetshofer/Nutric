@@ -4,54 +4,64 @@
     <span class="text-3xl font-bold ml-3"> Nutric </span>
   </div>
 
-  <div class="mt-6 relative">
-    <app-progress-bar
-      [value]="1600"
-      [max]="1800"
-      [unit]="'kcal'"
-      [height]="'2.5rem'"
-      [showValue]="false"
-    />
-    <div class="absolute inset-0 flex items-center justify-center">
-      <p-tag severity="contrast" [rounded]="true">&nbsp;62 übrig</p-tag>
+  @if (dayService.day$(); as day) {
+    <div class="mt-6 relative">
+      <app-progress-bar
+        [value]="1600"
+        [max]="day.calorieGoal"
+        [unit]="'kcal'"
+        [height]="'2.5rem'"
+        [showValue]="false"
+      />
+      <div class="absolute inset-0 flex items-center justify-center">
+        <p-tag severity="contrast" [rounded]="true">&nbsp;62 übrig</p-tag>
+      </div>
     </div>
-  </div>
 
-  <div class="mt-4 flex justify-around">
-    <div class="w-1/3 p-2">
-      Kohlenhydrate:
-      <app-progress-bar [value]="217" [max]="350" [unit]="'g'" />
+    <div class="mt-4 flex justify-around">
+      <div class="w-1/3 p-2">
+        Kohlenhydrate:
+        <app-progress-bar
+          [value]="217"
+          [max]="day.carbLimitGrams"
+          [unit]="'g'"
+        />
+      </div>
+      <div class="w-1/3 p-2">
+        Protein:
+        <app-progress-bar
+          [value]="0"
+          [max]="day.proteinLimitGrams"
+          [unit]="'g'"
+        />
+      </div>
+      <div class="w-1/3 p-2">
+        Fett:
+        <app-progress-bar [value]="1" [max]="day.fatLimitGrams" [unit]="'g'" />
+      </div>
     </div>
-    <div class="w-1/3 p-2">
-      Protein:
-      <app-progress-bar [value]="0" [max]="350" [unit]="'g'" />
-    </div>
-    <div class="w-1/3 p-2">
-      Fett:
-      <app-progress-bar [value]="1" [max]="100" [unit]="'g'" />
-    </div>
-  </div>
 
-  <div class="mt-4 flex flex-col gap-2">
-    <app-meal-card
-      mealName="Frühstück"
-      [calories]="300"
-      (onAdd)="onAddFood(MealType.BREAKFAST)"
-    />
-    <app-meal-card
-      mealName="Mittagessen"
-      [calories]="300"
-      (onAdd)="onAddFood(MealType.LUNCH)"
-    />
-    <app-meal-card
-      mealName="Abendessen"
-      [calories]="300"
-      (onAdd)="onAddFood(MealType.DINNER)"
-    />
-    <app-meal-card
-      mealName="Snacks"
-      [calories]="300"
-      (onAdd)="onAddFood(MealType.SNACK)"
-    />
-  </div>
+    <div class="mt-4 flex flex-col gap-2">
+      <app-meal-card
+        mealName="Frühstück"
+        [calories]="300"
+        (onAdd)="onAddFood(MealType.BREAKFAST)"
+      />
+      <app-meal-card
+        mealName="Mittagessen"
+        [calories]="300"
+        (onAdd)="onAddFood(MealType.LUNCH)"
+      />
+      <app-meal-card
+        mealName="Abendessen"
+        [calories]="300"
+        (onAdd)="onAddFood(MealType.DINNER)"
+      />
+      <app-meal-card
+        mealName="Snacks"
+        [calories]="300"
+        (onAdd)="onAddFood(MealType.SNACK)"
+      />
+    </div>
+  }
 </div>
