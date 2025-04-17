@@ -1,0 +1,20 @@
+<div>
+  <div class="relative flex items-center justify-between">
+    <p-button
+      icon="pi pi-arrow-left"
+      [link]="true"
+      severity="warn"
+      class="absolute"
+      label="Zurück"
+      (onClick)="onBack()"
+    >
+    </p-button>
+    <span class="mx-auto text-3xl font-bold">{{ mealType }}</span>
+  </div>
+</div>
+
+@if (day && mealType) {
+  <div>Day: {{ day }}</div>
+
+  <div>Meal type: {{ mealType }}</div>
+}

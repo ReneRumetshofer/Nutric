@@ -1,18 +1,19 @@
-<div class="p-2">
-  <div class="text-3xl font-bold">Nutric</div>
+<div class="">
+  <div class="flex items-center">
+    <img src="/icon.svg" alt="Logo" class="w-16 logo" />
+    <span class="text-3xl font-bold ml-2"> Nutric </span>
+  </div>
 
   <div class="mt-6 relative">
     <app-progress-bar
-      [value]="900"
+      [value]="1600"
       [max]="1800"
       [unit]="'kcal'"
       [height]="'2.5rem'"
       [showValue]="false"
     />
     <div class="absolute inset-0 flex items-center justify-center">
-      <p-tag severity="contrast" [style]="{ background: '#ffffffcc' }"
-        >62 übrig</p-tag
-      >
+      <p-tag severity="contrast" [rounded]="true">&nbsp;62 übrig</p-tag>
     </div>
   </div>
 
@@ -32,13 +33,29 @@
   </div>
 
   <div class="mt-4 flex flex-col gap-2">
-    <app-meal-card mealName="Frühstück" [calories]="300" [maxCalories]="500" />
+    <app-meal-card
+      mealName="Frühstück"
+      [calories]="300"
+      [maxCalories]="500"
+      (onAdd)="onAddFood(MealType.BREAKFAST)"
+    />
     <app-meal-card
       mealName="Mittagessen"
       [calories]="300"
       [maxCalories]="500"
+      (onAdd)="onAddFood(MealType.LUNCH)"
     />
-    <app-meal-card mealName="Abendessen" [calories]="300" [maxCalories]="500" />
-    <app-meal-card mealName="Snacks" [calories]="300" [maxCalories]="500" />
+    <app-meal-card
+      mealName="Abendessen"
+      [calories]="300"
+      [maxCalories]="500"
+      (onAdd)="onAddFood(MealType.DINNER)"
+    />
+    <app-meal-card
+      mealName="Snacks"
+      [calories]="300"
+      [maxCalories]="500"
+      (onAdd)="onAddFood(MealType.SNACK)"
+    />
   </div>
 </div>

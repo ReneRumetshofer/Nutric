@@ -4,7 +4,7 @@ import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-progress-bar',
-  imports: [ProgressBar, NgStyle, NgClass],
+  imports: [ProgressBar, NgClass],
   templateUrl: './progress-bar.component.html',
   standalone: true,
   styleUrl: './progress-bar.component.scss',
@@ -19,7 +19,7 @@ export class ProgressBarComponent {
 
   get heightStyle(): any {
     if (!this.height) {
-      return {};
+      return { height: '0.5rem' };
     }
     return { height: this.height };
   }

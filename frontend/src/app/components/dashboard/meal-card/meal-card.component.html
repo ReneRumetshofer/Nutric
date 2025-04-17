@@ -2,7 +2,7 @@
   <ng-template #title>
     <div class="flex justify-between items-start">
       {{ mealName }}
-      <p-button icon="pi pi-plus" [rounded]="true" />
+      <p-button icon="pi pi-plus" [rounded]="true" (onClick)="onAdd.emit()" />
     </div>
   </ng-template>
   <div class="flex items-center mt-2">
