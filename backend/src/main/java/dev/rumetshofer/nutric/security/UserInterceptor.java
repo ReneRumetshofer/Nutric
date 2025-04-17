@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-public class UserUuidInterceptor implements HandlerInterceptor {
+public class UserInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -17,7 +17,14 @@ public class UserUuidInterceptor implements HandlerInterceptor {
 
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
             String sub = jwt.getClaimAsString("sub");
+            String givenName = jwt.getClaimAsString("given_name");
+            String familyName = jwt.getClaimAsString("family_name");
+            String email = jwt.getClaimAsString("email");
+
             request.setAttribute("userUuid", sub);
+            request.setAttribute("userFirstName", givenName);
+            request.setAttribute("userLastName", familyName);
+            request.setAttribute("userEmail", email);
         }
 
         return true;
