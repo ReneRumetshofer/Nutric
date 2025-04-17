@@ -13,7 +13,13 @@
     </div>
   </ng-template>
   <ng-template #icons>
-    <p-button severity="primary" rounded="true" size="small" class="mr-1">
+    <p-button
+      severity="primary"
+      rounded="true"
+      size="small"
+      class="mr-1"
+      (onClick)="onAdd.emit()"
+    >
       <ng-template #icon>
         <span class="pi pi-plus"></span>
       </ng-template>
@@ -22,14 +28,13 @@
   <ng-template #headericons let-collapsed>
     @if (collapsed) {
       <span class="pi pi-angle-right"></span>
-    }
-    @else {
+    } @else {
       <span class="pi pi-angle-down"></span>
     }
   </ng-template>
   <ng-template #content>
     <div class="flex flex-col">
-      <p-divider/>
+      <p-divider />
       Some content here
     </div>
   </ng-template>
