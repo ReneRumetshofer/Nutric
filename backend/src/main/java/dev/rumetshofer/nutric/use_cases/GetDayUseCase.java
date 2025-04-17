@@ -1,9 +1,9 @@
 package dev.rumetshofer.nutric.use_cases;
 
-import dev.rumetshofer.nutric.db.entities.DayDbModel;
-import dev.rumetshofer.nutric.db.entities.ProfileDbModel;
-import dev.rumetshofer.nutric.db.repositories.DayRepository;
-import dev.rumetshofer.nutric.db.repositories.ProfileRepository;
+import dev.rumetshofer.nutric.out.db.entities.DayDbModel;
+import dev.rumetshofer.nutric.out.db.entities.ProfileDbModel;
+import dev.rumetshofer.nutric.out.db.repositories.DayRepository;
+import dev.rumetshofer.nutric.out.db.repositories.ProfileRepository;
 import dev.rumetshofer.nutric.use_cases.dto.DayData;
 import dev.rumetshofer.nutric.use_cases.exceptions.ProfileNotFoundException;
 import org.springframework.stereotype.Component;

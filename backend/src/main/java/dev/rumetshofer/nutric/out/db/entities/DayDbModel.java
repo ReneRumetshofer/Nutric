@@ -1,4 +1,4 @@
-package dev.rumetshofer.nutric.db.entities;
+package dev.rumetshofer.nutric.out.db.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

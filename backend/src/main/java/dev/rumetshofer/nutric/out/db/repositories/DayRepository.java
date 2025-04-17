@@ -1,6 +1,6 @@
-package dev.rumetshofer.nutric.db.repositories;
+package dev.rumetshofer.nutric.out.db.repositories;
 
-import dev.rumetshofer.nutric.db.entities.DayDbModel;
+import dev.rumetshofer.nutric.out.db.entities.DayDbModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

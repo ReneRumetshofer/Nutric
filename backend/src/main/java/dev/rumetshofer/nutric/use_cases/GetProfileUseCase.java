@@ -1,7 +1,7 @@
 package dev.rumetshofer.nutric.use_cases;
 
-import dev.rumetshofer.nutric.db.entities.ProfileDbModel;
-import dev.rumetshofer.nutric.db.repositories.ProfileRepository;
+import dev.rumetshofer.nutric.out.db.entities.ProfileDbModel;
+import dev.rumetshofer.nutric.out.db.repositories.ProfileRepository;
 import dev.rumetshofer.nutric.use_cases.dto.GetProfileRequestData;
 import dev.rumetshofer.nutric.use_cases.dto.ProfileData;
 import org.springframework.stereotype.Component;

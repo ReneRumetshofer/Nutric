@@ -22,3 +22,14 @@ server:
     whitelabel:
       enabled: false
   port: 8081
+
+yazio:
+  api:
+    urlBase: https://yzapi.yazio.com
+    oauthTokenUrl: /v8/oauth/token
+    searchUrl: /v16/products/search
+  auth:
+    clientId: ${YAZIO_API_CLIENT_ID}
+    clientSecret: ${YAZIO_API_CLIENT_SECRET}
+    user: ${YAZIO_API_USER}
+    password: ${YAZIO_API_PASSWORD}
