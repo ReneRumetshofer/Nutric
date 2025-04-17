@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nutric
+    username: postgresuser
+    password: postgrespassword
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/nutric
+
+#logging:
+#  level:
+#    root: debug

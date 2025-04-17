@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Nutric.iml" filepath="$PROJECT_DIR$/.idea/Nutric.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nutric.main.iml" filepath="$PROJECT_DIR$/.idea/modules/nutric.main.iml" />
     </modules>
   </component>
 </project>
