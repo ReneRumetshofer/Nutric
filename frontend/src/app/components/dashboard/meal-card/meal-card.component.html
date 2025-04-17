@@ -1,11 +1,15 @@
-<p-card [style]="{ 'body.padding': '16rem' }">
-  <ng-template #title>
-    <div class="flex justify-between items-start">
-      {{ mealName }}
-      <p-button icon="pi pi-plus" [rounded]="true" (onClick)="onAdd.emit()" />
+<p-panel
+  [style]="{ 'body.padding': '16rem' }"
+  [toggleable]="true"
+  [collapsed]="true"
+>
+  <ng-template #header>
+    <div class="mt-2">
+      <div class="text-xl font-bold">
+        {{ mealName }}
+      </div>
+      <p class="mt-2 mb-2 text-sm">{{ calories }} kcal</p>
     </div>
   </ng-template>
-  <div class="flex items-center mt-2">
-    <p class="mr-4 text-sm">{{ calories }} kcal</p>
-  </div>
-</p-card>
+  <ng-template #headerIcons> </ng-template>
+</p-panel>
