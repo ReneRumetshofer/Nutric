@@ -22,13 +22,13 @@ public class ProfileController {
 
     @GetMapping
     public ProfileData test(
-            @RequestAttribute("userUuid") String userUuid,
+            @RequestAttribute("userUuid") UUID userUuid,
             @RequestAttribute("userFirstName") String firstName,
             @RequestAttribute("userLastName") String lastName,
             @RequestAttribute("userEmail") String email
     ) {
         GetProfileRequestData requestData = GetProfileRequestData.builder()
-                .userUuid(UUID.fromString(userUuid))
+                .userUuid(userUuid)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)

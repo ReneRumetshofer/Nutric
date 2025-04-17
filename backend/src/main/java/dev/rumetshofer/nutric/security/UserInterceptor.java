@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.UUID;
+
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
@@ -21,7 +23,7 @@ public class UserInterceptor implements HandlerInterceptor {
             String familyName = jwt.getClaimAsString("family_name");
             String email = jwt.getClaimAsString("email");
 
-            request.setAttribute("userUuid", sub);
+            request.setAttribute("userUuid", UUID.fromString(sub));
             request.setAttribute("userFirstName", givenName);
             request.setAttribute("userLastName", familyName);
             request.setAttribute("userEmail", email);

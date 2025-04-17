@@ -12,7 +12,6 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 })
 export class MealCardComponent {
   @Input({ required: true }) mealName: string = '';
-  @Input() maxCalories: number = 0;
   @Input() calories: number = 0;
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 }
