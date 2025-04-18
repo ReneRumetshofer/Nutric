@@ -20,6 +20,8 @@ import {
 } from 'rxjs';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Message } from 'primeng/message';
+import { Card } from 'primeng/card';
+import { Serving } from '../../models/product.model';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -30,6 +32,7 @@ import { Message } from 'primeng/message';
     ReactiveFormsModule,
     ProgressSpinner,
     Message,
+    Card,
   ],
   templateUrl: './track-food-screen.component.html',
   standalone: true,
@@ -91,4 +94,6 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     const length = this.queryControl.value?.length ?? 0;
     return length > 0 && length < 3;
   }
+
+  protected readonly Serving = Serving;
 }

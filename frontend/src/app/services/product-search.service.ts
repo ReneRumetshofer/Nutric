@@ -20,6 +20,7 @@ export default class ProductSearchService {
 
   searchProducts(query: string) {
     this._loading.set(true);
+    this._error.set(null);
 
     this.httpClient
       .get<Product[]>('/api/foods/search', { params: { query: query } })
