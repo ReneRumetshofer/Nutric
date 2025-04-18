@@ -1,20 +1,41 @@
-<div>
-  <div class="relative flex items-center justify-between">
-    <p-button
-      icon="pi pi-arrow-left"
-      [link]="true"
-      severity="warn"
-      class="absolute"
-      label="Zurück"
-      (onClick)="onBack()"
-    >
-    </p-button>
-    <span class="mx-auto text-3xl font-bold">{{ mealType }}</span>
+<div [formGroup]="trackFoodForm">
+  <app-page-header
+    [headerTitle]="mealType?.toString()"
+    (onBack)="onBack()"
+  ></app-page-header>
+
+  <div class="flex justify-center mt-6">
+    <div class="flex flex-col w-3/4">
+      <input
+        type="text"
+        pInputText
+        formControlName="queryControl"
+        placeholder="Essen suchen"
+        class="w-full"
+      />
+      @if (shouldShowSearchHelper) {
+        <small id="query-help" class="ml-1 mt-1">
+          Bitte mindestens 2 Zeichen eingeben
+        </small>
+      }
+    </div>
   </div>
+
+  <div class="mt-6">
+    @if (productSearchService.loading$()) {
+      <div class="flex justify-center">
+        <p-progress-spinner ariaLabel="loading" />
+      </div>
+    } @else if (productSearchService.error$()) {
+      <p-message severity="error" variant="outlined">{{
+        productSearchService.error$()
+      }}</p-message>
+    } @else {
+      @for (product of productSearchService.products$(); track product) {
+        <p>{{ product.name }}</p>
+      }
+    }
+  </div>
+
+  <div class="mt-6"></div>
 </div>
-
-@if (day && mealType) {
-  <div>Day: {{ day }}</div>
-
-  <div>Meal type: {{ mealType }}</div>
-}

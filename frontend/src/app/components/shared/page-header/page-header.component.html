@@ -1,0 +1,14 @@
+<div class="relative flex items-center justify-between">
+  <p-button
+    icon="pi pi-arrow-left"
+    [link]="true"
+    severity="warn"
+    class="absolute"
+    label="Zurück"
+    (onClick)="onBack.emit()"
+  >
+  </p-button>
+  @if (headerTitle) {
+    <span class="mx-auto text-3xl font-bold">{{ headerTitle }}</span>
+  }
+</div>

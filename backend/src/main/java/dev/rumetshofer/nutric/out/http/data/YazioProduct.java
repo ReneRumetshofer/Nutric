@@ -1,11 +1,12 @@
 package dev.rumetshofer.nutric.out.http.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 import java.util.List;
 
 @Builder(toBuilder = true)
-public record YazioProduct(
+public record YazioProduct (
         int score,
         String name,
         String product_id,
@@ -21,10 +22,14 @@ public record YazioProduct(
 ) {
     @Builder(toBuilder = true)
     public record Nutrients(
-            double energy_energy,
-            double nutrient_carb,
-            double nutrient_fat,
-            double nutrient_protein
+            @JsonProperty("energy.energy")
+            double energy,
+            @JsonProperty("nutrient.carb")
+            double carb,
+            @JsonProperty("nutrient.fat")
+            double fat,
+            @JsonProperty("nutrient.protein")
+            double protein
     ) {
     }
 }
