@@ -1,6 +1,6 @@
 package dev.rumetshofer.nutric.use_cases.dto;
 
-import dev.rumetshofer.nutric.use_cases.enums.Serving;
+import dev.rumetshofer.nutric.use_cases.enums.YazioServing;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import lombok.Builder;
 
@@ -8,7 +8,7 @@ import lombok.Builder;
 public record ProductData (
         String name,
         String producer,
-        Serving serving,
+        YazioServing yazioServing,
         int servingQuantity,
         int amount,
         Unit baseUnit,

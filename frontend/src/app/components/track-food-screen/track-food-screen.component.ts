@@ -21,7 +21,7 @@ import {
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Message } from 'primeng/message';
 import { Card } from 'primeng/card';
-import { Serving } from '../../models/product.model';
+import { Product, YazioServing } from '../../models/product.model';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -95,5 +95,12 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     return length > 0 && length < 3;
   }
 
-  protected readonly Serving = Serving;
+  shouldRenderServingSize(product: Product): boolean {
+    return !(
+      product.amount === product.servingQuantity &&
+      product.yazioServing.toString() === product.baseUnit.toString()
+    );
+  }
+
+  protected readonly Math = Math;
 }

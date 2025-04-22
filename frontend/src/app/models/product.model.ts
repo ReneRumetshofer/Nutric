@@ -1,7 +1,7 @@
-export enum Serving {
+export enum YazioServing {
   GLASS = 'Glas',
   PACKAGE = 'Packung',
-  MILLILITER = 'ml',
+  MILLILITERS = 'ml',
   GRAMS = 'g',
   PORTION = 'Portion',
   PORTION_LARGE = 'große Portion',
@@ -36,7 +36,7 @@ export enum Unit {
 export interface Product {
   name: string;
   producer: string;
-  serving: Serving;
+  yazioServing: YazioServing;
   servingQuantity: number;
   amount: number;
   baseUnit: Unit;

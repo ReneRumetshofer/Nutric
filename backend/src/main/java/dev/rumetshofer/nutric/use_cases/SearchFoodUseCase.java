@@ -3,7 +3,7 @@ package dev.rumetshofer.nutric.use_cases;
 import dev.rumetshofer.nutric.out.http.YazioSearchService;
 import dev.rumetshofer.nutric.out.http.data.YazioProduct;
 import dev.rumetshofer.nutric.use_cases.dto.ProductData;
-import dev.rumetshofer.nutric.use_cases.enums.Serving;
+import dev.rumetshofer.nutric.use_cases.enums.YazioServing;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class SearchFoodUseCase {
         return ProductData.builder()
                 .name(yazioProduct.name())
                 .producer(yazioProduct.producer())
-                .serving(Serving.fromValue(yazioProduct.serving()))
+                .yazioServing(YazioServing.fromValue(yazioProduct.serving(), YazioServing.PORTION))
                 .servingQuantity(yazioProduct.serving_quantity())
                 .amount(yazioProduct.amount())
                 .baseUnit(Unit.fromAbbreviation(yazioProduct.base_unit()))

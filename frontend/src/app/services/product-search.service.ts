@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, of } from 'rxjs';
-import { Product } from '../models/product.model';
+import { catchError, map, of } from 'rxjs';
+import { Product, Unit, YazioServing } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +25,16 @@ export default class ProductSearchService {
     this.httpClient
       .get<Product[]>('/api/foods/search', { params: { query: query } })
       .pipe(
+        map((data) =>
+          data.map((item) => ({
+            ...item,
+            yazioServing:
+              YazioServing[
+                item.yazioServing as unknown as keyof typeof YazioServing
+              ],
+            baseUnit: Unit[item.baseUnit as unknown as keyof typeof Unit],
+          })),
+        ),
         catchError((err) => {
           console.error(err);
           this._loading.set(false);

@@ -33,13 +33,15 @@
     } @else {
       @for (product of productSearchService.products$(); track product) {
         <p-card>
-          <p class="font-bold">{{ product.name }}</p>
-          <p>{{ product.energyPerBaseUnit * product.amount }} kcal</p>
+          <p class="font-bold mb-2">{{ product.name }}</p>
           <p>
-            {{ product.servingQuantity }} {{ product.serving.toString() }} ({{
-              product.amount
-            }}
-            {{ product.baseUnit }})
+            {{ product.servingQuantity }} {{ product.yazioServing }}
+            @if (shouldRenderServingSize(product)) {
+              <span> ({{ product.amount }} {{ product.baseUnit }}) </span>
+            }
+          </p>
+          <p>
+            {{ Math.round(product.energyPerBaseUnit * product.amount) }} kcal
           </p>
         </p-card>
       }
