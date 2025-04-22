@@ -1,0 +1,25 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Product } from '../../../models/product.model';
+import { Card } from 'primeng/card';
+import { Button } from 'primeng/button';
+
+@Component({
+  selector: 'app-product-card',
+  imports: [Card, Button],
+  templateUrl: './product-card.component.html',
+  standalone: true,
+  styleUrl: './product-card.component.scss',
+})
+export class ProductCardComponent {
+  @Input() product!: Product;
+  @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
+
+  shouldRenderServingSize(product: Product): boolean {
+    return !(
+      product.amount === product.servingQuantity &&
+      product.yazioServing.toString() === product.baseUnit.toString()
+    );
+  }
+
+  protected readonly Math = Math;
+}

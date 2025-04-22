@@ -11,7 +11,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { query } from '@angular/animations';
 import {
   BehaviorSubject,
   debounceTime,
@@ -20,8 +19,9 @@ import {
 } from 'rxjs';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Message } from 'primeng/message';
-import { Card } from 'primeng/card';
-import { Product, YazioServing } from '../../models/product.model';
+import { ProductCardComponent } from './product-card/product-card.component';
+import { InputGroup } from 'primeng/inputgroup';
+import { InputGroupAddon } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -32,7 +32,9 @@ import { Product, YazioServing } from '../../models/product.model';
     ReactiveFormsModule,
     ProgressSpinner,
     Message,
-    Card,
+    ProductCardComponent,
+    InputGroup,
+    InputGroupAddon,
   ],
   templateUrl: './track-food-screen.component.html',
   standalone: true,
@@ -95,12 +97,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     return length > 0 && length < 3;
   }
 
-  shouldRenderServingSize(product: Product): boolean {
-    return !(
-      product.amount === product.servingQuantity &&
-      product.yazioServing.toString() === product.baseUnit.toString()
-    );
+  clearQuery(): void {
+    this.queryControl.setValue('');
   }
-
-  protected readonly Math = Math;
 }

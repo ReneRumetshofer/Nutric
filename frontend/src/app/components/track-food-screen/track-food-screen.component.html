@@ -6,13 +6,22 @@
 
   <div class="flex justify-center mt-6">
     <div class="flex flex-col w-full">
-      <input
-        type="text"
-        pInputText
-        formControlName="queryControl"
-        placeholder="Essen suchen"
-        class="w-full"
-      />
+      <p-inputgroup>
+        <input
+          type="text"
+          pInputText
+          formControlName="queryControl"
+          placeholder="Essen suchen"
+          class="w-full"
+        />
+        <p-inputgroup-addon>
+          <p-button
+            icon="pi pi-times"
+            severity="secondary"
+            (onClick)="clearQuery()"
+          ></p-button>
+        </p-inputgroup-addon>
+      </p-inputgroup>
       @if (shouldShowSearchHelper) {
         <small id="query-help" class="ml-1 mt-1">
           Bitte mindestens 2 Zeichen eingeben
@@ -31,20 +40,11 @@
         productSearchService.error$()
       }}</p-message>
     } @else {
-      @for (product of productSearchService.products$(); track product) {
-        <p-card>
-          <p class="font-bold mb-2">{{ product.name }}</p>
-          <p>
-            {{ product.servingQuantity }} {{ product.yazioServing }}
-            @if (shouldRenderServingSize(product)) {
-              <span> ({{ product.amount }} {{ product.baseUnit }}) </span>
-            }
-          </p>
-          <p>
-            {{ Math.round(product.energyPerBaseUnit * product.amount) }} kcal
-          </p>
-        </p-card>
-      }
+      <div class="flex flex-col gap-2">
+        @for (product of productSearchService.products$(); track product) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
     }
   </div>
 

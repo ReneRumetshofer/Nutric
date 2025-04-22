@@ -1,0 +1,26 @@
+<p-card>
+  <div class="flex">
+    <div class="flex-1">
+      <p class="font-bold mb-2">{{ product.name }}</p>
+      <p>
+        {{ product.servingQuantity }} {{ product.yazioServing }}
+        @if (shouldRenderServingSize(product)) {
+          <span> ({{ product.amount }} {{ product.baseUnit }}) </span>
+        }
+      </p>
+      <p>{{ Math.round(product.energyPerBaseUnit * product.amount) }} kcal</p>
+    </div>
+    <div class="self-center">
+      <p-button
+        severity="primary"
+        rounded="true"
+        size="small"
+        (onClick)="onAdd.emit()"
+      >
+        <ng-template #icon>
+          <span class="pi pi-plus"></span>
+        </ng-template>
+      </p-button>
+    </div>
+  </div>
+</p-card>
