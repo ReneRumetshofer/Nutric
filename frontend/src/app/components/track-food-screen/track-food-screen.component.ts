@@ -4,12 +4,7 @@ import MealType from '../../models/meal-type.enum';
 import { Button } from 'primeng/button';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import ProductSearchService from '../../services/product-search.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import {
   BehaviorSubject,
@@ -22,6 +17,9 @@ import { Message } from 'primeng/message';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
+import { Product } from '../../models/product.model';
+import { isValidDate } from '../../utils/date.utils';
+import { TrackDialogComponent } from './track-dialog/track-dialog.component';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -35,6 +33,7 @@ import { InputGroupAddon } from 'primeng/inputgroupaddon';
     ProductCardComponent,
     InputGroup,
     InputGroupAddon,
+    TrackDialogComponent,
   ],
   templateUrl: './track-food-screen.component.html',
   standalone: true,
@@ -60,7 +59,6 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     protected productSearchService: ProductSearchService,
-    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +87,20 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   }
 
   onBack(): void {
+    this.productSearchService.reset();
     this.router.navigate(['/']);
+  }
+
+  clearQuery(): void {
+    this.queryControl.setValue('');
+  }
+
+  trackDialogVisible: boolean = false;
+  selectedProduct: Product | null = null;
+
+  showTrackDialog(product: Product): void {
+    this.trackDialogVisible = true;
+    this.selectedProduct = product;
   }
 
   get shouldShowSearchHelper(): boolean {
@@ -97,7 +108,11 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     return length > 0 && length < 3;
   }
 
-  clearQuery(): void {
-    this.queryControl.setValue('');
+  get isValidDay(): boolean {
+    if (!this.day) {
+      return false;
+    }
+
+    return isValidDate(this.day);
   }
 }

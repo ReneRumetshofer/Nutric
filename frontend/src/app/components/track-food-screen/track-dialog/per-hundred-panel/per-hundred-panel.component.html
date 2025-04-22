@@ -1,0 +1,12 @@
+<p-panel [header]="'Pro 100' + product.baseUnit" [toggleable]="true">
+  <ng-template #headericons let-collapsed>
+    @if (collapsed) {
+      <span class="pi pi-angle-right"></span>
+    } @else {
+      <span class="pi pi-angle-down"></span>
+    }
+  </ng-template>
+
+  <app-nutrition-values [product]="product" [amount]="100">
+  </app-nutrition-values>
+</p-panel>

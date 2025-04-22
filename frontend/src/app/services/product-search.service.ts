@@ -47,4 +47,10 @@ export default class ProductSearchService {
         this._products.set(products);
       });
   }
+
+  reset(): void {
+    this._loading.set(false);
+    this._error.set(null);
+    this._products.set(null);
+  }
 }

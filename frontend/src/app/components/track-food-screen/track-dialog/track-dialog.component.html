@@ -1,0 +1,34 @@
+<p-dialog
+  [modal]="true"
+  [dismissableMask]="true"
+  [visible]="visible"
+  (visibleChange)="visibleChange.emit($event)"
+  [draggable]="false"
+  [header]="product?.name"
+  styleClass="min-w-[calc(100%-1rem)] w-[calc(100%-1rem)] lg:min-w-[calc(33%-1rem)] lg:w-[calc(33%-1rem)]"
+>
+  <ng-template #header>
+    <div class="flex flex-col">
+      <div class="text-xl font-bold">{{ product?.name }}</div>
+      <div class="mt-1">von {{ product?.producer }}</div>
+    </div>
+  </ng-template>
+  <ng-template #content>
+    @if (product) {
+      <app-per-hundred-panel [product]="product"></app-per-hundred-panel>
+
+      <div class="mt-2">
+        <app-track-panel [product]="product"></app-track-panel>
+      </div>
+    }
+  </ng-template>
+  <ng-template #footer>
+    <p-button
+      label="Abbrechen"
+      [text]="true"
+      severity="secondary"
+      (click)="close()"
+    />
+    <p-button label="Tracken" severity="primary" (click)="close()" />
+  </ng-template>
+</p-dialog>

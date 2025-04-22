@@ -1,0 +1,33 @@
+<p-panel [header]="'Tracken'" [formGroup]="amountForm">
+  <app-nutrition-values
+    [product]="product"
+    [amount]="calculatedAmount"
+  ></app-nutrition-values>
+
+  <div class="flex mt-4 ml-3">
+    <p-inputNumber
+      formControlName="amount"
+      [min]="0"
+      mode="decimal"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="3"
+      inputStyleClass="w-32"
+    ></p-inputNumber>
+
+    <p-floatlabel variant="on">
+      <p-select
+        [options]="trackingSelectionOptions"
+        [overlayOptions]="{ baseZIndex: 5000 }"
+        formControlName="trackingUnit"
+        optionLabel="displayValue"
+        inputId="trackedUnit"
+        id="trackedUnit"
+        appendTo="body"
+        styleClass="w-64 ml-1"
+      >
+      </p-select>
+      <label for="trackedUnit">Einheit</label>
+    </p-floatlabel>
+  </div>
+  <!--  <div class="h-20">&nbsp;</div>-->
+</p-panel>
