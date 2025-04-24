@@ -1,10 +1,9 @@
 package dev.rumetshofer.nutric.out.db.entities;
 
-import dev.rumetshofer.nutric.use_cases.enums.ServingUnit;
+import dev.rumetshofer.nutric.use_cases.enums.MealType;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,35 +11,34 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "product")
+@Table(name = "tracking_entry")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDbModel {
+public class TrackingEntryDbModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_gen")
-    @SequenceGenerator(name = "product_id_gen", sequenceName = "product_id_seq", initialValue = 1000, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tracking_entry_id_gen")
+    @SequenceGenerator(name = "tracking_entry_id_gen", sequenceName = "tracking_entry_id_seq", initialValue = 1000, allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "uuid", nullable = false)
     private UUID uuid;
 
-    @Column(name = "external_uuid")
-    private UUID externalUuid;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "day_id", nullable = false)
+    private DayDbModel day;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "producer", nullable = false)
-    private String producer;
-
-    @Column(name = "serving_unit")
+    @Column(name = "meal_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ServingUnit servingUnit;
+    private MealType mealType;
 
-    @Column(name = "base_unit_amount", precision = 10, scale = 3)
-    private BigDecimal baseUnitAmount;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductDbModel product;
+
+    @Column(name = "amount", nullable = false, precision = 10, scale = 3)
+    private BigDecimal amount;
 
     @Column(name = "base_unit", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -57,9 +55,5 @@ public class ProductDbModel {
 
     @Column(name = "fat_per_base_unit", nullable = false, precision = 10, scale = 3)
     private BigDecimal fatPerBaseUnit;
-
-    @ColumnDefault("false")
-    @Column(name = "is_customized", nullable = false)
-    private Boolean isCustomized = false;
 
 }
