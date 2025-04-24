@@ -91,9 +91,7 @@ export class TrackPanelComponent implements OnInit, OnDestroy {
   }
 
   constructTrackingUnits(): void {
-    this.trackingSelectionOptions = [
-      new TrackingUnitSelection(true, null, this.product.baseUnit),
-    ];
+    this.trackingSelectionOptions = [];
 
     if (this.product.serving) {
       this.trackingSelectionOptions.push(
@@ -104,6 +102,10 @@ export class TrackPanelComponent implements OnInit, OnDestroy {
         ),
       );
     }
+
+    this.trackingSelectionOptions.push(
+      new TrackingUnitSelection(true, null, this.product.baseUnit),
+    );
   }
 
   validateNumberInput(event: KeyboardEvent) {

@@ -18,7 +18,7 @@ export class TrackingUnitSelection {
 
   get displayValue(): string {
     if (!this.serving) {
-      return this.baseUnit;
+      return mapUnitToGerman(this.baseUnit);
     }
     return `${mapServingUnitToGerman(this.serving.unit)} (${this.serving.baseUnitAmount} ${mapUnitToGerman(this.baseUnit)})`;
   }

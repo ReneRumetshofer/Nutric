@@ -25,20 +25,6 @@ export default class ProductSearchService {
     this.httpClient
       .get<Product[]>('/api/foods/search', { params: { query: query } })
       .pipe(
-        map((data) =>
-          data.map((item) => ({
-            ...item,
-            serving: item.serving
-              ? {
-                  ...item.serving,
-                  unit: ServingUnit[
-                    item.serving.unit as unknown as keyof typeof ServingUnit
-                  ],
-                }
-              : null,
-            baseUnit: Unit[item.baseUnit as unknown as keyof typeof Unit],
-          })),
-        ),
         catchError((err) => {
           console.error(err);
           this._loading.set(false);

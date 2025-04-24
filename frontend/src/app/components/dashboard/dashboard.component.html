@@ -7,22 +7,32 @@
   @if (dayService.day$(); as day) {
     <div class="mt-6 relative">
       <app-progress-bar
-        [value]="1600"
+        [value]="totalUsedCalories"
         [max]="day.calorieGoal"
         [unit]="'kcal'"
         [height]="'2.5rem'"
         [showValue]="false"
+        [changeColorOnExceed]="true"
       />
       <div class="absolute inset-0 flex items-center justify-center">
-        <p-tag severity="contrast" [rounded]="true">&nbsp;62 übrig</p-tag>
+        <p-tag severity="contrast" [rounded]="true">
+          {{ caloriesLeftFormatted }}
+        </p-tag>
       </div>
     </div>
+    <p class="mt-2 flex gap-1 items-center">
+      <i class="pi pi-info-circle" style="font-size: 1.1rem"></i>
+      <span class="text-sm">
+        {{ totalUsedCalories.toFixed(0) }} gegessen von
+        {{ day.calorieGoal.toFixed(0) }}
+      </span>
+    </p>
 
     <div class="mt-4 flex justify-around">
       <div class="w-1/3 p-2">
         Kohlenhydrate:
         <app-progress-bar
-          [value]="217"
+          [value]="totalUsedCarbs"
           [max]="day.carbLimitGrams"
           [unit]="'g'"
         />
@@ -30,37 +40,41 @@
       <div class="w-1/3 p-2">
         Protein:
         <app-progress-bar
-          [value]="0"
+          [value]="totalUsedProtein"
           [max]="day.proteinLimitGrams"
           [unit]="'g'"
         />
       </div>
       <div class="w-1/3 p-2">
         Fett:
-        <app-progress-bar [value]="1" [max]="day.fatLimitGrams" [unit]="'g'" />
+        <app-progress-bar
+          [value]="totalUsedFat"
+          [max]="day.fatLimitGrams"
+          [unit]="'g'"
+        />
       </div>
     </div>
 
     <div class="mt-4 flex flex-col gap-2">
       <app-meal-card
         mealName="Frühstück"
-        [calories]="300"
+        [trackingEntries]="getTrackingEntriesForMealType(MealType.BREAKFAST)"
         (onAdd)="onAddFood(MealType.BREAKFAST)"
       />
       <app-meal-card
         mealName="Mittagessen"
-        [calories]="300"
+        [trackingEntries]="getTrackingEntriesForMealType(MealType.LUNCH)"
         (onAdd)="onAddFood(MealType.LUNCH)"
       />
       <app-meal-card
         mealName="Abendessen"
-        [calories]="300"
+        [trackingEntries]="getTrackingEntriesForMealType(MealType.DINNER)"
         (onAdd)="onAddFood(MealType.DINNER)"
       />
       <app-meal-card
         mealName="Snacks"
-        [calories]="300"
-        (onAdd)="onAddFood(MealType.SNACK)"
+        [trackingEntries]="getTrackingEntriesForMealType(MealType.SNACKS)"
+        (onAdd)="onAddFood(MealType.SNACKS)"
       />
     </div>
   }

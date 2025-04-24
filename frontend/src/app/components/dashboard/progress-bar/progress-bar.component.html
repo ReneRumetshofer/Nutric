@@ -4,10 +4,12 @@
     [unit]="unit"
     [style]="heightStyle"
     [showValue]="false"
-    color="#6d8c62"
+    [color]="color"
   >
   </p-progress-bar>
   @if (showValue) {
-    <span [ngClass]="valueClass">{{ value }} / {{ max }} {{ unit }}</span>
+    <span [ngClass]="valueClass"
+      >{{ value.toFixed(0) }} / {{ max.toFixed(0) }} {{ unit }}</span
+    >
   }
 </div>

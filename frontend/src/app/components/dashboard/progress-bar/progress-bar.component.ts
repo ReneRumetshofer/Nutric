@@ -16,11 +16,24 @@ export class ProgressBarComponent {
   @Input() height: string | undefined;
   @Input() showValue: boolean = true;
   @Input() valueClass: string = 'text-sm';
+  @Input() changeColorOnExceed: boolean = false;
 
   get heightStyle(): any {
     if (!this.height) {
       return { height: '0.5rem' };
     }
     return { height: this.height };
+  }
+
+  get color(): string {
+    if (!this.changeColorOnExceed) {
+      return '#6d8c62';
+    }
+
+    if (this.value > this.max * 1.05) {
+      return '#F59E0B';
+    }
+
+    return '#6d8c62';
   }
 }
