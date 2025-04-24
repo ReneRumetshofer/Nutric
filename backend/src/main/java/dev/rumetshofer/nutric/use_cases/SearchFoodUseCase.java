@@ -2,12 +2,16 @@ package dev.rumetshofer.nutric.use_cases;
 
 import dev.rumetshofer.nutric.out.http.YazioSearchService;
 import dev.rumetshofer.nutric.out.http.data.YazioProduct;
+import dev.rumetshofer.nutric.use_cases.dto.Nutrition;
 import dev.rumetshofer.nutric.use_cases.dto.ProductData;
-import dev.rumetshofer.nutric.use_cases.enums.YazioServing;
+import dev.rumetshofer.nutric.use_cases.dto.Serving;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
+import dev.rumetshofer.nutric.use_cases.enums.YazioServingUnit;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class SearchFoodUseCase {
@@ -25,18 +29,30 @@ public class SearchFoodUseCase {
     }
 
     private ProductData toProductData(YazioProduct yazioProduct) {
+        Serving serving = null;
+        if (yazioProduct.serving_quantity() != yazioProduct.amount()) {
+            serving = Serving.builder()
+                    .unit(YazioServingUnit.fromValue(yazioProduct.serving(), YazioServingUnit.PORTION).getDomainServingUnit())
+                    .baseUnitAmount(yazioProduct.amount())
+                    .build();
+        }
+
         return ProductData.builder()
                 .name(yazioProduct.name())
                 .producer(yazioProduct.producer())
-                .yazioServing(YazioServing.fromValue(yazioProduct.serving(), YazioServing.PORTION))
-                .servingQuantity(yazioProduct.serving_quantity())
-                .amount(yazioProduct.amount())
+                .serving(Optional.ofNullable(serving))
                 .baseUnit(Unit.fromAbbreviation(yazioProduct.base_unit()))
-                .energyPerBaseUnit(yazioProduct.nutrients().energy())
-                .carbsPerBaseUnit(yazioProduct.nutrients().carb())
-                .fatPerBaseUnit(yazioProduct.nutrients().fat())
-                .proteinPerBaseUnit(yazioProduct.nutrients().protein())
-                .externalUuid(yazioProduct.product_id())
+                .nutritionPerBaseUnit(Nutrition.builder()
+                        .energy(yazioProduct.nutrients().energy())
+                        .carbs(yazioProduct.nutrients().carb())
+                        .fat(yazioProduct.nutrients().fat())
+                        .protein(yazioProduct.nutrients().protein())
+                        .build()
+                )
+                .externalUuid(UUID.fromString(yazioProduct.product_id()))
+                .uuid(Optional.empty())
+                .isCustomized(false)
+                .isExternal(true)
                 .build();
     }
 }

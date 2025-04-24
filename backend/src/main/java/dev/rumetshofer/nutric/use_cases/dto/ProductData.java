@@ -1,21 +1,21 @@
 package dev.rumetshofer.nutric.use_cases.dto;
 
-import dev.rumetshofer.nutric.use_cases.enums.YazioServing;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import lombok.Builder;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Builder(toBuilder = true)
 public record ProductData (
         String name,
         String producer,
-        YazioServing yazioServing,
-        int servingQuantity,
-        int amount,
+        Optional<Serving> serving,
         Unit baseUnit,
-        double energyPerBaseUnit,
-        double carbsPerBaseUnit,
-        double fatPerBaseUnit,
-        double proteinPerBaseUnit,
-        String externalUuid
+        Nutrition nutritionPerBaseUnit,
+        UUID externalUuid,
+        Optional<UUID> uuid,
+        boolean isCustomized,
+        boolean isExternal
 ) {
 }

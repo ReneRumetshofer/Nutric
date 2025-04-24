@@ -4,15 +4,23 @@
       <p class="font-bold">{{ product.name }}</p>
       <p class="mb-2">{{ product.producer }}</p>
       <p>
-        {{ product.servingQuantity }} {{ product.yazioServing }}
-        @if (shouldRenderServingSize(product)) {
-          <span> ({{ product.amount }} {{ product.baseUnit }}) </span>
+        @if (product.serving) {
+          1 {{ product.serving.unit }} ({{ product.serving.baseUnitAmount }}
+          {{ product.baseUnit }})
+        } @else {
+          100 {{ product.baseUnit }}
         }
       </p>
     </div>
     <div class="self-center flex">
       <p class="mr-4 self-center">
-        {{ Math.round(product.energyPerBaseUnit * product.amount) }} kcal
+        {{
+          Math.round(
+            product.nutritionPerBaseUnit.energy *
+              (product.serving ? product.serving.baseUnitAmount : 100)
+          )
+        }}
+        kcal
       </p>
       <p-button
         severity="primary"

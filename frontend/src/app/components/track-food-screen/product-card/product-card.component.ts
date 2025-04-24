@@ -14,12 +14,5 @@ export class ProductCardComponent {
   @Input() product!: Product;
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 
-  shouldRenderServingSize(product: Product): boolean {
-    return !(
-      product.amount === product.servingQuantity &&
-      product.yazioServing.toString() === product.baseUnit.toString()
-    );
-  }
-
   protected readonly Math = Math;
 }

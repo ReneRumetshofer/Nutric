@@ -42,6 +42,8 @@ import { TrackDialogComponent } from './track-dialog/track-dialog.component';
 export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   day: string | null = null;
   mealType: MealType | null = null;
+  trackDialogVisible: boolean = false;
+  selectedProduct: Product | null = null;
 
   queryControl: FormControl<string | null> = new FormControl<string | null>(
     null,
@@ -94,9 +96,6 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   clearQuery(): void {
     this.queryControl.setValue('');
   }
-
-  trackDialogVisible: boolean = false;
-  selectedProduct: Product | null = null;
 
   showTrackDialog(product: Product): void {
     this.trackDialogVisible = true;

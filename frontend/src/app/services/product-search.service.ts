@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
-import { Product, Unit, YazioServing } from '../models/product.model';
+import { Product, ServingUnit, Unit } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +28,14 @@ export default class ProductSearchService {
         map((data) =>
           data.map((item) => ({
             ...item,
-            yazioServing:
-              YazioServing[
-                item.yazioServing as unknown as keyof typeof YazioServing
-              ],
+            serving: item.serving
+              ? {
+                  ...item.serving,
+                  unit: ServingUnit[
+                    item.serving.unit as unknown as keyof typeof ServingUnit
+                  ],
+                }
+              : null,
             baseUnit: Unit[item.baseUnit as unknown as keyof typeof Unit],
           })),
         ),

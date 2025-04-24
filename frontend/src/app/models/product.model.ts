@@ -1,29 +1,14 @@
-export enum YazioServing {
-  GLASS = 'Glas',
+export enum ServingUnit {
   PACKAGE = 'Packung',
   MILLILITERS = 'ml',
   GRAMS = 'g',
   PORTION = 'Portion',
-  PORTION_LARGE = 'große Portion',
+  GLASS = 'Glas',
   PIECE = 'Stück',
-  SLICE = 'Scheibe',
-  CAN = 'Dose',
   TABLESPOON = 'Esslöffel',
   TEASPOON = 'Teelöffel',
-  SANDWICH = 'Sandwich',
-  MUG = 'Tasse',
-  MUG_REGULAR = 'Tasse',
-  ROLL = 'Brötchen',
-  CANDY = 'Bonbon',
-  EACH = 'jeweils',
-  BOTTLE = 'Flasche',
-  BEAKER = 'Becher',
   CUP = 'Becher',
-  PATTY = 'Pattie',
-  PLATE = 'Teller',
-  PLATE_REGULAR = 'Teller',
-  SCOOP = 'Kugel',
-  ICE_LOLLY = 'Eis am Stiel',
+  BOTTLE = 'Flasche',
 }
 
 export enum Unit {
@@ -33,16 +18,26 @@ export enum Unit {
   LITERS = 'l',
 }
 
+export interface Serving {
+  unit: ServingUnit;
+  baseUnitAmount: number;
+}
+
+export interface Nutrition {
+  energy: number;
+  carbs: number;
+  fat: number;
+  protein: number;
+}
+
 export interface Product {
   name: string;
   producer: string;
-  yazioServing: YazioServing;
-  servingQuantity: number;
-  amount: number;
+  serving: Serving | null;
   baseUnit: Unit;
-  energyPerBaseUnit: number;
-  carbsPerBaseUnit: number;
-  fatPerBaseUnit: number;
-  proteinPerBaseUnit: number;
+  nutritionPerBaseUnit: Nutrition;
   externalUuid: string;
+  uuid: string | null;
+  isCustomized: boolean;
+  isExternal: boolean;
 }

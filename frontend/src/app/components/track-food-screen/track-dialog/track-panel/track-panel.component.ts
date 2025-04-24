@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Panel } from 'primeng/panel';
-import { Product } from '../../../../models/product.model';
+import { Product, Serving } from '../../../../models/product.model';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NutritionValuesComponent } from '../nutrition-values/nutrition-values.component';
 import { InputNumber } from 'primeng/inputnumber';
@@ -54,32 +54,18 @@ export class TrackPanelComponent implements OnChanges, OnInit {
         return;
       }
 
-      this.amountControl.setValue(value.isBaseUnit ? 100 : 1);
+      this.amountControl.setValue(!value.serving ? 100 : 1);
     });
   }
 
   constructTrackingUnits(): void {
     this.trackingSelectionOptions = [
-      new TrackingUnitSelection(
-        true,
-        1,
-        this.product.yazioServing,
-        this.product.baseUnit,
-      ),
+      new TrackingUnitSelection(null, this.product.baseUnit),
     ];
 
-    if (
-      this.product.yazioServing.toString() !==
-        this.product.baseUnit.toString() &&
-      this.product.servingQuantity !== this.product.amount
-    ) {
+    if (this.product.serving) {
       this.trackingSelectionOptions.push(
-        new TrackingUnitSelection(
-          false,
-          this.product.amount,
-          this.product.yazioServing,
-          this.product.baseUnit,
-        ),
+        new TrackingUnitSelection(this.product.serving, this.product.baseUnit),
       );
     }
   }
@@ -89,39 +75,29 @@ export class TrackPanelComponent implements OnChanges, OnInit {
       return 0;
     }
 
-    if (this.trackingUnitControl.value.isBaseUnit) {
+    if (!this.trackingUnitControl.value.serving || !this.product.serving) {
       return this.amountControl.value ?? 0;
     }
 
     return (
-      (this.amountControl.value ?? 0) *
-      (this.product.amount / this.product.servingQuantity)
+      (this.amountControl.value ?? 0) * this.product.serving.baseUnitAmount
     );
   }
 }
 
 export class TrackingUnitSelection {
-  isBaseUnit: boolean;
-  amount: number;
-  serving: string;
+  serving: Serving | null;
   baseUnit: string;
 
-  constructor(
-    isBaseUnit: boolean,
-    amount: number,
-    serving: string,
-    baseUnit: string,
-  ) {
-    this.isBaseUnit = isBaseUnit;
-    this.amount = amount;
+  constructor(serving: Serving | null, baseUnit: string) {
     this.serving = serving;
     this.baseUnit = baseUnit;
   }
 
   get displayValue(): string {
-    if (this.isBaseUnit) {
+    if (!this.serving) {
       return this.baseUnit;
     }
-    return `${this.serving} (${this.amount} ${this.baseUnit})`;
+    return `${this.serving.unit} (${this.serving.baseUnitAmount} ${this.baseUnit})`;
   }
 }
