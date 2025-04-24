@@ -5,10 +5,12 @@
       <p class="mb-2">{{ product.producer }}</p>
       <p>
         @if (product.serving) {
-          1 {{ product.serving.unit }} ({{ product.serving.baseUnitAmount }}
-          {{ product.baseUnit }})
+          1 {{ mapServingUnitToGerman(product.serving.unit) }} ({{
+            product.serving.baseUnitAmount
+          }}
+          {{ mapUnitToGerman(product.baseUnit) }})
         } @else {
-          100 {{ product.baseUnit }}
+          100 {{ mapUnitToGerman(product.baseUnit) }}
         }
       </p>
     </div>

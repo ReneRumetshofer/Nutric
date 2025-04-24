@@ -25,14 +25,12 @@ export class DashboardComponent implements OnInit {
   }
 
   onAddFood(mealType: MealType) {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
+    const today = new Date(Date.now());
+    const dayFormatted = today.toISOString().split('T')[0];
 
     this.router.navigate(['/track'], {
       queryParams: {
-        day: `${year}-${month}-${day}`,
+        day: dayFormatted,
         mealType: mealType,
       },
     });

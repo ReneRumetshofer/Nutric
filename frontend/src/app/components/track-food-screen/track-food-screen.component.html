@@ -5,7 +5,7 @@
 } @else {
   <div [formGroup]="trackFoodForm">
     <app-page-header
-      [headerTitle]="mealType"
+      [headerTitle]="mapMealTypeToGerman(mealType)"
       (onBack)="onBack()"
     ></app-page-header>
 
@@ -59,6 +59,7 @@
     <app-track-dialog
       [(visible)]="trackDialogVisible"
       [product]="selectedProduct"
+      (onTrackFood)="onTrackFood($event)"
     ></app-track-dialog>
   </div>
 }

@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Product } from '../../../models/product.model';
+import {
+  mapServingUnitToGerman,
+  mapUnitToGerman,
+  Product,
+} from '../../../models/product.model';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 
@@ -15,4 +19,6 @@ export class ProductCardComponent {
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 
   protected readonly Math = Math;
+  protected readonly mapServingUnitToGerman = mapServingUnitToGerman;
+  protected readonly mapUnitToGerman = mapUnitToGerman;
 }

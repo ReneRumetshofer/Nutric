@@ -1,34 +1,53 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Panel } from 'primeng/panel';
-import { Product, Serving } from '../../../../models/product.model';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  mapServingUnitToGerman,
+  mapUnitToGerman,
+  Product,
+  Serving,
+} from '../../../../models/product.model';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NutritionValuesComponent } from '../nutrition-values/nutrition-values.component';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 import { FloatLabel } from 'primeng/floatlabel';
+import { TrackingUnitSelection } from '../models/tracking-unit-selection.model';
+import { Subscription } from 'rxjs';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-track-panel',
   imports: [
     Panel,
     NutritionValuesComponent,
-    InputNumber,
     ReactiveFormsModule,
     Select,
     FloatLabel,
+    InputText,
   ],
   templateUrl: './track-panel.component.html',
   standalone: true,
   styleUrl: './track-panel.component.scss',
 })
-export class TrackPanelComponent implements OnChanges, OnInit {
+export class TrackPanelComponent implements OnInit, OnDestroy {
   @Input() product!: Product;
+  @Output() amountChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() trackingUnitChange: EventEmitter<TrackingUnitSelection> =
+    new EventEmitter<TrackingUnitSelection>();
 
   amountControl: FormControl<number | null> = new FormControl<number>(100);
   trackingUnitControl: FormControl<TrackingUnitSelection | null> =
@@ -40,33 +59,89 @@ export class TrackPanelComponent implements OnChanges, OnInit {
 
   trackingSelectionOptions: TrackingUnitSelection[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['product'] && this.product) {
+  subscriptions: Subscription[] = [];
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.trackingUnitControl.valueChanges.subscribe((trackingUnit) => {
+        if (!trackingUnit) {
+          return;
+        }
+
+        this.amountControl.setValue(trackingUnit.isBaseUnit ? 100 : 1);
+        this.trackingUnitChange.emit(trackingUnit);
+      }),
+      this.amountControl.valueChanges.subscribe((amount) => {
+        if (!amount) {
+          return;
+        }
+        this.amountChange.emit(amount);
+      }),
+    );
+
+    if (this.product) {
       this.constructTrackingUnits();
 
       this.trackingUnitControl.setValue(this.trackingSelectionOptions[0]);
     }
   }
 
-  ngOnInit(): void {
-    this.trackingUnitControl.valueChanges.subscribe((value) => {
-      if (!value) {
-        return;
-      }
-
-      this.amountControl.setValue(!value.serving ? 100 : 1);
-    });
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   constructTrackingUnits(): void {
     this.trackingSelectionOptions = [
-      new TrackingUnitSelection(null, this.product.baseUnit),
+      new TrackingUnitSelection(true, null, this.product.baseUnit),
     ];
 
     if (this.product.serving) {
       this.trackingSelectionOptions.push(
-        new TrackingUnitSelection(this.product.serving, this.product.baseUnit),
+        new TrackingUnitSelection(
+          false,
+          this.product.serving,
+          this.product.baseUnit,
+        ),
       );
+    }
+  }
+
+  validateNumberInput(event: KeyboardEvent) {
+    const input = event.key;
+    const inputElement = event.target as HTMLInputElement;
+    const currentValue = inputElement.value;
+
+    const isCtrlOrCmd = event.ctrlKey || event.metaKey;
+    const allowedKeys = [
+      'Backspace',
+      'ArrowLeft',
+      'ArrowRight',
+      'Delete',
+      'Tab',
+    ];
+
+    const isDigit = /^[0-9]$/.test(input);
+    const isDecimal = input === '.';
+
+    // Allow control keys
+    if (allowedKeys.includes(input)) return;
+
+    // Allow Ctrl/Cmd + A, C, V, X
+    if (isCtrlOrCmd && ['a', 'c', 'v', 'x'].includes(input.toLowerCase()))
+      return;
+
+    // Allow only one decimal
+    if (
+      isDecimal &&
+      (currentValue.includes('.') || currentValue.includes(','))
+    ) {
+      event.preventDefault();
+      return;
+    }
+
+    // Block anything that is not digit or decimal
+    if (!isDigit && !isDecimal) {
+      event.preventDefault();
     }
   }
 
@@ -82,22 +157,5 @@ export class TrackPanelComponent implements OnChanges, OnInit {
     return (
       (this.amountControl.value ?? 0) * this.product.serving.baseUnitAmount
     );
-  }
-}
-
-export class TrackingUnitSelection {
-  serving: Serving | null;
-  baseUnit: string;
-
-  constructor(serving: Serving | null, baseUnit: string) {
-    this.serving = serving;
-    this.baseUnit = baseUnit;
-  }
-
-  get displayValue(): string {
-    if (!this.serving) {
-      return this.baseUnit;
-    }
-    return `${this.serving.unit} (${this.serving.baseUnitAmount} ${this.baseUnit})`;
   }
 }

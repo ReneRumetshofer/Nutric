@@ -18,7 +18,11 @@
       <app-per-hundred-panel [product]="product"></app-per-hundred-panel>
 
       <div class="mt-2">
-        <app-track-panel [product]="product"></app-track-panel>
+        <app-track-panel
+          [product]="product"
+          (amountChange)="amount = $event"
+          (trackingUnitChange)="trackingUnitSelection = $event"
+        ></app-track-panel>
       </div>
     }
   </ng-template>
@@ -29,6 +33,10 @@
       severity="secondary"
       (click)="close()"
     />
-    <p-button label="Tracken" severity="primary" (click)="close()" />
+    <p-button
+      label="Tracken"
+      severity="primary"
+      (click)="onTrackButtonClick()"
+    />
   </ng-template>
 </p-dialog>

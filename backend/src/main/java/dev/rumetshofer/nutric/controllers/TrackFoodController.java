@@ -1,5 +1,6 @@
 package dev.rumetshofer.nutric.controllers;
 
+import dev.rumetshofer.nutric.controllers.requests.TrackFoodRestRequest;
 import dev.rumetshofer.nutric.use_cases.TrackFoodUseCase;
 import dev.rumetshofer.nutric.use_cases.dto.TrackFoodRequest;
 import dev.rumetshofer.nutric.use_cases.enums.MealType;
@@ -23,7 +24,7 @@ public class TrackFoodController {
     public void trackFood(
             @RequestAttribute("userUuid") UUID userUuid,
             @PathVariable("day") LocalDate day,
-            @RequestBody TrackFoodRequest trackFoodRequest
+            @RequestBody TrackFoodRestRequest trackFoodRequest
     ) {
         TrackFoodRequest request = TrackFoodRequest.builder()
                 .userUuid(userUuid)

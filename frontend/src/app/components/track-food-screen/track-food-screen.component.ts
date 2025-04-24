@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import MealType from '../../models/meal-type.enum';
+import MealType, { mapMealTypeToGerman } from '../../models/meal-type.enum';
 import { Button } from 'primeng/button';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import ProductSearchService from '../../services/product-search.service';
@@ -20,6 +20,8 @@ import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { Product } from '../../models/product.model';
 import { isValidDate } from '../../utils/date.utils';
 import { TrackDialogComponent } from './track-dialog/track-dialog.component';
+import { TrackFoodEvent } from './track-dialog/models/track-food-event';
+import { TrackingEntriesService } from '../../services/tracking-entries.service';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -52,15 +54,13 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     queryControl: this.queryControl,
   });
 
-  search$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(
-    null,
-  );
   private subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     protected productSearchService: ProductSearchService,
+    protected trackingEntriesService: TrackingEntriesService,
   ) {}
 
   ngOnInit(): void {
@@ -102,6 +102,15 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.selectedProduct = product;
   }
 
+  onTrackFood(event: TrackFoodEvent): void {
+    if (!this.day || !this.mealType) {
+      return;
+    }
+    this.trackingEntriesService
+      .trackFood(event, this.day, this.mealType)
+      .subscribe();
+  }
+
   get shouldShowSearchHelper(): boolean {
     const length = this.queryControl.value?.length ?? 0;
     return length > 0 && length < 3;
@@ -114,4 +123,6 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
 
     return isValidDate(this.day);
   }
+
+  protected readonly mapMealTypeToGerman = mapMealTypeToGerman;
 }

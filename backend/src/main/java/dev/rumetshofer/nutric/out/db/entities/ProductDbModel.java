@@ -32,7 +32,7 @@ public class ProductDbModel {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "producer", nullable = false)
+    @Column(name = "producer")
     private String producer;
 
     @Column(name = "serving_unit")
