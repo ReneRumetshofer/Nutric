@@ -1,5 +1,6 @@
-package dev.rumetshofer.nutric.use_cases.dto;
+package dev.rumetshofer.nutric.use_cases.dto.in;
 
+import dev.rumetshofer.nutric.use_cases.dto.ProductData;
 import dev.rumetshofer.nutric.use_cases.enums.MealType;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import lombok.Builder;

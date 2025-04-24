@@ -1,7 +1,7 @@
 package dev.rumetshofer.nutric.controllers;
 
 import dev.rumetshofer.nutric.use_cases.GetProfileUseCase;
-import dev.rumetshofer.nutric.use_cases.dto.GetProfileRequestData;
+import dev.rumetshofer.nutric.use_cases.dto.in.GetProfileRequestData;
 import dev.rumetshofer.nutric.use_cases.dto.ProfileData;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;

@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbModel, Long> {
-    List<TrackingEntryDbModel> findAllByDay_Day(LocalDate dayDay);
+    List<TrackingEntryDbModel> findAllByDay_DayAndDay_UserUuid(LocalDate dayDay, UUID dayUserUuid);
 }

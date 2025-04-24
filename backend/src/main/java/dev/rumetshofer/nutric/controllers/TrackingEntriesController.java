@@ -1,23 +1,26 @@
 package dev.rumetshofer.nutric.controllers;
 
 import dev.rumetshofer.nutric.controllers.requests.TrackFoodRestRequest;
+import dev.rumetshofer.nutric.use_cases.GetTrackingEntriesUseCase;
 import dev.rumetshofer.nutric.use_cases.TrackFoodUseCase;
-import dev.rumetshofer.nutric.use_cases.dto.TrackFoodRequest;
-import dev.rumetshofer.nutric.use_cases.enums.MealType;
+import dev.rumetshofer.nutric.use_cases.dto.TrackingEntryData;
+import dev.rumetshofer.nutric.use_cases.dto.in.TrackFoodRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/days/{day}/tracking-entries")
-public class TrackFoodController {
+public class TrackingEntriesController {
 
     private final TrackFoodUseCase trackFoodUseCase;
+    private final GetTrackingEntriesUseCase getTrackingEntriesUseCase;
 
-    public TrackFoodController(TrackFoodUseCase trackFoodUseCase) {
+    public TrackingEntriesController(TrackFoodUseCase trackFoodUseCase, GetTrackingEntriesUseCase getTrackingEntriesUseCase) {
         this.trackFoodUseCase = trackFoodUseCase;
+        this.getTrackingEntriesUseCase = getTrackingEntriesUseCase;
     }
 
     @PostMapping
@@ -35,6 +38,14 @@ public class TrackFoodController {
                 .baseUnit(trackFoodRequest.baseUnit())
                 .build();
         trackFoodUseCase.track(request);
+    }
+
+    @GetMapping
+    public List<TrackingEntryData> getTrackingEntriesForDay(
+            @RequestAttribute("userUuid") UUID userUuid,
+            @PathVariable("day") LocalDate day
+    ) {
+        return getTrackingEntriesUseCase.getEntries(userUuid, day);
     }
 
 }

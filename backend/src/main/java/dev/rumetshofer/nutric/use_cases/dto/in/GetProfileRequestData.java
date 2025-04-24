@@ -1,4 +1,4 @@
-package dev.rumetshofer.nutric.use_cases.dto;
+package dev.rumetshofer.nutric.use_cases.dto.in;
 
 import lombok.Builder;
 

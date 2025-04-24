@@ -8,7 +8,7 @@ import dev.rumetshofer.nutric.out.db.repositories.ProductRepository;
 import dev.rumetshofer.nutric.out.db.repositories.TrackingEntryRepository;
 import dev.rumetshofer.nutric.use_cases.dto.ProductData;
 import dev.rumetshofer.nutric.use_cases.dto.Serving;
-import dev.rumetshofer.nutric.use_cases.dto.TrackFoodRequest;
+import dev.rumetshofer.nutric.use_cases.dto.in.TrackFoodRequest;
 import dev.rumetshofer.nutric.use_cases.enums.MealType;
 import dev.rumetshofer.nutric.use_cases.exceptions.DayNotFoundException;
 import dev.rumetshofer.nutric.use_cases.exceptions.ProductNotFoundException;
