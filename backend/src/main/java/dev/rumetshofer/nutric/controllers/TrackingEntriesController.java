@@ -1,6 +1,7 @@
 package dev.rumetshofer.nutric.controllers;
 
 import dev.rumetshofer.nutric.controllers.requests.TrackFoodRestRequest;
+import dev.rumetshofer.nutric.use_cases.DeleteTrackingEntryUseCase;
 import dev.rumetshofer.nutric.use_cases.GetTrackingEntriesUseCase;
 import dev.rumetshofer.nutric.use_cases.TrackFoodUseCase;
 import dev.rumetshofer.nutric.use_cases.dto.TrackingEntryData;
@@ -17,10 +18,12 @@ public class TrackingEntriesController {
 
     private final TrackFoodUseCase trackFoodUseCase;
     private final GetTrackingEntriesUseCase getTrackingEntriesUseCase;
+    private final DeleteTrackingEntryUseCase deleteTrackingEntryUseCase;
 
-    public TrackingEntriesController(TrackFoodUseCase trackFoodUseCase, GetTrackingEntriesUseCase getTrackingEntriesUseCase) {
+    public TrackingEntriesController(TrackFoodUseCase trackFoodUseCase, GetTrackingEntriesUseCase getTrackingEntriesUseCase, DeleteTrackingEntryUseCase deleteTrackingEntryUseCase) {
         this.trackFoodUseCase = trackFoodUseCase;
         this.getTrackingEntriesUseCase = getTrackingEntriesUseCase;
+        this.deleteTrackingEntryUseCase = deleteTrackingEntryUseCase;
     }
 
     @PostMapping
@@ -46,6 +49,14 @@ public class TrackingEntriesController {
             @PathVariable("day") LocalDate day
     ) {
         return getTrackingEntriesUseCase.getEntries(userUuid, day);
+    }
+
+    @DeleteMapping("/{trackingEntryUuid}")
+    public void deleteTrackingEntry(
+            @RequestAttribute("userUuid") UUID userUuid,
+            @PathVariable("trackingEntryUuid") UUID trackingEntryUuid
+    ) {
+        deleteTrackingEntryUseCase.deleteTrackingEntry(userUuid, trackingEntryUuid);
     }
 
 }

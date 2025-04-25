@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbModel, Long> {
     List<TrackingEntryDbModel> findAllByDay_DayAndDay_UserUuid(LocalDate dayDay, UUID dayUserUuid);
+
+    Optional<TrackingEntryDbModel> findByUuid(UUID uuid);
 }
