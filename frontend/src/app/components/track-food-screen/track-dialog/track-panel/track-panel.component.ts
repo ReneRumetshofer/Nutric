@@ -21,7 +21,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NutritionValuesComponent } from '../nutrition-values/nutrition-values.component';
+import { NutritionValuesComponent } from '../../../shared/nutrition-values/nutrition-values.component';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 import { FloatLabel } from 'primeng/floatlabel';

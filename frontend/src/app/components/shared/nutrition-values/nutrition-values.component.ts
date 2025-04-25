@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Product } from '../../../../models/product.model';
-import { DataValueComponent } from '../../../shared/data-value/data-value.component';
+import { DataValueComponent } from '../data-value/data-value.component';
 
 @Component({
   selector: 'app-nutrition-values',
@@ -10,8 +9,10 @@ import { DataValueComponent } from '../../../shared/data-value/data-value.compon
   styleUrl: './nutrition-values.component.scss',
 })
 export class NutritionValuesComponent {
-  @Input() product!: Product;
-  @Input() amount: number = 1;
+  @Input() calories: number = 0;
+  @Input() carbs: number = 0;
+  @Input() protein: number = 0;
+  @Input() fat: number = 0;
 
   protected readonly Math = Math;
 }

@@ -10,6 +10,11 @@
     }
   </ng-template>
 
-  <app-nutrition-values [product]="product" [amount]="100">
+  <app-nutrition-values
+    [calories]="product.nutritionPerBaseUnit.energy * 100"
+    [carbs]="product.nutritionPerBaseUnit.carbs * 100"
+    [protein]="product.nutritionPerBaseUnit.protein * 100"
+    [fat]="product.nutritionPerBaseUnit.fat * 100"
+  >
   </app-nutrition-values>
 </p-panel>

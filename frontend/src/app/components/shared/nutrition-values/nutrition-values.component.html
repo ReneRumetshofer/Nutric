@@ -1,21 +1,21 @@
 <div class="flex justify-between mt-1 px-4">
   <app-data-value
-    [value]="Math.round(product.nutritionPerBaseUnit.energy * amount)"
+    [value]="Math.round(calories)"
     [unit]="'kcal'"
     [caption]="'Kalorien'"
   ></app-data-value>
   <app-data-value
-    [value]="(product.nutritionPerBaseUnit.carbs * amount).toFixed(1)"
+    [value]="carbs.toFixed(1)"
     [unit]="'g'"
     [caption]="'Kohlenhydrate'"
   ></app-data-value>
   <app-data-value
-    [value]="(product.nutritionPerBaseUnit.protein * amount).toFixed(1)"
+    [value]="protein.toFixed(1)"
     [unit]="'g'"
     [caption]="'Proteine'"
   ></app-data-value>
   <app-data-value
-    [value]="(product.nutritionPerBaseUnit.fat * amount).toFixed(1)"
+    [value]="fat.toFixed(1)"
     [unit]="'g'"
     [caption]="'Fette'"
   ></app-data-value>

@@ -1,7 +1,8 @@
 <p-panel
   [style]="{ 'body.padding': '16rem' }"
   [toggleable]="true"
-  [collapsed]="true"
+  [collapsed]="collapsed"
+  toggler="header"
   iconPos="center"
 >
   <ng-template #header>
@@ -35,25 +36,22 @@
   <ng-template #content>
     <div class="flex flex-col">
       <p-divider />
-      @for (entry of trackingEntries; track entry) {
-        <p-panel>
-          <div class="flex justify-between">
-            <p>
-              {{ entry.product.name }} -
-              {{
-                (entry.amount * entry.nutritionPerBaseUnit.energy).toFixed(0)
-              }}
-              kcal
-            </p>
-
-            <p-button
-              icon="pi pi-times"
-              [rounded]="true"
-              [text]="true"
-              severity="secondary"
-            />
-          </div>
-        </p-panel>
+      @if (trackingEntries.length == 0) {
+        <p class="text-sm">Noch keine Einträge</p>
+      } @else {
+        <app-nutrition-values
+          [calories]="totalUsedCalories"
+          [carbs]="totalUsedCarbs"
+          [protein]="totalUsedProtein"
+          [fat]="totalUsedFat"
+        >
+        </app-nutrition-values>
+        <p-divider></p-divider>
+        <div class="flex flex-col gap-4">
+          @for (entry of trackingEntries; track entry) {
+            <app-tracking-entry [entry]="entry"></app-tracking-entry>
+          }
+        </div>
       }
     </div>
   </ng-template>

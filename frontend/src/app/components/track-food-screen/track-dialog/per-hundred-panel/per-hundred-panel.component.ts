@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { mapUnitToGerman, Product } from '../../../../models/product.model';
 import { DataValueComponent } from '../../../shared/data-value/data-value.component';
 import { Panel } from 'primeng/panel';
-import { NutritionValuesComponent } from '../nutrition-values/nutrition-values.component';
+import { NutritionValuesComponent } from '../../../shared/nutrition-values/nutrition-values.component';
 
 @Component({
   selector: 'app-per-hundred-panel',
@@ -14,5 +14,6 @@ import { NutritionValuesComponent } from '../nutrition-values/nutrition-values.c
 export class PerHundredPanelComponent {
   @Input() product!: Product;
   @Input() amount: number = 1;
+
   protected readonly mapUnitToGerman = mapUnitToGerman;
 }

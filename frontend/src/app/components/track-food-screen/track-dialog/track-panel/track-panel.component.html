@@ -1,7 +1,9 @@
 <p-panel [header]="'Tracken'" [formGroup]="amountForm">
   <app-nutrition-values
-    [product]="product"
-    [amount]="calculatedAmount"
+    [calories]="product.nutritionPerBaseUnit.energy * calculatedAmount"
+    [carbs]="product.nutritionPerBaseUnit.carbs * calculatedAmount"
+    [protein]="product.nutritionPerBaseUnit.protein * calculatedAmount"
+    [fat]="product.nutritionPerBaseUnit.fat * calculatedAmount"
   ></app-nutrition-values>
 
   <div class="flex mt-6 ml-3">
