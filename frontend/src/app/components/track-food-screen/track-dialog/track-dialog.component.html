@@ -34,9 +34,9 @@
       (click)="close()"
     />
     <p-button
-      label="Tracken"
-      severity="primary"
+      [label]="confirmButtonCaption"
       (click)="onTrackButtonClick()"
+      severity="primary"
     />
   </ng-template>
 </p-dialog>

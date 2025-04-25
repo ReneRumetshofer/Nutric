@@ -49,8 +49,15 @@
         <p-divider></p-divider>
         <div class="flex flex-col gap-4">
           @for (entry of trackingEntries; track entry) {
-            <app-tracking-entry [entry]="entry"></app-tracking-entry>
+            <app-tracking-entry
+              [entry]="entry"
+              (onClick)="onEntryClick(entry)"
+            ></app-tracking-entry>
           }
+          <app-track-dialog
+            [(visible)]="editDialogVisible"
+            [product]="selectedProduct"
+          ></app-track-dialog>
         </div>
       }
     </div>

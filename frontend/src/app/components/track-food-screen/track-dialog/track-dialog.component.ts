@@ -17,6 +17,7 @@ import { TrackFoodEvent } from './models/track-food-event';
 export class TrackDialogComponent {
   @Input({ required: true }) product: Product | null = null;
   @Input() visible: boolean = false;
+  @Input() confirmButtonCaption: string = 'Tracken';
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onTrackFood: EventEmitter<TrackFoodEvent> =
     new EventEmitter<TrackFoodEvent>();

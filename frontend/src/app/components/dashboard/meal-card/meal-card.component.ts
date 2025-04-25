@@ -7,8 +7,9 @@ import { Ripple } from 'primeng/ripple';
 import { Card } from 'primeng/card';
 import { PerHundredPanelComponent } from '../../track-food-screen/track-dialog/per-hundred-panel/per-hundred-panel.component';
 import { NutritionValuesComponent } from '../../shared/nutrition-values/nutrition-values.component';
-import { mapUnitToGerman } from '../../../models/product.model';
+import { mapUnitToGerman, Product } from '../../../models/product.model';
 import { TrackingEntryComponent } from './tracking-entry/tracking-entry.component';
+import { TrackDialogComponent } from '../../track-food-screen/track-dialog/track-dialog.component';
 
 @Component({
   selector: 'app-meal-card',
@@ -21,6 +22,7 @@ import { TrackingEntryComponent } from './tracking-entry/tracking-entry.componen
     PerHundredPanelComponent,
     NutritionValuesComponent,
     TrackingEntryComponent,
+    TrackDialogComponent,
   ],
   templateUrl: './meal-card.component.html',
   standalone: true,
@@ -32,6 +34,14 @@ export class MealCardComponent {
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 
   collapsed: boolean = true;
+
+  editDialogVisible: boolean = false;
+  selectedProduct: Product | null = null;
+
+  onEntryClick(trackingEntry: TrackingEntry): void {
+    this.selectedProduct = trackingEntry.product;
+    this.editDialogVisible = true;
+  }
 
   get totalUsedCalories(): number {
     if (!this.trackingEntries) {
