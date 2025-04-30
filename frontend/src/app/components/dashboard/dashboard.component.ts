@@ -10,6 +10,7 @@ import { TrackingEntriesService } from '../../services/tracking-entries.service'
 import { TrackingEntry } from '../../data/models/tracking-entry.model';
 import { toDayString } from '../../utils/date.utils';
 import { firstValueFrom } from 'rxjs';
+import { UpdateTrackingEntryEvent } from '../../data/events/update-tracking-entry-event';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,6 +57,20 @@ export class DashboardComponent implements OnInit {
 
     await firstValueFrom(
       this.trackingEntriesService.deleteEntry(trackingEntry, dayFormatted),
+    );
+    this.fetchTrackingEntries();
+  }
+
+  async onUpdateTrackingEntry(
+    updateTrackingEntryEvent: UpdateTrackingEntryEvent,
+  ): Promise<void> {
+    const dayFormatted = toDayString(this.selectedDay);
+
+    await firstValueFrom(
+      this.trackingEntriesService.updateEntry(
+        updateTrackingEntryEvent,
+        dayFormatted,
+      ),
     );
     this.fetchTrackingEntries();
   }

@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { TrackFoodEvent } from '../data/events/track-food-event';
-import { TrackFoodRequest } from '../data/models/track-food-request.model';
+import { TrackFoodRequest } from '../data/requests/track-food-request.model';
 import MealType from '../data/meal-type.enum';
 import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { TrackingEntry } from '../data/models/tracking-entry.model';
+import { UpdateTrackingEntryEvent } from '../data/events/update-tracking-entry-event';
+import { UpdateTrackingEntryRequest } from '../data/requests/update-tracking-entry-request.model';
+import { TrackingUnitSelection } from '../data/tracking-unit-selection.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,15 +51,14 @@ export class TrackingEntriesService {
     day: string,
     mealType: MealType,
   ): Observable<any> {
-    const amount = trackFoodEvent.trackingUnitSelection.isBaseUnit
-      ? trackFoodEvent.amount
-      : trackFoodEvent.amount *
-        trackFoodEvent.trackingUnitSelection.serving!.baseUnitAmount;
     const request: TrackFoodRequest = {
       product: trackFoodEvent.product,
       mealType: mealType,
       baseUnit: trackFoodEvent.trackingUnitSelection.baseUnit,
-      amount: amount,
+      amount: this.calculateEffectiveAmount(
+        trackFoodEvent.amount,
+        trackFoodEvent.trackingUnitSelection,
+      ),
       trackedInBaseUnit: trackFoodEvent.trackingUnitSelection.isBaseUnit,
     };
 
@@ -70,5 +72,33 @@ export class TrackingEntriesService {
     return this.httpClient.delete<any>(
       `/api/days/${day}/tracking-entries/${trackingEntry.uuid}`,
     );
+  }
+
+  updateEntry(
+    updateTrackingEntryEvent: UpdateTrackingEntryEvent,
+    day: string,
+  ): Observable<any> {
+    const request: UpdateTrackingEntryRequest = {
+      amount: this.calculateEffectiveAmount(
+        updateTrackingEntryEvent.amount,
+        updateTrackingEntryEvent.trackingUnitSelection,
+      ),
+      trackedInBaseUnit:
+        updateTrackingEntryEvent.trackingUnitSelection.isBaseUnit,
+    };
+
+    return this.httpClient.put<any>(
+      `/api/days/${day}/tracking-entries/${updateTrackingEntryEvent.originalTrackingEntry.uuid}`,
+      request,
+    );
+  }
+
+  private calculateEffectiveAmount(
+    amount: number,
+    trackingUnitSelection: TrackingUnitSelection,
+  ): number {
+    return trackingUnitSelection.isBaseUnit
+      ? amount
+      : amount * trackingUnitSelection.serving!.baseUnitAmount;
   }
 }

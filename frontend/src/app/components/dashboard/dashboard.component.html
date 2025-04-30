@@ -62,6 +62,7 @@
           [trackingEntries]="getTrackingEntriesForMealType(mealType)"
           (onAdd)="onAddFood(mealType)"
           (onDeleteEntry)="onDeleteTrackingEntry($event)"
+          (onUpdateEntry)="onUpdateTrackingEntry($event)"
         />
       }
     </div>

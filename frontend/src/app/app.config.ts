@@ -45,6 +45,9 @@ export const appConfig: ApplicationConfig = {
       },
       initOptions: {
         onLoad: 'login-required',
+        checkLoginIframe: true, // Enables silent refresh checks
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/public/silent-check-sso.html',
       },
       features: [
         withAutoRefreshToken({
