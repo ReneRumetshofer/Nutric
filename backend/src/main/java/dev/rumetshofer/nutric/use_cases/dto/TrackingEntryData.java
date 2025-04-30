@@ -14,6 +14,7 @@ public record TrackingEntryData (
         ProductData product,
         BigDecimal amount,
         Unit baseUnit,
-        Nutrition nutritionPerBaseUnit
+        Nutrition nutritionPerBaseUnit,
+        boolean trackedInBaseUnit
 ) {
 }

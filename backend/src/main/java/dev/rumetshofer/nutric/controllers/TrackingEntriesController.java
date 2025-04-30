@@ -39,6 +39,7 @@ public class TrackingEntriesController {
                 .mealType(trackFoodRequest.mealType())
                 .amount(trackFoodRequest.amount())
                 .baseUnit(trackFoodRequest.baseUnit())
+                .trackedInBaseUnit(trackFoodRequest.trackedInBaseUnit())
                 .build();
         trackFoodUseCase.track(request);
     }

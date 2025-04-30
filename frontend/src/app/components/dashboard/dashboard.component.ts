@@ -20,11 +20,13 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
+    protected profileService: ProfileService,
     protected dayService: DayService,
     protected trackingEntriesService: TrackingEntriesService,
   ) {}
 
   ngOnInit(): void {
+    this.profileService.fetchProfile();
     this.dayService.fetchDay(this.selectedDay);
     this.trackingEntriesService.fetchByDay(this.selectedDay);
   }

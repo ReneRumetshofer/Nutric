@@ -1,9 +1,7 @@
 <div class="flex justify-between items-center" pRipple (click)="onClick.emit()">
   <div>
     <p>{{ entry.product.name }}</p>
-    <p class="text-sm">
-      {{ entry.amount }} {{ mapUnitToGerman(entry.baseUnit) }}
-    </p>
+    <p class="text-sm">{{ calculatedAmount }} {{ trackedUnit }}</p>
   </div>
 
   <p>

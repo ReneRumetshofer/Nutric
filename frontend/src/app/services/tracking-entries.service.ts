@@ -57,6 +57,7 @@ export class TrackingEntriesService {
       mealType: mealType,
       baseUnit: trackFoodEvent.trackingUnitSelection.baseUnit,
       amount: amount,
+      trackedInBaseUnit: trackFoodEvent.trackingUnitSelection.isBaseUnit,
     };
 
     return this.httpClient.post<any>(

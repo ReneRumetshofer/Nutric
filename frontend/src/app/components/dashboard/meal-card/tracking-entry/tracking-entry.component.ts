@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { mapUnitToGerman } from '../../../../models/product.model';
+import {
+  mapServingUnitToGerman,
+  mapUnitToGerman,
+} from '../../../../models/product.model';
 import { TrackingEntry } from '../../../../models/tracking-entry.model';
 import { Ripple } from 'primeng/ripple';
 
@@ -12,6 +15,22 @@ import { Ripple } from 'primeng/ripple';
 export class TrackingEntryComponent {
   @Input({ required: true }) entry!: TrackingEntry;
   @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
+
+  get calculatedAmount(): number {
+    if (this.entry.trackedInBaseUnit || !this.entry.product.serving) {
+      return this.entry.amount;
+    }
+
+    return this.entry.amount / this.entry.product.serving.baseUnitAmount;
+  }
+
+  get trackedUnit(): string {
+    if (this.entry.trackedInBaseUnit || !this.entry.product.serving) {
+      return mapUnitToGerman(this.entry.baseUnit);
+    }
+
+    return mapServingUnitToGerman(this.entry.product.serving.unit) ?? '';
+  }
 
   protected readonly mapUnitToGerman = mapUnitToGerman;
 }

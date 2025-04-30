@@ -8,4 +8,5 @@ export interface TrackingEntry {
   amount: number;
   baseUnit: Unit;
   nutritionPerBaseUnit: Nutrition;
+  trackedInBaseUnit: boolean;
 }

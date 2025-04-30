@@ -10,6 +10,7 @@ public record TrackFoodRestRequest (
         ProductData product,
         MealType mealType,
         Unit baseUnit,
-        BigDecimal amount
+        BigDecimal amount,
+        boolean trackedInBaseUnit
 ) {
 }

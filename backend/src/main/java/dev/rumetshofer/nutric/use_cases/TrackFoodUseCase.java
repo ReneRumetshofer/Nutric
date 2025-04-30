@@ -48,7 +48,8 @@ public class TrackFoodUseCase {
                 productDbModel,
                 dayDbModel,
                 request.mealType(),
-                request.amount()
+                request.amount(),
+                request.trackedInBaseUnit()
         );
         trackingEntryRepository.save(trackingEntryDbModel);
     }
@@ -75,7 +76,7 @@ public class TrackFoodUseCase {
                 .build();
     }
 
-    private TrackingEntryDbModel constructTrackingEntryDbModel(ProductDbModel productDbModel, DayDbModel dayDbModel, MealType mealType, BigDecimal amount) {
+    private TrackingEntryDbModel constructTrackingEntryDbModel(ProductDbModel productDbModel, DayDbModel dayDbModel, MealType mealType, BigDecimal amount, boolean trackedInBaseUnit) {
         return TrackingEntryDbModel.builder()
                 .uuid(UUID.randomUUID())
                 .day(dayDbModel)
@@ -87,6 +88,7 @@ public class TrackFoodUseCase {
                 .carbsPerBaseUnit(productDbModel.getCarbsPerBaseUnit())
                 .proteinPerBaseUnit(productDbModel.getProteinPerBaseUnit())
                 .fatPerBaseUnit(productDbModel.getFatPerBaseUnit())
+                .trackedInBaseUnit(trackedInBaseUnit)
                 .build();
     }
 }

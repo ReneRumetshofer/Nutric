@@ -16,6 +16,7 @@ public record TrackFoodRequest(
         MealType mealType,
         BigDecimal amount,
         Unit baseUnit,
-        UUID userUuid
+        UUID userUuid,
+        boolean trackedInBaseUnit
 ) {
 }

@@ -56,4 +56,7 @@ public class TrackingEntryDbModel {
     @Column(name = "fat_per_base_unit", nullable = false, precision = 10, scale = 3)
     private BigDecimal fatPerBaseUnit;
 
+    @Column(name = "tracked_in_base_unit", nullable = false)
+    private boolean trackedInBaseUnit;
+
 }

@@ -3,9 +3,6 @@ import { Button } from 'primeng/button';
 import { Panel } from 'primeng/panel';
 import { Divider } from 'primeng/divider';
 import { TrackingEntry } from '../../../models/tracking-entry.model';
-import { Ripple } from 'primeng/ripple';
-import { Card } from 'primeng/card';
-import { PerHundredPanelComponent } from '../../track-food-screen/track-dialog/per-hundred-panel/per-hundred-panel.component';
 import { NutritionValuesComponent } from '../../shared/nutrition-values/nutrition-values.component';
 import { mapUnitToGerman, Product } from '../../../models/product.model';
 import { TrackingEntryComponent } from './tracking-entry/tracking-entry.component';
@@ -17,9 +14,6 @@ import { TrackDialogComponent } from '../../track-food-screen/track-dialog/track
     Button,
     Panel,
     Divider,
-    Ripple,
-    Card,
-    PerHundredPanelComponent,
     NutritionValuesComponent,
     TrackingEntryComponent,
     TrackDialogComponent,
