@@ -12,4 +12,6 @@ public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbMo
     List<TrackingEntryDbModel> findAllByDay_DayAndDay_UserUuid(LocalDate dayDay, UUID dayUserUuid);
 
     Optional<TrackingEntryDbModel> findByUuid(UUID uuid);
+
+    Optional<TrackingEntryDbModel> findByUuidAndDay_UserUuid(UUID uuid, UUID dayUserUuid);
 }
