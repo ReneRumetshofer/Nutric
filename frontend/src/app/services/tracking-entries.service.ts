@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { TrackFoodEvent } from '../components/track-food-screen/track-dialog/models/track-food-event';
-import { TrackFoodRequest } from '../models/track-food-request.model';
-import MealType from '../models/meal-type.enum';
+import { TrackFoodEvent } from '../data/events/track-food-event';
+import { TrackFoodRequest } from '../data/models/track-food-request.model';
+import MealType from '../data/meal-type.enum';
 import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { TrackingEntry } from '../models/tracking-entry.model';
+import { TrackingEntry } from '../data/models/tracking-entry.model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +63,12 @@ export class TrackingEntriesService {
     return this.httpClient.post<any>(
       `/api/days/${day}/tracking-entries`,
       request,
+    );
+  }
+
+  deleteEntry(trackingEntry: TrackingEntry, day: string): Observable<any> {
+    return this.httpClient.delete<any>(
+      `/api/days/${day}/tracking-entries/${trackingEntry.uuid}`,
     );
   }
 }

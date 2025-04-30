@@ -14,7 +14,7 @@ import {
   mapUnitToGerman,
   Product,
   Serving,
-} from '../../../../models/product.model';
+} from '../../../../data/models/product.model';
 import {
   FormControl,
   FormGroup,
@@ -23,11 +23,12 @@ import {
 } from '@angular/forms';
 import { NutritionValuesComponent } from '../../../shared/nutrition-values/nutrition-values.component';
 import { InputNumber } from 'primeng/inputnumber';
-import { Select } from 'primeng/select';
+import { Select, SelectChangeEvent } from 'primeng/select';
 import { FloatLabel } from 'primeng/floatlabel';
-import { TrackingUnitSelection } from '../models/tracking-unit-selection.model';
+import { TrackingUnitSelection } from '../../../../data/tracking-unit-selection.model';
 import { Subscription } from 'rxjs';
 import { InputText } from 'primeng/inputtext';
+import { InitialAmountSelection } from '../../../../data/initial-amount-selection.model';
 
 @Component({
   selector: 'app-track-panel',
@@ -43,8 +44,9 @@ import { InputText } from 'primeng/inputtext';
   standalone: true,
   styleUrl: './track-panel.component.scss',
 })
-export class TrackPanelComponent implements OnInit, OnDestroy {
+export class TrackPanelComponent implements OnInit, OnDestroy, OnChanges {
   @Input() product!: Product;
+  @Input() initialAmountSelection: InitialAmountSelection | null = null;
   @Output() amountChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() trackingUnitChange: EventEmitter<TrackingUnitSelection> =
     new EventEmitter<TrackingUnitSelection>();
@@ -68,7 +70,6 @@ export class TrackPanelComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.amountControl.setValue(trackingUnit.isBaseUnit ? 100 : 1);
         this.trackingUnitChange.emit(trackingUnit);
       }),
       this.amountControl.valueChanges.subscribe((amount) => {
@@ -82,12 +83,26 @@ export class TrackPanelComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.constructTrackingUnits();
 
-      this.trackingUnitControl.setValue(this.trackingSelectionOptions[0]);
+      this.prefillElements();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes['initialAmountSelection'] &&
+      changes['initialAmountSelection'].currentValue
+    ) {
+      this.prefillElements();
     }
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  onTrackedUnitChange(event: SelectChangeEvent): void {
+    const trackingUnit = event.value as TrackingUnitSelection;
+    this.amountControl.setValue(trackingUnit.isBaseUnit ? 100 : 1);
   }
 
   constructTrackingUnits(): void {
@@ -106,6 +121,24 @@ export class TrackPanelComponent implements OnInit, OnDestroy {
     this.trackingSelectionOptions.push(
       new TrackingUnitSelection(true, null, this.product.baseUnit),
     );
+  }
+
+  prefillElements(): void {
+    const defaultSelection = this.trackingSelectionOptions[0];
+
+    if (this.initialAmountSelection) {
+      this.trackingUnitControl.setValue(
+        this.trackingSelectionOptions.find(
+          (option) =>
+            option.isBaseUnit === this.initialAmountSelection!.baseUnitSelected,
+        ) ?? defaultSelection,
+      );
+      this.amountControl.setValue(this.initialAmountSelection.amount);
+      return;
+    }
+
+    this.trackingUnitControl.setValue(defaultSelection);
+    this.amountControl.setValue(defaultSelection.isBaseUnit ? 100 : 1);
   }
 
   validateNumberInput(event: KeyboardEvent) {

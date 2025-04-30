@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import MealType, { mapMealTypeToGerman } from '../../models/meal-type.enum';
+import MealType, { mapMealTypeToGerman } from '../../data/meal-type.enum';
 import { Button } from 'primeng/button';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import ProductSearchService from '../../services/product-search.service';
@@ -17,10 +17,10 @@ import { Message } from 'primeng/message';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
-import { Product } from '../../models/product.model';
+import { Product } from '../../data/models/product.model';
 import { isValidDate } from '../../utils/date.utils';
 import { TrackDialogComponent } from './track-dialog/track-dialog.component';
-import { TrackFoodEvent } from './track-dialog/models/track-food-event';
+import { TrackFoodEvent } from '../../data/events/track-food-event';
 import { TrackingEntriesService } from '../../services/tracking-entries.service';
 
 @Component({

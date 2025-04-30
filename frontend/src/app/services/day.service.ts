@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import Profile from '../models/profile.model';
+import Profile from '../data/models/profile.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
-import Day from '../models/day.model';
+import Day from '../data/models/day.model';
 
 @Injectable({
   providedIn: 'root',

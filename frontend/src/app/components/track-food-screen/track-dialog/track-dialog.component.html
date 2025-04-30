@@ -20,6 +20,7 @@
       <div class="mt-2">
         <app-track-panel
           [product]="product"
+          [initialAmountSelection]="initialAmountSelection"
           (amountChange)="amount = $event"
           (trackingUnitChange)="trackingUnitSelection = $event"
         ></app-track-panel>
@@ -27,16 +28,33 @@
     }
   </ng-template>
   <ng-template #footer>
-    <p-button
-      label="Abbrechen"
-      [text]="true"
-      severity="secondary"
-      (click)="close()"
-    />
-    <p-button
-      [label]="confirmButtonCaption"
-      (click)="onTrackButtonClick()"
-      severity="primary"
-    />
+    <div class="flex justify-between w-full">
+      @if (showDeleteButton) {
+        <p-button
+          [text]="true"
+          (click)="onDeleteButtonClick()"
+          icon="pi pi-trash"
+          label="Löschen"
+          severity="danger"
+        />
+      } @else {
+        <div>&nbsp;</div>
+      }
+
+      <div class="flex">
+        <p-button
+          [text]="true"
+          (click)="close()"
+          label="Abbrechen"
+          severity="secondary"
+        />
+        <p-button
+          [label]="confirmButtonCaption"
+          (click)="onTrackButtonClick()"
+          severity="primary"
+          class="ml-2"
+        />
+      </div>
+    </div>
   </ng-template>
 </p-dialog>

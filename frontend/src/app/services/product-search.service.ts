@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
-import { Product, ServingUnit, Unit } from '../models/product.model';
+import { Product, ServingUnit, Unit } from '../data/models/product.model';
 
 @Injectable({
   providedIn: 'root',

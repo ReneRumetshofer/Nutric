@@ -3,7 +3,7 @@ import {
   mapUnitToGerman,
   Serving,
   Unit,
-} from '../../../../models/product.model';
+} from './models/product.model';
 
 export class TrackingUnitSelection {
   isBaseUnit: boolean;

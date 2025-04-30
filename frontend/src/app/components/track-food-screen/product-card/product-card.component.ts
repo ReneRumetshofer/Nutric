@@ -3,7 +3,7 @@ import {
   mapServingUnitToGerman,
   mapUnitToGerman,
   Product,
-} from '../../../models/product.model';
+} from '../../../data/models/product.model';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 

@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { mapUnitToGerman, Product } from '../../../../models/product.model';
+import {
+  mapUnitToGerman,
+  Product,
+} from '../../../../data/models/product.model';
 import { DataValueComponent } from '../../../shared/data-value/data-value.component';
 import { Panel } from 'primeng/panel';
 import { NutritionValuesComponent } from '../../../shared/nutrition-values/nutrition-values.component';

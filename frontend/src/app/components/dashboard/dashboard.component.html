@@ -56,26 +56,14 @@
     </div>
 
     <div class="mt-4 flex flex-col gap-2">
-      <app-meal-card
-        mealName="Frühstück"
-        [trackingEntries]="getTrackingEntriesForMealType(MealType.BREAKFAST)"
-        (onAdd)="onAddFood(MealType.BREAKFAST)"
-      />
-      <app-meal-card
-        mealName="Mittagessen"
-        [trackingEntries]="getTrackingEntriesForMealType(MealType.LUNCH)"
-        (onAdd)="onAddFood(MealType.LUNCH)"
-      />
-      <app-meal-card
-        mealName="Abendessen"
-        [trackingEntries]="getTrackingEntriesForMealType(MealType.DINNER)"
-        (onAdd)="onAddFood(MealType.DINNER)"
-      />
-      <app-meal-card
-        mealName="Snacks"
-        [trackingEntries]="getTrackingEntriesForMealType(MealType.SNACKS)"
-        (onAdd)="onAddFood(MealType.SNACKS)"
-      />
+      @for (mealType of mealTypes; track mealType) {
+        <app-meal-card
+          [mealName]="mapMealTypeToGerman(mealType)"
+          [trackingEntries]="getTrackingEntriesForMealType(mealType)"
+          (onAdd)="onAddFood(mealType)"
+          (onDeleteEntry)="onDeleteTrackingEntry($event)"
+        />
+      }
     </div>
   }
 </div>

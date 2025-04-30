@@ -12,3 +12,7 @@ export function isValidDate(dateString: string): boolean {
     date.getDate() === day
   );
 }
+
+export function toDayString(date: Date): string {
+  return date.toISOString().split('T')[0];
+}

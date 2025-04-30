@@ -56,7 +56,12 @@
           }
           <app-track-dialog
             [(visible)]="editDialogVisible"
-            [product]="selectedProduct"
+            [product]="selectedEntry?.product ?? null"
+            [initialAmountSelection]="initialAmountSelection"
+            [showDeleteButton]="true"
+            (onDelete)="onDelete()"
+            (onTrackFood)="onUpdate($event)"
+            confirmButtonCaption="Speichern"
           ></app-track-dialog>
         </div>
       }

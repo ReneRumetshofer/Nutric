@@ -1,4 +1,4 @@
-import MealType from './meal-type.enum';
+import MealType from '../meal-type.enum';
 import { Nutrition, Product, Unit } from './product.model';
 
 export interface TrackingEntry {

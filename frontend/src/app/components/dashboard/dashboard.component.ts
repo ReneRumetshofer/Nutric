@@ -3,10 +3,13 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { Tag } from 'primeng/tag';
 import { MealCardComponent } from './meal-card/meal-card.component';
 import { Router } from '@angular/router';
-import MealType from '../../models/meal-type.enum';
+import MealType, { mapMealTypeToGerman } from '../../data/meal-type.enum';
 import ProfileService from '../../services/profile.service';
 import DayService from '../../services/day.service';
 import { TrackingEntriesService } from '../../services/tracking-entries.service';
+import { TrackingEntry } from '../../data/models/tracking-entry.model';
+import { toDayString } from '../../utils/date.utils';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +20,12 @@ import { TrackingEntriesService } from '../../services/tracking-entries.service'
 })
 export class DashboardComponent implements OnInit {
   selectedDay: Date = new Date(Date.now());
+  mealTypes: MealType[] = [
+    MealType.BREAKFAST,
+    MealType.LUNCH,
+    MealType.DINNER,
+    MealType.SNACKS,
+  ];
 
   constructor(
     private router: Router,
@@ -28,12 +37,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.fetchProfile();
     this.dayService.fetchDay(this.selectedDay);
-    this.trackingEntriesService.fetchByDay(this.selectedDay);
+    this.fetchTrackingEntries();
   }
 
-  onAddFood(mealType: MealType) {
-    const today = new Date(Date.now());
-    const dayFormatted = today.toISOString().split('T')[0];
+  onAddFood(mealType: MealType): void {
+    const dayFormatted = toDayString(this.selectedDay);
 
     this.router.navigate(['/track'], {
       queryParams: {
@@ -41,6 +49,19 @@ export class DashboardComponent implements OnInit {
         mealType: mealType,
       },
     });
+  }
+
+  async onDeleteTrackingEntry(trackingEntry: TrackingEntry): Promise<void> {
+    const dayFormatted = toDayString(this.selectedDay);
+
+    await firstValueFrom(
+      this.trackingEntriesService.deleteEntry(trackingEntry, dayFormatted),
+    );
+    this.fetchTrackingEntries();
+  }
+
+  fetchTrackingEntries(): void {
+    this.trackingEntriesService.fetchByDay(this.selectedDay);
   }
 
   getTrackingEntriesForMealType(mealType: MealType) {
@@ -119,4 +140,5 @@ export class DashboardComponent implements OnInit {
   }
 
   protected readonly MealType = MealType;
+  protected readonly mapMealTypeToGerman = mapMealTypeToGerman;
 }

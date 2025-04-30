@@ -20,6 +20,7 @@
       <p-select
         [options]="trackingSelectionOptions"
         [overlayOptions]="{ baseZIndex: 5000 }"
+        (onChange)="onTrackedUnitChange($event)"
         formControlName="trackingUnit"
         optionLabel="displayValue"
         inputId="trackedUnit"
