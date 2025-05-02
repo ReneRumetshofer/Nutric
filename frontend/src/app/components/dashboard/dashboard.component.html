@@ -21,7 +21,19 @@
       (onClick)="changeDay(-1)"
       severity="secondary"
     />
-    <span class="text-lg font-bold">{{ currentDayFormatted }}</span>
+    <span class="text-lg font-bold"
+      >{{ currentDayFormatted }}
+      @if (!isToday) {
+        <p-button
+          icon="pi pi-calendar"
+          [rounded]="true"
+          [text]="true"
+          severity="secondary"
+          (onClick)="changeToToday()"
+        />
+      }
+    </span>
+
     <p-button
       icon="pi pi-angle-right"
       [rounded]="true"
@@ -31,7 +43,7 @@
     />
   </div>
 
-  @if (dayService.day$(); as day) {
+  @if (effectiveDay; as day) {
     <div class="mt-3 relative">
       <app-progress-bar
         [value]="totalUsedCalories"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { Tag } from 'primeng/tag';
 import { MealCardComponent } from './meal-card/meal-card.component';
@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { UpdateTrackingEntryEvent } from '../../data/events/update-tracking-entry-event';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
+import Day from '../../data/models/day.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,6 +52,12 @@ export class DashboardComponent implements OnInit {
         }
       } else {
         this.selectedDay = new Date();
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { day: toDayString(this.selectedDay) },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
       }
     });
 
@@ -114,8 +121,11 @@ export class DashboardComponent implements OnInit {
   changeDay(difference: number): void {
     const newDate = new Date(this.selectedDay);
     newDate.setDate(newDate.getDate() + difference);
+    this.changeToDate(newDate);
+  }
 
-    this.selectedDay = newDate;
+  changeToDate(date: Date): void {
+    this.selectedDay = date;
     this.dayService.fetchDay(this.selectedDay);
     this.fetchTrackingEntries();
 
@@ -124,6 +134,39 @@ export class DashboardComponent implements OnInit {
       queryParams: { day: toDayString(this.selectedDay) },
       queryParamsHandling: 'merge',
     });
+  }
+
+  changeToToday(): void {
+    const today = new Date();
+    this.changeToDate(today);
+  }
+
+  get effectiveDay(): Day | null {
+    const day = this.dayService.day$();
+    if (!day) {
+      const profile = this.profileService.profile$();
+      if (!profile) {
+        return null;
+      }
+
+      return {
+        day: toDayString(this.selectedDay),
+        calorieGoal: profile.calorieGoal,
+        proteinLimitGrams: profile.proteinLimitGrams,
+        carbLimitGrams: profile.carbLimitGrams,
+        fatLimitGrams: profile.fatLimitGrams,
+      };
+    }
+    return day;
+  }
+
+  get isToday(): boolean {
+    const today = new Date();
+    return (
+      this.selectedDay.getDate() === today.getDate() &&
+      this.selectedDay.getMonth() === today.getMonth() &&
+      this.selectedDay.getFullYear() === today.getFullYear()
+    );
   }
 
   get currentDayFormatted(): string {
@@ -217,4 +260,5 @@ export class DashboardComponent implements OnInit {
 
   protected readonly MealType = MealType;
   protected readonly mapMealTypeToGerman = mapMealTypeToGerman;
+  protected readonly Date = Date;
 }

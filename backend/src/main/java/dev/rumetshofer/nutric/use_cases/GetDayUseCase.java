@@ -1,11 +1,8 @@
 package dev.rumetshofer.nutric.use_cases;
 
-import dev.rumetshofer.nutric.out.db.entities.DayDbModel;
-import dev.rumetshofer.nutric.out.db.entities.ProfileDbModel;
 import dev.rumetshofer.nutric.out.db.repositories.DayRepository;
-import dev.rumetshofer.nutric.out.db.repositories.ProfileRepository;
 import dev.rumetshofer.nutric.use_cases.dto.DayData;
-import dev.rumetshofer.nutric.use_cases.exceptions.ProfileNotFoundException;
+import dev.rumetshofer.nutric.use_cases.factories.DayDataFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,46 +13,16 @@ import java.util.UUID;
 public class GetDayUseCase {
 
     private final DayRepository dayRepository;
-    private final ProfileRepository profileRepository;
+    private final DayDataFactory dayDataFactory;
 
-    public GetDayUseCase(DayRepository dayRepository, ProfileRepository profileRepository) {
+    public GetDayUseCase(DayRepository dayRepository, DayDataFactory dayDataFactory) {
         this.dayRepository = dayRepository;
-        this.profileRepository = profileRepository;
+        this.dayDataFactory = dayDataFactory;
     }
 
-    public DayData getDay(LocalDate day, UUID userUuid) {
-        Optional<DayDbModel> dayOptional = dayRepository.findByDayAndUserUuid(day, userUuid);
-        if (dayOptional.isPresent()) {
-            return toDayData(dayOptional.get());
-        }
-
-        ProfileDbModel profile = profileRepository.findById(userUuid)
-                .orElseThrow(() -> new ProfileNotFoundException(userUuid));
-
-        DayDbModel newDay = constructDayDbModel(day, profile);
-        dayRepository.save(newDay);
-        return toDayData(newDay);
+    public Optional<DayData> getDay(LocalDate day, UUID userUuid) {
+        return dayRepository.findByDayAndUserUuid(day, userUuid)
+                .map(dayDataFactory::toDayData);
     }
 
-    private DayData toDayData(DayDbModel dayDbModel) {
-        return DayData.builder()
-                .day(dayDbModel.getDay())
-                .userUuid(dayDbModel.getUserUuid())
-                .calorieGoal(dayDbModel.getCalorieGoal())
-                .carbLimitGrams(dayDbModel.getCarbLimitGrams())
-                .proteinLimitGrams(dayDbModel.getProteinLimitGrams())
-                .fatLimitGrams(dayDbModel.getFatLimitGrams())
-                .build();
-    }
-
-    private DayDbModel constructDayDbModel(LocalDate day, ProfileDbModel profile) {
-        return DayDbModel.builder()
-                .day(day)
-                .userUuid(profile.getUserUuid())
-                .calorieGoal(profile.getCalorieGoal())
-                .carbLimitGrams(profile.getCarbLimitGrams())
-                .proteinLimitGrams(profile.getProteinLimitGrams())
-                .fatLimitGrams(profile.getFatLimitGrams())
-                .build();
-    }
 }

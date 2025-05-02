@@ -7,15 +7,18 @@ import dev.rumetshofer.nutric.use_cases.exceptions.AuthorizationException;
 import dev.rumetshofer.nutric.use_cases.exceptions.TrackingEntryNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
 public class DeleteTrackingEntryUseCase {
 
     private final TrackingEntryRepository trackingEntryRepository;
+    private final DayRepository dayRepository;
 
-    public DeleteTrackingEntryUseCase(TrackingEntryRepository trackingEntryRepository) {
+    public DeleteTrackingEntryUseCase(TrackingEntryRepository trackingEntryRepository, DayRepository dayRepository) {
         this.trackingEntryRepository = trackingEntryRepository;
+        this.dayRepository = dayRepository;
     }
 
     public void deleteTrackingEntry(UUID userUuid, UUID trackingEntryUuid) {
@@ -29,6 +32,12 @@ public class DeleteTrackingEntryUseCase {
         }
 
         trackingEntryRepository.delete(trackingEntryDbModel);
+
+        List<TrackingEntryDbModel> trackingEntriesLeft = trackingEntryRepository
+                .findAllByDay_DayAndDay_UserUuid(trackingEntryDbModel.getDay().getDay(), userUuid);
+        if (trackingEntriesLeft.isEmpty()) {
+            dayRepository.delete(trackingEntryDbModel.getDay());
+        }
     }
 
 }

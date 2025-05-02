@@ -2,6 +2,7 @@ package dev.rumetshofer.nutric.controllers;
 
 import dev.rumetshofer.nutric.use_cases.GetDayUseCase;
 import dev.rumetshofer.nutric.use_cases.dto.DayData;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,11 +19,13 @@ public class DayController {
     }
 
     @GetMapping
-    public DayData getDay(
+    public ResponseEntity<DayData> getDay(
             @RequestAttribute("userUuid") UUID userUuid,
             @RequestParam("day") LocalDate day
     ) {
-        return getDayUseCase.getDay(day, userUuid);
+        return getDayUseCase.getDay(day, userUuid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.noContent().build());
     }
 
 }

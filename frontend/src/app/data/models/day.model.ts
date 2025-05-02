@@ -1,7 +1,7 @@
 export default interface Day {
-  id: number;
+  id?: number;
   day: string;
-  userUuid: string;
+  userUuid?: string;
   calorieGoal: number;
   carbLimitGrams: number;
   proteinLimitGrams: number;
