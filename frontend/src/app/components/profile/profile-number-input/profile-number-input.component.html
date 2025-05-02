@@ -1,0 +1,23 @@
+<p-input-group>
+  <p-floatlabel variant="on" class="flex">
+    <p-inputnumber
+      mode="decimal"
+      [inputId]="inputId"
+      [formControl]="control"
+      [minFractionDigits]="minFractionDigits"
+      [maxFractionDigits]="maxFractionDigits"
+      [min]="min"
+      [max]="max"
+      class="w-full"
+    >
+    </p-inputnumber>
+    <label for="on_label">{{ label }}</label>
+  </p-floatlabel>
+  @if (postfix) {
+    <p-inputgroup-addon>
+      <div class="w-8 flex justify-center">
+        {{ postfix }}
+      </div>
+    </p-inputgroup-addon>
+  }
+</p-input-group>

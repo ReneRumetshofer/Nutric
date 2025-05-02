@@ -11,10 +11,11 @@ import { TrackingEntry } from '../../data/models/tracking-entry.model';
 import { toDayString } from '../../utils/date.utils';
 import { firstValueFrom } from 'rxjs';
 import { UpdateTrackingEntryEvent } from '../../data/events/update-tracking-entry-event';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ProgressBarComponent, Tag, MealCardComponent],
+  imports: [ProgressBarComponent, Tag, MealCardComponent, Button],
   templateUrl: './dashboard.component.html',
   standalone: true,
   styleUrl: './dashboard.component.scss',
@@ -87,6 +88,10 @@ export class DashboardComponent implements OnInit {
     return this.trackingEntriesService
       .trackingEntries$()!
       .filter((entry) => entry.mealType === mealType);
+  }
+
+  onProfileButtonClick(): void {
+    this.router.navigate(['/profile']);
   }
 
   get totalUsedCalories(): number {

@@ -1,7 +1,15 @@
 <div class="">
-  <div class="flex items-center">
-    <img src="/icon.svg" alt="Logo" class="w-16 logo" />
-    <span class="text-3xl font-bold ml-3"> Nutric </span>
+  <div class="flex justify-between items-center">
+    <div class="flex items-center">
+      <img src="/icon.svg" alt="Logo" class="w-16 logo" />
+      <span class="text-3xl font-bold ml-3"> Nutric </span>
+    </div>
+    <p-button
+      icon="pi pi-user-edit"
+      [rounded]="true"
+      [outlined]="true"
+      (onClick)="onProfileButtonClick()"
+    />
   </div>
 
   @if (dayService.day$(); as day) {

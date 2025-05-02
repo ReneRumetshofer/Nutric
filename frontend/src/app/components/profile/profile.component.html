@@ -1,0 +1,54 @@
+<div>
+  <app-page-header headerTitle="Profil" (onBack)="onBack()"></app-page-header>
+
+  <div class="mt-6 flex flex-col gap-3" [formGroup]="form">
+    <app-profile-number-input
+      [control]="weightControl"
+      [minFractionDigits]="1"
+      [maxFractionDigits]="1"
+      [min]="0"
+      [max]="500"
+      label="Gewicht"
+      postfix="kg"
+    >
+    </app-profile-number-input>
+
+    <app-profile-number-input
+      [control]="calorieGoalControl"
+      [min]="0"
+      label="Kalorien"
+      postfix="kcal"
+    >
+    </app-profile-number-input>
+
+    <app-profile-number-input
+      [control]="carbGramsControl"
+      [min]="0"
+      label="Kohlenhydrate"
+      postfix="g"
+    >
+    </app-profile-number-input>
+
+    <app-profile-number-input
+      [control]="proteinGramsControl"
+      [min]="0"
+      label="Proteine"
+      postfix="g"
+    >
+    </app-profile-number-input>
+
+    <app-profile-number-input
+      [control]="fatGramsControl"
+      [min]="0"
+      label="Fette"
+      postfix="g"
+    >
+    </app-profile-number-input>
+  </div>
+
+  <div class="flex justify-end">
+    <p-button styleClass="mt-6" label="Speichern" (click)="onSave()"></p-button>
+  </div>
+
+  <p-toast></p-toast>
+</div>

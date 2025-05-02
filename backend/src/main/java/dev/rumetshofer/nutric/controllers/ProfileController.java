@@ -1,12 +1,11 @@
 package dev.rumetshofer.nutric.controllers;
 
 import dev.rumetshofer.nutric.use_cases.GetProfileUseCase;
+import dev.rumetshofer.nutric.use_cases.UpdateProfileUseCase;
 import dev.rumetshofer.nutric.use_cases.dto.in.GetProfileRequestData;
 import dev.rumetshofer.nutric.use_cases.dto.ProfileData;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import dev.rumetshofer.nutric.use_cases.dto.in.UpdateProfileRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -15,13 +14,15 @@ import java.util.UUID;
 public class ProfileController {
 
     private final GetProfileUseCase getProfileUseCase;
+    private final UpdateProfileUseCase updateProfileUseCase;
 
-    public ProfileController(GetProfileUseCase getProfileUseCase) {
+    public ProfileController(GetProfileUseCase getProfileUseCase, UpdateProfileUseCase updateProfileUseCase) {
         this.getProfileUseCase = getProfileUseCase;
+        this.updateProfileUseCase = updateProfileUseCase;
     }
 
     @GetMapping
-    public ProfileData test(
+    public ProfileData getProfile(
             @RequestAttribute("userUuid") UUID userUuid,
             @RequestAttribute("userFirstName") String firstName,
             @RequestAttribute("userLastName") String lastName,
@@ -34,6 +35,14 @@ public class ProfileController {
                 .email(email)
                 .build();
         return getProfileUseCase.getProfile(requestData);
+    }
+
+    @PutMapping
+    public void updateProfile(
+            @RequestAttribute("userUuid") UUID userUuid,
+            @RequestBody UpdateProfileRequest updateProfileRequest
+    ) {
+        updateProfileUseCase.update(userUuid, updateProfileRequest);
     }
 
 }
