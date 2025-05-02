@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import { Router } from '@angular/router';
 import {
@@ -14,8 +14,8 @@ import { Button } from 'primeng/button';
 import ProfileService from '../../services/profile.service';
 import { UpdateProfileRequest } from '../../data/requests/update-profile-request.model';
 import { firstValueFrom } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -39,10 +39,9 @@ export class ProfileComponent {
   });
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
     protected profileService: ProfileService,
-    private messageService: MessageService,
+    private location: Location,
   ) {
     this.constructForm();
 
@@ -81,7 +80,7 @@ export class ProfileComponent {
   }
 
   onBack(): void {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
   async onSave(): Promise<void> {

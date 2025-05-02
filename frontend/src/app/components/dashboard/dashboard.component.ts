@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { Tag } from 'primeng/tag';
 import { MealCardComponent } from './meal-card/meal-card.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import MealType, { mapMealTypeToGerman } from '../../data/meal-type.enum';
 import ProfileService from '../../services/profile.service';
 import DayService from '../../services/day.service';
@@ -12,10 +12,11 @@ import { toDayString } from '../../utils/date.utils';
 import { firstValueFrom } from 'rxjs';
 import { UpdateTrackingEntryEvent } from '../../data/events/update-tracking-entry-event';
 import { Button } from 'primeng/button';
+import { Divider } from 'primeng/divider';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ProgressBarComponent, Tag, MealCardComponent, Button],
+  imports: [ProgressBarComponent, Tag, MealCardComponent, Button, Divider],
   templateUrl: './dashboard.component.html',
   standalone: true,
   styleUrl: './dashboard.component.scss',
@@ -31,12 +32,28 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     protected profileService: ProfileService,
     protected dayService: DayService,
     protected trackingEntriesService: TrackingEntriesService,
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const dayParam = params['day'];
+      if (dayParam) {
+        this.selectedDay = new Date(dayParam);
+
+        // Validation
+        if (isNaN(this.selectedDay.getTime())) {
+          console.error('Invalid date in query param:', dayParam);
+          this.selectedDay = new Date();
+        }
+      } else {
+        this.selectedDay = new Date();
+      }
+    });
+
     this.profileService.fetchProfile();
     this.dayService.fetchDay(this.selectedDay);
     this.fetchTrackingEntries();
@@ -92,6 +109,45 @@ export class DashboardComponent implements OnInit {
 
   onProfileButtonClick(): void {
     this.router.navigate(['/profile']);
+  }
+
+  changeDay(difference: number): void {
+    const newDate = new Date(this.selectedDay);
+    newDate.setDate(newDate.getDate() + difference);
+
+    this.selectedDay = newDate;
+    this.dayService.fetchDay(this.selectedDay);
+    this.fetchTrackingEntries();
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { day: toDayString(this.selectedDay) },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  get currentDayFormatted(): string {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    const selectedDay = new Date(this.selectedDay);
+
+    if (selectedDay.toDateString() === today.toDateString()) {
+      return 'Heute';
+    } else if (selectedDay.toDateString() === yesterday.toDateString()) {
+      return 'Gestern';
+    } else if (selectedDay.toDateString() === tomorrow.toDateString()) {
+      return 'Morgen';
+    } else {
+      return selectedDay.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
   }
 
   get totalUsedCalories(): number {

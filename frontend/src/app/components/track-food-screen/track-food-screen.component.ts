@@ -22,6 +22,7 @@ import { isValidDate } from '../../utils/date.utils';
 import { TrackDialogComponent } from './track-dialog/track-dialog.component';
 import { TrackFoodEvent } from '../../data/events/track-food-event';
 import { TrackingEntriesService } from '../../services/tracking-entries.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -58,9 +59,9 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     protected productSearchService: ProductSearchService,
     protected trackingEntriesService: TrackingEntriesService,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +91,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
 
   onBack(): void {
     this.productSearchService.reset();
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
   clearQuery(): void {
