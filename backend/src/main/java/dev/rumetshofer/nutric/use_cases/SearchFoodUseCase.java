@@ -1,12 +1,14 @@
 package dev.rumetshofer.nutric.use_cases;
 
+import dev.rumetshofer.nutric.out.db.entities.TrackingEntryDbModel;
+import dev.rumetshofer.nutric.out.db.repositories.ProductRepository;
+import dev.rumetshofer.nutric.out.db.repositories.TrackingEntryRepository;
 import dev.rumetshofer.nutric.out.http.YazioSearchService;
 import dev.rumetshofer.nutric.out.http.data.YazioProduct;
-import dev.rumetshofer.nutric.use_cases.dto.Nutrition;
-import dev.rumetshofer.nutric.use_cases.dto.ProductData;
-import dev.rumetshofer.nutric.use_cases.dto.Serving;
+import dev.rumetshofer.nutric.use_cases.dto.*;
 import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import dev.rumetshofer.nutric.use_cases.enums.YazioServingUnit;
+import dev.rumetshofer.nutric.use_cases.factories.ProductDataFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,15 +19,40 @@ import java.util.UUID;
 public class SearchFoodUseCase {
 
     private final YazioSearchService yazioSearchService;
+    private final ProductRepository productRepository;
+    private final ProductDataFactory productDataFactory;
+    private final TrackingEntryRepository trackingEntryRepository;
 
-    public SearchFoodUseCase(YazioSearchService yazioSearchService) {
+    public SearchFoodUseCase(YazioSearchService yazioSearchService, ProductRepository productRepository, ProductDataFactory productDataFactory, TrackingEntryRepository trackingEntryRepository) {
         this.yazioSearchService = yazioSearchService;
+        this.productRepository = productRepository;
+        this.productDataFactory = productDataFactory;
+        this.trackingEntryRepository = trackingEntryRepository;
     }
 
-    public List<ProductData> search(String query) {
+    public List<SearchResultData> search(String query) {
         return yazioSearchService.search(query).stream()
-                .map(this::toProductData)
+                .map(this::tryFindLocalProduct)
                 .toList();
+    }
+
+    private SearchResultData tryFindLocalProduct(YazioProduct yazioProduct) {
+        return productRepository.findByExternalUuid(UUID.fromString(yazioProduct.product_id()))
+                .map((productDbModel) -> {
+                    Optional<LastTrackedData> lastTrackedData = trackingEntryRepository.findTopByProductOrderByTrackedAtDesc(productDbModel)
+                            .map(this::toLastTrackedData);
+
+                    return SearchResultData.builder()
+                            .productData(productDataFactory.fromProductDbModel(productDbModel))
+                            .lastTrackedData(lastTrackedData)
+                            .build();
+                })
+                .orElseGet(() ->
+                        SearchResultData.builder()
+                            .productData(toProductData(yazioProduct))
+                            .lastTrackedData(Optional.empty())
+                            .build()
+                );
     }
 
     private ProductData toProductData(YazioProduct yazioProduct) {
@@ -53,6 +80,13 @@ public class SearchFoodUseCase {
                 .uuid(Optional.empty())
                 .isCustomized(false)
                 .isExternal(true)
+                .build();
+    }
+
+    private LastTrackedData toLastTrackedData(TrackingEntryDbModel trackingEntryDbModel) {
+        return LastTrackedData.builder()
+                .amount(trackingEntryDbModel.getAmount())
+                .trackedInBaseUnit(trackingEntryDbModel.isTrackedInBaseUnit())
                 .build();
     }
 }

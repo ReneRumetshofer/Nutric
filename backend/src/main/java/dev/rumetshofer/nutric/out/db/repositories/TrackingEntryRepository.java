@@ -1,5 +1,6 @@
 package dev.rumetshofer.nutric.out.db.repositories;
 
+import dev.rumetshofer.nutric.out.db.entities.ProductDbModel;
 import dev.rumetshofer.nutric.out.db.entities.TrackingEntryDbModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,6 @@ public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbMo
     Optional<TrackingEntryDbModel> findByUuid(UUID uuid);
 
     Optional<TrackingEntryDbModel> findByUuidAndDay_UserUuid(UUID uuid, UUID dayUserUuid);
+
+    Optional<TrackingEntryDbModel> findTopByProductOrderByTrackedAtDesc(ProductDbModel product);
 }

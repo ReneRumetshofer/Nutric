@@ -1,14 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, of } from 'rxjs';
-import { Product, ServingUnit, Unit } from '../data/models/product.model';
+import { catchError, of } from 'rxjs';
+import { SearchResult } from '../data/models/search-result.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export default class ProductSearchService {
-  private _products = signal<Product[] | null>(null);
-  products$ = this._products.asReadonly();
+  private _searchResults = signal<SearchResult[] | null>(null);
+  searchResults$ = this._searchResults.asReadonly();
 
   private _error = signal<string | null>(null);
   error$ = this._error.asReadonly();
@@ -23,24 +23,24 @@ export default class ProductSearchService {
     this._error.set(null);
 
     this.httpClient
-      .get<Product[]>('/api/foods/search', { params: { query: query } })
+      .get<SearchResult[]>('/api/foods/search', { params: { query: query } })
       .pipe(
         catchError((err) => {
           console.error(err);
           this._loading.set(false);
-          this._error.set('Failed to load products!');
+          this._error.set('Failed to load search results!');
           return of(null);
         }),
       )
-      .subscribe((products) => {
+      .subscribe((searchResults) => {
         this._loading.set(false);
-        this._products.set(products);
+        this._searchResults.set(searchResults);
       });
   }
 
   reset(): void {
     this._loading.set(false);
     this._error.set(null);
-    this._products.set(null);
+    this._searchResults.set(null);
   }
 }

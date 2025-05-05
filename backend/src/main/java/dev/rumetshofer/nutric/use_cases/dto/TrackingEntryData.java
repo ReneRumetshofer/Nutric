@@ -5,6 +5,7 @@ import dev.rumetshofer.nutric.use_cases.enums.Unit;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
@@ -15,6 +16,7 @@ public record TrackingEntryData (
         BigDecimal amount,
         Unit baseUnit,
         Nutrition nutritionPerBaseUnit,
-        boolean trackedInBaseUnit
+        boolean trackedInBaseUnit,
+        LocalDateTime trackedAt
 ) {
 }

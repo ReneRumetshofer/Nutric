@@ -1,27 +1,44 @@
 <p-card>
   <div class="flex">
     <div class="flex-1">
-      <p class="font-bold">{{ product.name }}</p>
-      <p class="mb-2">{{ product.producer }}</p>
+      <div>
+        <span class="font-bold">{{ searchResult.productData.name }}</span>
+        @if (searchResult.productData.producer) {
+          <span class="font-light">
+            &nbsp;- {{ searchResult.productData.producer }}
+          </span>
+        }
+      </div>
       <p>
-        @if (product.serving) {
-          1 {{ mapServingUnitToGerman(product.serving.unit) }} ({{
-            product.serving.baseUnitAmount
-          }}
-          {{ mapUnitToGerman(product.baseUnit) }})
-        } @else {
-          100 {{ mapUnitToGerman(product.baseUnit) }}
+        {{ computedAmountFormatted }} {{ computedUnit }}
+        @if (shouldShowServingSize) {
+          ({{ searchResult.productData.serving!.baseUnitAmount }}
+          {{ mapUnitToGerman(searchResult.productData.baseUnit) }})
         }
       </p>
+      <div class="flex items-center mt-2">
+        @if (searchResult.lastTrackedData) {
+          <i
+            class="pi pi-history !text-xs mr-2"
+            style="color: var(--p-green-300)"
+          ></i>
+        }
+        @if (!searchResult.productData.isExternal) {
+          <p-tag value="Nutric" class="mr-2 product-card-tag"></p-tag>
+        }
+        @if (searchResult.productData.isCustomized) {
+          <p-tag
+            icon="pi pi-check"
+            severity="info"
+            value="Angepasst"
+            class="product-card-tag"
+          ></p-tag>
+        }
+      </div>
     </div>
     <div class="self-center flex">
       <p class="mr-4 self-center">
-        {{
-          Math.round(
-            product.nutritionPerBaseUnit.energy *
-              (product.serving ? product.serving.baseUnitAmount : 100)
-          )
-        }}
+        {{ computedCalories }}
         kcal
       </p>
       <p-button

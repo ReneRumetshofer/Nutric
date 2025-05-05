@@ -43,6 +43,7 @@ public class GetTrackingEntriesUseCase {
                         .protein(trackingEntryDbModel.getProteinPerBaseUnit().doubleValue())
                         .fat(trackingEntryDbModel.getFatPerBaseUnit().doubleValue())
                         .build())
+                .trackedAt(trackingEntryDbModel.getTrackedAt())
                 .build();
     }
 }

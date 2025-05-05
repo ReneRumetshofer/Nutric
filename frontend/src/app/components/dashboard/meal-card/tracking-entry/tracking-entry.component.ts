@@ -21,7 +21,11 @@ export class TrackingEntryComponent {
       return this.entry.amount;
     }
 
-    return this.entry.amount / this.entry.product.serving.baseUnitAmount;
+    return parseFloat(
+      (this.entry.amount / this.entry.product.serving.baseUnitAmount).toFixed(
+        3,
+      ),
+    );
   }
 
   get trackedUnit(): string {

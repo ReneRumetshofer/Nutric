@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -58,5 +59,8 @@ public class TrackingEntryDbModel {
 
     @Column(name = "tracked_in_base_unit", nullable = false)
     private boolean trackedInBaseUnit;
+
+    @Column(name = "tracked_at", nullable = false)
+    private LocalDateTime trackedAt;
 
 }

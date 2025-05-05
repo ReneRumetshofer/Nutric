@@ -46,10 +46,13 @@
         }}</p-message>
       } @else {
         <div class="flex flex-col gap-2">
-          @for (product of productSearchService.products$(); track product) {
+          @for (
+            searchResult of productSearchService.searchResults$();
+            track searchResult
+          ) {
             <app-product-card
-              [product]="product"
-              (onAdd)="showTrackDialog(product)"
+              [searchResult]="searchResult"
+              (onAdd)="showTrackDialog(searchResult)"
             ></app-product-card>
           }
         </div>
@@ -59,6 +62,7 @@
     <app-track-dialog
       [(visible)]="trackDialogVisible"
       [product]="selectedProduct"
+      [initialAmountSelection]="initialAmountSelection"
       (onTrackFood)="onTrackFood($event)"
     ></app-track-dialog>
   </div>

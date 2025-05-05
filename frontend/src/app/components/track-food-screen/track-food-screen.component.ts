@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import MealType, { mapMealTypeToGerman } from '../../data/meal-type.enum';
 import { Button } from 'primeng/button';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import ProductSearchService from '../../services/product-search.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import {
-  BehaviorSubject,
-  debounceTime,
-  distinctUntilChanged,
-  Subscription,
-} from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Message } from 'primeng/message';
 import { ProductCardComponent } from './product-card/product-card.component';
@@ -23,6 +18,8 @@ import { TrackDialogComponent } from './track-dialog/track-dialog.component';
 import { TrackFoodEvent } from '../../data/events/track-food-event';
 import { TrackingEntriesService } from '../../services/tracking-entries.service';
 import { Location } from '@angular/common';
+import { InitialAmountSelection } from '../../data/initial-amount-selection.model';
+import { SearchResult } from '../../data/models/search-result.model';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -47,6 +44,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   mealType: MealType | null = null;
   trackDialogVisible: boolean = false;
   selectedProduct: Product | null = null;
+  initialAmountSelection: InitialAmountSelection | null = null;
 
   queryControl: FormControl<string | null> = new FormControl<string | null>(
     null,
@@ -98,9 +96,19 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.queryControl.setValue('');
   }
 
-  showTrackDialog(product: Product): void {
+  showTrackDialog(searchResult: SearchResult): void {
     this.trackDialogVisible = true;
-    this.selectedProduct = product;
+    this.selectedProduct = searchResult.productData;
+    this.initialAmountSelection = searchResult.lastTrackedData
+      ? ({
+          amount:
+            searchResult.lastTrackedData?.amount /
+            (searchResult.lastTrackedData.trackedInBaseUnit
+              ? 1
+              : (searchResult.productData.serving?.baseUnitAmount ?? 1)),
+          baseUnitSelected: searchResult.lastTrackedData?.trackedInBaseUnit,
+        } as InitialAmountSelection)
+      : null;
   }
 
   onTrackFood(event: TrackFoodEvent): void {

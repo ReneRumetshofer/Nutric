@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -102,6 +103,7 @@ public class TrackFoodUseCase {
                 .proteinPerBaseUnit(productDbModel.getProteinPerBaseUnit())
                 .fatPerBaseUnit(productDbModel.getFatPerBaseUnit())
                 .trackedInBaseUnit(trackedInBaseUnit)
+                .trackedAt(LocalDateTime.now())
                 .build();
     }
 

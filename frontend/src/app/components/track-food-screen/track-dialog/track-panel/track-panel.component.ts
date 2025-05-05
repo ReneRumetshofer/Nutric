@@ -133,7 +133,9 @@ export class TrackPanelComponent implements OnInit, OnDestroy, OnChanges {
             option.isBaseUnit === this.initialAmountSelection!.baseUnitSelected,
         ) ?? defaultSelection,
       );
-      this.amountControl.setValue(this.initialAmountSelection.amount);
+      this.amountControl.setValue(
+        parseFloat(this.initialAmountSelection.amount.toFixed(3)),
+      );
       return;
     }
 
