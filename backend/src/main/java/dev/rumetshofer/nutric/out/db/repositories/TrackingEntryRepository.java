@@ -16,5 +16,5 @@ public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbMo
 
     Optional<TrackingEntryDbModel> findByUuidAndDay_UserUuid(UUID uuid, UUID dayUserUuid);
 
-    Optional<TrackingEntryDbModel> findTopByProductOrderByTrackedAtDesc(ProductDbModel product);
+    Optional<TrackingEntryDbModel> findTopByProductAndDay_UserUuidOrderByTrackedAtDesc(ProductDbModel product, UUID userUuid);
 }

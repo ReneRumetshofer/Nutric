@@ -30,16 +30,17 @@ public class SearchFoodUseCase {
         this.trackingEntryRepository = trackingEntryRepository;
     }
 
-    public List<SearchResultData> search(String query) {
+    public List<SearchResultData> search(String query, UUID userUuid) {
         return yazioSearchService.search(query).stream()
-                .map(this::tryFindLocalProduct)
+                .map((yazioProduct) -> tryFindLocalProduct(yazioProduct, userUuid))
                 .toList();
     }
 
-    private SearchResultData tryFindLocalProduct(YazioProduct yazioProduct) {
+    private SearchResultData tryFindLocalProduct(YazioProduct yazioProduct, UUID userUuid) {
         return productRepository.findByExternalUuid(UUID.fromString(yazioProduct.product_id()))
                 .map((productDbModel) -> {
-                    Optional<LastTrackedData> lastTrackedData = trackingEntryRepository.findTopByProductOrderByTrackedAtDesc(productDbModel)
+                    Optional<LastTrackedData> lastTrackedData = trackingEntryRepository
+                            .findTopByProductAndDay_UserUuidOrderByTrackedAtDesc(productDbModel, userUuid)
                             .map(this::toLastTrackedData);
 
                     return SearchResultData.builder()
