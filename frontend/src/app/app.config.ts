@@ -61,7 +61,7 @@ export const appConfig: ApplicationConfig = {
       },
       features: [
         withAutoRefreshToken({
-          onInactivityTimeout: 'logout',
+          onInactivityTimeout: 'login',
           sessionTimeout: 60000,
         }),
       ],
