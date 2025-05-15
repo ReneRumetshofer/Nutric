@@ -20,6 +20,7 @@ import { TrackingEntriesService } from '../../services/tracking-entries.service'
 import { Location } from '@angular/common';
 import { InitialAmountSelection } from '../../data/initial-amount-selection.model';
 import { SearchResult } from '../../data/models/search-result.model';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -34,6 +35,7 @@ import { SearchResult } from '../../data/models/search-result.model';
     InputGroup,
     InputGroupAddon,
     TrackDialogComponent,
+    ZXingScannerModule,
   ],
   templateUrl: './track-food-screen.component.html',
   standalone: true,
@@ -45,6 +47,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   trackDialogVisible: boolean = false;
   selectedProduct: Product | null = null;
   initialAmountSelection: InitialAmountSelection | null = null;
+  showBarcodeScanner: boolean = false;
 
   queryControl: FormControl<string | null> = new FormControl<string | null>(
     null,
@@ -118,6 +121,10 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.trackingEntriesService
       .trackFood(event, this.day, this.mealType)
       .subscribe();
+  }
+
+  onTriggerBarcodeScan(): void {
+    this.showBarcodeScanner = true;
   }
 
   get shouldShowSearchHelper(): boolean {

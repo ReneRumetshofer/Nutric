@@ -19,6 +19,13 @@
             placeholder="Essen suchen"
             class="w-full"
           />
+          <!--          <p-inputgroup-addon>-->
+          <!--            <p-button-->
+          <!--              icon="pi pi-barcode"-->
+          <!--              severity="secondary"-->
+          <!--              (onClick)="onTriggerBarcodeScan()"-->
+          <!--            ></p-button>-->
+          <!--          </p-inputgroup-addon>-->
           <p-inputgroup-addon>
             <p-button
               icon="pi pi-times"
@@ -65,5 +72,9 @@
       [initialAmountSelection]="initialAmountSelection"
       (onTrackFood)="onTrackFood($event)"
     ></app-track-dialog>
+
+    @if (showBarcodeScanner) {
+      <zxing-scanner></zxing-scanner>
+    }
   </div>
 }

@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  importProvidersFrom,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -22,11 +18,6 @@ import {
 import { environment } from '../environments/environment';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^\/api(\/.*)?$/i,
@@ -55,9 +46,9 @@ export const appConfig: ApplicationConfig = {
       },
       initOptions: {
         onLoad: 'login-required',
-        checkLoginIframe: true, // Enables silent refresh checks
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/public/silent-check-sso.html',
+        checkLoginIframe: false, // Enables silent refresh checks
+        // silentCheckSsoRedirectUri:
+        //   window.location.origin + '/public/silent-check-sso.html',
       },
       features: [
         withAutoRefreshToken({
