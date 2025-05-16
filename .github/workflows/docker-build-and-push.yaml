@@ -22,9 +22,9 @@ jobs:
           - backend
         include:
           - service: frontend
-            subdir: apps/frontend
+            subdir: frontend
           - service: backend
-            subdir: apps/backend
+            subdir: backend
 
     permissions:
       contents: read
