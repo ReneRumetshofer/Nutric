@@ -9,10 +9,6 @@ http {
   sendfile        on;
   keepalive_timeout  65;
 
-  upstream backend {
-    server ${BACKEND_HOST}:${BACKEND_PORT};
-  }
-
   server {
     listen 80;
     server_name localhost;
@@ -25,7 +21,7 @@ http {
     }
 
     location /api/ {
-      proxy_pass http://backend;
+      proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/;
     }
 
     error_page 404 /index.html;
