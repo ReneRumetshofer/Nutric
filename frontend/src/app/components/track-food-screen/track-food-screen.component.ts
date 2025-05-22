@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import MealType, { mapMealTypeToGerman } from '../../data/meal-type.enum';
 import { Button } from 'primeng/button';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
@@ -17,7 +17,6 @@ import { isValidDate } from '../../utils/date.utils';
 import { TrackDialogComponent } from './track-dialog/track-dialog.component';
 import { TrackFoodEvent } from '../../data/events/track-food-event';
 import { TrackingEntriesService } from '../../services/tracking-entries.service';
-import { Location } from '@angular/common';
 import { InitialAmountSelection } from '../../data/initial-amount-selection.model';
 import { SearchResult } from '../../data/models/search-result.model';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
@@ -62,7 +61,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     protected productSearchService: ProductSearchService,
     protected trackingEntriesService: TrackingEntriesService,
-    private location: Location,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +91,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
 
   onBack(): void {
     this.productSearchService.reset();
-    this.location.back();
+    this.router.navigate(['/']);
   }
 
   clearQuery(): void {

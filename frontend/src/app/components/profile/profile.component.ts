@@ -15,7 +15,6 @@ import ProfileService from '../../services/profile.service';
 import { UpdateProfileRequest } from '../../data/requests/update-profile-request.model';
 import { firstValueFrom } from 'rxjs';
 import { Toast } from 'primeng/toast';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -41,7 +40,7 @@ export class ProfileComponent {
   constructor(
     private fb: FormBuilder,
     protected profileService: ProfileService,
-    private location: Location,
+    private router: Router,
   ) {
     this.constructForm();
 
@@ -80,7 +79,7 @@ export class ProfileComponent {
   }
 
   onBack(): void {
-    this.location.back();
+    this.router.navigate(['/']);
   }
 
   async onSave(): Promise<void> {

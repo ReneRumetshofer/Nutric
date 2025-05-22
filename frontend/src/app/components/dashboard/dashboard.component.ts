@@ -14,6 +14,7 @@ import { UpdateTrackingEntryEvent } from '../../data/events/update-tracking-entr
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import Day from '../../data/models/day.model';
+import SelectedDateService from '../../services/selected-date.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
     protected profileService: ProfileService,
     protected dayService: DayService,
     protected trackingEntriesService: TrackingEntriesService,
+    private selectedDateService: SelectedDateService,
   ) {}
 
   ngOnInit(): void {
@@ -50,15 +52,18 @@ export class DashboardComponent implements OnInit {
           console.error('Invalid date in query param:', dayParam);
           this.selectedDay = new Date();
         }
-      } else {
-        this.selectedDay = new Date();
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { day: toDayString(this.selectedDay) },
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
+        return;
       }
+
+      const selectedDate = this.selectedDateService.selectedDate$();
+      this.selectedDay = selectedDate || new Date();
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { day: toDayString(this.selectedDay) },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
     });
 
     this.profileService.fetchProfile();
@@ -128,6 +133,8 @@ export class DashboardComponent implements OnInit {
     this.selectedDay = date;
     this.dayService.fetchDay(this.selectedDay);
     this.fetchTrackingEntries();
+
+    this.selectedDateService.setSelectedDate(this.selectedDay);
 
     this.router.navigate([], {
       relativeTo: this.route,
