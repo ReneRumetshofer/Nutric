@@ -1,15 +1,15 @@
-<p-card>
+<p-card (click)="onAdd.emit()">
   <div class="flex">
     <div class="flex-1">
-      <div>
-        <span class="font-bold">{{ searchResult.productData.name }}</span>
-        @if (searchResult.productData.producer) {
-          <span class="font-light">
-            &nbsp;- {{ searchResult.productData.producer }}
-          </span>
-        }
+      <div class="font-bold">
+        {{ searchResult.productData.name }}
       </div>
-      <p>
+      @if (searchResult.productData.producer) {
+        <div class="font-light">
+          {{ searchResult.productData.producer }}
+        </div>
+      }
+      <p class="mt-1">
         {{ computedAmountFormatted }} {{ computedUnit }}
         @if (shouldShowServingSize) {
           ({{ searchResult.productData.serving!.baseUnitAmount }}
@@ -36,7 +36,7 @@
         }
       </div>
     </div>
-    <div class="self-center flex">
+    <div class="self-center flex ml-2">
       <p class="mr-4 self-center">
         {{ computedCalories }}
         kcal
