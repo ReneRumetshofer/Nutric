@@ -35,5 +35,37 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      BACKEND_HOST: backend
+      BACKEND_PORT: 8081
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      POSTGRES_CONNECTION_STRING: jdbc:postgresql://postgres_db:5432/nutric
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: postgrespassword
+      YAZIO_API_CLIENT_ID: ${YAZIO_API_CLIENT_ID}
+      YAZIO_API_CLIENT_SECRET: ${YAZIO_API_CLIENT_SECRET}
+      YAZIO_API_USER: ${YAZIO_API_USER}
+      YAZIO_API_PASSWORD: ${YAZIO_API_PASSWORD}
+    depends_on:
+      - postgres
+      - keycloak
+
 volumes:
   nutric_postgres_data:

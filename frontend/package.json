@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^19.2.12",
     "@angular/platform-browser-dynamic": "^19.2.12",
     "@angular/router": "^19.2.12",
+    "@angular/service-worker": "^19.2.12",
     "@primeng/themes": "^19.0.10",
     "@tailwindcss/postcss": "^4.1.4",
     "@zxing/browser": "^0.1.5",
