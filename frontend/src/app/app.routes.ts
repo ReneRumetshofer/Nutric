@@ -6,7 +6,7 @@ export const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [isAuthenticated] },
   {
     path: 'track',
-    loadChildren: () =>
+    loadComponent: () =>
       import('./components/track-food-screen/track-food-screen.component').then(
         (m) => m.TrackFoodScreenComponent,
       ),
@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () =>
+    loadComponent: () =>
       import('./components/profile/profile.component').then(
         (m) => m.ProfileComponent,
       ),
