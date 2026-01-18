@@ -22,6 +22,8 @@ import { SearchResult } from '../../data/models/search-result.model';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AutoFocus } from 'primeng/autofocus';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { TrackFoodTab } from './tabs.enum';
+import LastTrackedFoodService from '../../services/last-tracked-food.service';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -55,7 +57,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null = null;
   initialAmountSelection: InitialAmountSelection | null = null;
   showBarcodeScanner: boolean = false;
-  value: number = 0;
+  selectedTab: TrackFoodTab = TrackFoodTab.LAST;
 
   queryControl: FormControl<string | null> = new FormControl<string | null>(
     null,
@@ -70,6 +72,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     protected productSearchService: ProductSearchService,
     protected trackingEntriesService: TrackingEntriesService,
+    protected lastTrackedFoodService: LastTrackedFoodService,
     private router: Router,
   ) {}
 
@@ -79,6 +82,8 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
       this.mealType = params['mealType'];
     });
 
+    this.lastTrackedFoodService.loadLastTrackedFood();
+
     this.subscriptions.push(
       this.queryControl.valueChanges
         .pipe(
@@ -86,8 +91,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
             if (queryString == '') {
               return;
             }
-            this.value = 2;
-            console.log('Search query changed', this.value);
+            this.selectedTab = TrackFoodTab.SEARCH;
           }),
           debounceTime(400),
           distinctUntilChanged(),
@@ -160,4 +164,5 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   }
 
   protected readonly mapMealTypeToGerman = mapMealTypeToGerman;
+  protected readonly TrackFoodTab = TrackFoodTab;
 }

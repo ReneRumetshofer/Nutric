@@ -44,18 +44,49 @@
     </div>
 
     <div class="mt-6">
-      <p-tabs [value]="value">
+      <p-tabs [value]="selectedTab">
         <p-tablist>
-          <p-tab [value]="0">Letzte</p-tab>
-          <p-tab [value]="1" disabled>Häufig</p-tab>
-          <p-tab [value]="2">Suchen</p-tab>
+          <p-tab [value]="TrackFoodTab.LAST" class="flex items-center">
+            Letzte
+          </p-tab>
+          <p-tab
+            [value]="TrackFoodTab.REGULAR"
+            class="flex items-center"
+            disabled
+          >
+            Häufig
+          </p-tab>
+          <p-tab [value]="TrackFoodTab.SEARCH" class="flex items-center">
+            Suchen
+          </p-tab>
         </p-tablist>
         <p-tabpanels>
-          <p-tabpanel [value]="0"> Test </p-tabpanel>
+          <p-tabpanel [value]="0">
+            @if (lastTrackedFoodService.loading$()) {
+              <div class="flex justify-center">
+                <p-progress-spinner ariaLabel="loading" />
+              </div>
+            } @else if (lastTrackedFoodService.error$()) {
+              <p-message severity="error" variant="outlined">{{
+                lastTrackedFoodService.error$()
+              }}</p-message>
+            } @else {
+              <div class="flex flex-col gap-2">
+                @for (
+                  lastTrackedResult of lastTrackedFoodService.lastTrackedFoods$();
+                  track lastTrackedResult
+                ) {
+                  <app-product-card
+                    [searchResult]="lastTrackedResult"
+                    (onAdd)="showTrackDialog(lastTrackedResult)"
+                  ></app-product-card>
+                }
+              </div>
+            }
+          </p-tabpanel>
           <p-tabpanel [value]="2">
             @if (productSearchService.loading$()) {
               <div class="flex justify-center">
-                dw
                 <p-progress-spinner ariaLabel="loading" />
               </div>
             } @else if (productSearchService.error$()) {
