@@ -21,9 +21,9 @@ export class ProductCardComponent {
 
   get computedAmountFormatted(): number {
     let computedAmount = 0;
-    if (this.searchResult.lastTrackedAmountData) {
-      const statedAmount = this.searchResult.lastTrackedAmountData.amount;
-      computedAmount = this.searchResult.lastTrackedAmountData.trackedInBaseUnit
+    if (this.searchResult.lastTrackedData) {
+      const statedAmount = this.searchResult.lastTrackedData.amount;
+      computedAmount = this.searchResult.lastTrackedData.trackedInBaseUnit
         ? statedAmount
         : statedAmount /
           (this.searchResult.productData.serving?.baseUnitAmount ?? 1);
@@ -35,8 +35,8 @@ export class ProductCardComponent {
   }
 
   get computedUnit(): string {
-    if (this.searchResult.lastTrackedAmountData) {
-      return !this.searchResult.lastTrackedAmountData.trackedInBaseUnit &&
+    if (this.searchResult.lastTrackedData) {
+      return !this.searchResult.lastTrackedData.trackedInBaseUnit &&
         this.searchResult.productData.serving
         ? mapServingUnitToGerman(this.searchResult.productData.serving.unit)
         : mapUnitToGerman(this.searchResult.productData.baseUnit);
@@ -49,16 +49,16 @@ export class ProductCardComponent {
 
   get shouldShowServingSize(): boolean {
     return (
-      this.searchResult.lastTrackedAmountData == null &&
+      this.searchResult.lastTrackedData == null &&
       this.searchResult.productData.serving != null
     );
   }
 
   get computedCalories(): number {
     let computedBaseUnitAmount = 0;
-    if (this.searchResult.lastTrackedAmountData) {
-      const statedAmount = this.searchResult.lastTrackedAmountData.amount;
-      computedBaseUnitAmount = this.searchResult.lastTrackedAmountData
+    if (this.searchResult.lastTrackedData) {
+      const statedAmount = this.searchResult.lastTrackedData.amount;
+      computedBaseUnitAmount = this.searchResult.lastTrackedData
         .trackedInBaseUnit
         ? statedAmount
         : (this.searchResult.productData.serving?.baseUnitAmount ?? 1);

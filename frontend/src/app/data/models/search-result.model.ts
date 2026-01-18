@@ -1,11 +1,11 @@
 import { Product } from './product.model';
 
 export interface SearchResult {
-  lastTrackedAmountData: LastTrackedAmountData | null;
+  lastTrackedData: LastTrackedData | null;
   productData: Product;
 }
 
-export interface LastTrackedAmountData {
+export interface LastTrackedData {
   amount: number;
   trackedInBaseUnit: boolean;
 }

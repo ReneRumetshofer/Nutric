@@ -2,7 +2,6 @@ package dev.rumetshofer.nutric.out.db.repositories;
 
 import dev.rumetshofer.nutric.out.db.entities.ProductDbModel;
 import dev.rumetshofer.nutric.out.db.entities.TrackingEntryDbModel;
-import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -18,6 +17,4 @@ public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbMo
     Optional<TrackingEntryDbModel> findByUuidAndDay_UserUuid(UUID uuid, UUID dayUserUuid);
 
     Optional<TrackingEntryDbModel> findTopByProductAndDay_UserUuidOrderByTrackedAtDesc(ProductDbModel product, UUID userUuid);
-
-    List<TrackingEntryDbModel> findAllByDay_UserUuidOrderByTrackedAtDesc(UUID dayUserUuid, Limit limit);
 }

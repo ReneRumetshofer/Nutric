@@ -6,7 +6,7 @@ import java.util.Optional;
 
 @Builder
 public record SearchResultData(
-        Optional<LastTrackedAmountData> lastTrackedAmountData,
+        Optional<LastTrackedData> lastTrackedData,
         ProductData productData
 ) {
 }
