@@ -17,6 +17,7 @@
             pInputText
             formControlName="queryControl"
             placeholder="Essen suchen"
+            [pAutoFocus]="true"
             class="w-full"
           />
           <!--          <p-inputgroup-addon>-->
@@ -36,34 +37,47 @@
         </p-inputgroup>
         @if (shouldShowSearchHelper) {
           <small id="query-help" class="ml-1 mt-1">
-            Bitte mindestens 3 Zeichen eingeben
+            Bitte mindestens 2 Zeichen eingeben
           </small>
         }
       </div>
     </div>
 
     <div class="mt-6">
-      @if (productSearchService.loading$()) {
-        <div class="flex justify-center">
-          <p-progress-spinner ariaLabel="loading" />
-        </div>
-      } @else if (productSearchService.error$()) {
-        <p-message severity="error" variant="outlined">{{
-          productSearchService.error$()
-        }}</p-message>
-      } @else {
-        <div class="flex flex-col gap-2">
-          @for (
-            searchResult of productSearchService.searchResults$();
-            track searchResult
-          ) {
-            <app-product-card
-              [searchResult]="searchResult"
-              (onAdd)="showTrackDialog(searchResult)"
-            ></app-product-card>
-          }
-        </div>
-      }
+      <p-tabs [value]="value">
+        <p-tablist>
+          <p-tab [value]="0">Letzte</p-tab>
+          <p-tab [value]="1" disabled>Häufig</p-tab>
+          <p-tab [value]="2">Suchen</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel [value]="0"> Test </p-tabpanel>
+          <p-tabpanel [value]="2">
+            @if (productSearchService.loading$()) {
+              <div class="flex justify-center">
+                dw
+                <p-progress-spinner ariaLabel="loading" />
+              </div>
+            } @else if (productSearchService.error$()) {
+              <p-message severity="error" variant="outlined">{{
+                productSearchService.error$()
+              }}</p-message>
+            } @else {
+              <div class="flex flex-col gap-2">
+                @for (
+                  searchResult of productSearchService.searchResults$();
+                  track searchResult
+                ) {
+                  <app-product-card
+                    [searchResult]="searchResult"
+                    (onAdd)="showTrackDialog(searchResult)"
+                  ></app-product-card>
+                }
+              </div>
+            }
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
     </div>
 
     <app-track-dialog
