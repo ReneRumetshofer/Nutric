@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public record LastTrackedData(
+public record LastTrackedAmountData(
         BigDecimal amount,
         boolean trackedInBaseUnit
 ) {
