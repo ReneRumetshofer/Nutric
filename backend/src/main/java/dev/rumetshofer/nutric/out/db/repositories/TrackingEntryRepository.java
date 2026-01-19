@@ -34,6 +34,7 @@ public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbMo
         WHERE day.userUuid = :userUuid
           AND t.trackedAt >= :fromDate
           AND t.mealType = :mealType
+          AND t.deleted = false
         GROUP BY t.product.id
         ORDER BY COUNT(t) DESC
         LIMIT :limit

@@ -17,6 +17,8 @@ import { Tag } from 'primeng/tag';
 })
 export class ProductCardComponent {
   @Input() searchResult!: SearchResult;
+  @Input() showRecentlyTrackedBadge: boolean = true;
+  @Input() showNutricBadge: boolean = true;
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 
   get computedAmountFormatted(): number {

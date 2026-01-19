@@ -77,6 +77,8 @@
                 ) {
                   <app-product-card
                     [searchResult]="lastTrackedResult"
+                    [showNutricBadge]="false"
+                    [showRecentlyTrackedBadge]="false"
                     (onAdd)="showTrackDialog(lastTrackedResult)"
                   ></app-product-card>
                 }
@@ -100,6 +102,8 @@
                   ) {
                   <app-product-card
                     [searchResult]="frequentlyTrackedResult"
+                    [showNutricBadge]="false"
+                    [showRecentlyTrackedBadge]="false"
                     (onAdd)="showTrackDialog(frequentlyTrackedResult)"
                   ></app-product-card>
                 }

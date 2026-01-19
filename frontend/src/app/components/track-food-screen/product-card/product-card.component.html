@@ -17,13 +17,13 @@
         }
       </p>
       <div class="flex items-center mt-2">
-        @if (searchResult.lastTrackedAmountData) {
+        @if (searchResult.lastTrackedAmountData && showRecentlyTrackedBadge) {
           <i
             class="pi pi-history !text-xs mr-2"
             style="color: var(--p-green-300)"
           ></i>
         }
-        @if (!searchResult.productData.isExternal) {
+        @if (!searchResult.productData.isExternal && showNutricBadge) {
           <p-tag value="Nutric" class="mr-2 product-card-tag"></p-tag>
         }
         @if (searchResult.productData.isCustomized) {
