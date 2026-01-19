@@ -18,11 +18,11 @@ export class TrackingEntryComponent {
 
   get calculatedAmount(): number {
     if (this.entry.trackedInBaseUnit || !this.entry.product.serving) {
-      return this.entry.amount;
+      return this.entry.amountInBaseUnit;
     }
 
     return parseFloat(
-      (this.entry.amount / this.entry.product.serving.baseUnitAmount).toFixed(
+      (this.entry.amountInBaseUnit / this.entry.product.serving.baseUnitAmount).toFixed(
         3,
       ),
     );

@@ -18,7 +18,7 @@ public class UpdateTrackingEntryUseCase {
                 .findByUuidAndDay_UserUuid(trackingEntryUuid, userUuid)
                 .orElseThrow(() -> new TrackingEntryNotFoundException(trackingEntryUuid));
 
-        foundEntry.setAmount(request.amount());
+        foundEntry.setAmountInBaseUnit(request.amountInBaseUnit());
         foundEntry.setTrackedInBaseUnit(request.trackedInBaseUnit());
         trackingEntryRepository.save(foundEntry);
     }

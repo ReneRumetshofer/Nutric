@@ -6,7 +6,7 @@ import { PageHeaderComponent } from '../shared/page-header/page-header.component
 import ProductSearchService from '../../services/product-search.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subscription, tap } from 'rxjs';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Message } from 'primeng/message';
 import { ProductCardComponent } from './product-card/product-card.component';
@@ -20,6 +20,12 @@ import { TrackingEntriesService } from '../../services/tracking-entries.service'
 import { InitialAmountSelection } from '../../data/initial-amount-selection.model';
 import { SearchResult } from '../../data/models/search-result.model';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { AutoFocus } from 'primeng/autofocus';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { TrackFoodTab } from './tabs.enum';
+import LastTrackedFoodService from '../../services/last-tracked-food.service';
+import {LastTrackedFood} from '../../data/models/last-tracked-food.model';
+import FrequentlyTrackedFoodService from '../../services/frequently-tracked-food.service';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -35,6 +41,12 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     InputGroupAddon,
     TrackDialogComponent,
     ZXingScannerModule,
+    AutoFocus,
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
   ],
   templateUrl: './track-food-screen.component.html',
   standalone: true,
@@ -47,6 +59,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null = null;
   initialAmountSelection: InitialAmountSelection | null = null;
   showBarcodeScanner: boolean = false;
+  selectedTab: TrackFoodTab = TrackFoodTab.LAST;
 
   queryControl: FormControl<string | null> = new FormControl<string | null>(
     null,
@@ -61,6 +74,8 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     protected productSearchService: ProductSearchService,
     protected trackingEntriesService: TrackingEntriesService,
+    protected lastTrackedFoodService: LastTrackedFoodService,
+    protected frequentlyTrackedFoodService: FrequentlyTrackedFoodService,
     private router: Router,
   ) {}
 
@@ -68,12 +83,29 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params) => {
       this.day = params['day'];
       this.mealType = params['mealType'];
+
+      if (this.mealType) {
+        this.frequentlyTrackedFoodService.loadFrequentlyTrackedFood(this.mealType);
+      }
     });
+
+    this.lastTrackedFoodService.loadLastTrackedFood();
 
     this.subscriptions.push(
       this.queryControl.valueChanges
-        .pipe(debounceTime(400), distinctUntilChanged())
-        .subscribe((query) => this.triggerSearch(query)),
+        .pipe(
+          tap((queryString) => {
+            if (queryString == '') {
+              return;
+            }
+          }),
+          debounceTime(400),
+          distinctUntilChanged(),
+        )
+        .subscribe((query) => {
+          this.selectedTab = TrackFoodTab.SEARCH;
+          this.triggerSearch(query)
+        }),
     );
   }
 
@@ -98,17 +130,18 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.queryControl.setValue('');
   }
 
-  showTrackDialog(searchResult: SearchResult): void {
+  showTrackDialog(entry: SearchResult | LastTrackedFood): void {
     this.trackDialogVisible = true;
-    this.selectedProduct = searchResult.productData;
-    this.initialAmountSelection = searchResult.lastTrackedData
+    this.selectedProduct = entry.productData;
+    this.initialAmountSelection = entry.lastTrackedAmountData
       ? ({
           amount:
-            searchResult.lastTrackedData?.amount /
-            (searchResult.lastTrackedData.trackedInBaseUnit
+            entry.lastTrackedAmountData?.amountInBaseUnit /
+            (entry.lastTrackedAmountData.trackedInBaseUnit
               ? 1
-              : (searchResult.productData.serving?.baseUnitAmount ?? 1)),
-          baseUnitSelected: searchResult.lastTrackedData?.trackedInBaseUnit,
+              : (entry.productData.serving?.baseUnitAmount ?? 1)),
+          baseUnitSelected:
+            entry.lastTrackedAmountData?.trackedInBaseUnit,
         } as InitialAmountSelection)
       : null;
   }
@@ -128,7 +161,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
 
   get shouldShowSearchHelper(): boolean {
     const length = this.queryControl.value?.length ?? 0;
-    return length > 0 && length < 3;
+    return length > 0 && length < 2;
   }
 
   get isValidDay(): boolean {
@@ -140,4 +173,5 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   }
 
   protected readonly mapMealTypeToGerman = mapMealTypeToGerman;
+  protected readonly TrackFoodTab = TrackFoodTab;
 }

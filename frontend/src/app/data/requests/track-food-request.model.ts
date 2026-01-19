@@ -4,6 +4,6 @@ export interface TrackFoodRequest {
   product: Product;
   mealType: string;
   baseUnit: string;
-  amount: number;
+  amountInBaseUnit: number;
   trackedInBaseUnit: boolean;
 }

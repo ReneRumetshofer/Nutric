@@ -45,8 +45,8 @@ export class MealCardComponent {
     this.editDialogVisible = true;
     this.initialAmountSelection = {
       amount: trackingEntry.trackedInBaseUnit
-        ? trackingEntry.amount
-        : trackingEntry.amount /
+        ? trackingEntry.amountInBaseUnit
+        : trackingEntry.amountInBaseUnit /
           (trackingEntry.product.serving?.baseUnitAmount ?? 1),
       baseUnitSelected: trackingEntry.trackedInBaseUnit,
     };
@@ -75,7 +75,7 @@ export class MealCardComponent {
     }
 
     return this.trackingEntries.reduce(
-      (acc, entry) => acc + entry.amount * entry.nutritionPerBaseUnit.energy,
+      (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.energy,
       0,
     );
   }
@@ -86,7 +86,7 @@ export class MealCardComponent {
     }
 
     return this.trackingEntries.reduce(
-      (acc, entry) => acc + entry.amount * entry.nutritionPerBaseUnit.carbs,
+      (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.carbs,
       0,
     );
   }
@@ -97,7 +97,7 @@ export class MealCardComponent {
     }
 
     return this.trackingEntries.reduce(
-      (acc, entry) => acc + entry.amount * entry.nutritionPerBaseUnit.protein,
+      (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.protein,
       0,
     );
   }
@@ -108,7 +108,7 @@ export class MealCardComponent {
     }
 
     return this.trackingEntries.reduce(
-      (acc, entry) => acc + entry.amount * entry.nutritionPerBaseUnit.fat,
+      (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.fat,
       0,
     );
   }

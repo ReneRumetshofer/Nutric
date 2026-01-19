@@ -38,8 +38,8 @@ public class TrackingEntryDbModel {
     @JoinColumn(name = "product_id", nullable = false)
     private ProductDbModel product;
 
-    @Column(name = "amount", nullable = false, precision = 10, scale = 3)
-    private BigDecimal amount;
+    @Column(name = "amount_in_base_unit", nullable = false, precision = 10, scale = 3)
+    private BigDecimal amountInBaseUnit;
 
     @Column(name = "base_unit", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -62,5 +62,8 @@ public class TrackingEntryDbModel {
 
     @Column(name = "tracked_at", nullable = false)
     private LocalDateTime trackedAt;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
 
 }

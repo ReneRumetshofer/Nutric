@@ -55,7 +55,7 @@ export class TrackingEntriesService {
       product: trackFoodEvent.product,
       mealType: mealType,
       baseUnit: trackFoodEvent.trackingUnitSelection.baseUnit,
-      amount: this.calculateEffectiveAmount(
+      amountInBaseUnit: this.calculateEffectiveAmount(
         trackFoodEvent.amount,
         trackFoodEvent.trackingUnitSelection,
       ),
@@ -79,7 +79,7 @@ export class TrackingEntriesService {
     day: string,
   ): Observable<any> {
     const request: UpdateTrackingEntryRequest = {
-      amount: this.calculateEffectiveAmount(
+      amountInBaseUnit: this.calculateEffectiveAmount(
         updateTrackingEntryEvent.amount,
         updateTrackingEntryEvent.trackingUnitSelection,
       ),

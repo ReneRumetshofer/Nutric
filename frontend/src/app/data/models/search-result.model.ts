@@ -1,11 +1,7 @@
 import { Product } from './product.model';
+import { LastTrackedAmountData } from './last-tracked-amount-data.model';
 
 export interface SearchResult {
-  lastTrackedData: LastTrackedData | null;
+  lastTrackedAmountData: LastTrackedAmountData | null;
   productData: Product;
-}
-
-export interface LastTrackedData {
-  amount: number;
-  trackedInBaseUnit: boolean;
 }

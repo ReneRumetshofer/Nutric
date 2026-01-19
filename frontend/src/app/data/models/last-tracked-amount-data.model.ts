@@ -1,4 +1,4 @@
-export interface UpdateTrackingEntryRequest {
+export interface LastTrackedAmountData {
   amountInBaseUnit: number;
   trackedInBaseUnit: boolean;
 }

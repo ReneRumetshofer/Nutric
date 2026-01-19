@@ -5,7 +5,7 @@ export interface TrackingEntry {
   uuid: string;
   mealType: MealType;
   product: Product;
-  amount: number;
+  amountInBaseUnit: number;
   baseUnit: Unit;
   nutritionPerBaseUnit: Nutrition;
   trackedInBaseUnit: boolean;

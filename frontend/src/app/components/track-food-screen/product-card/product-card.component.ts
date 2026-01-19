@@ -17,13 +17,15 @@ import { Tag } from 'primeng/tag';
 })
 export class ProductCardComponent {
   @Input() searchResult!: SearchResult;
+  @Input() showRecentlyTrackedBadge: boolean = true;
+  @Input() showNutricBadge: boolean = true;
   @Output() onAdd: EventEmitter<void> = new EventEmitter<void>();
 
   get computedAmountFormatted(): number {
     let computedAmount = 0;
-    if (this.searchResult.lastTrackedData) {
-      const statedAmount = this.searchResult.lastTrackedData.amount;
-      computedAmount = this.searchResult.lastTrackedData.trackedInBaseUnit
+    if (this.searchResult.lastTrackedAmountData) {
+      const statedAmount = this.searchResult.lastTrackedAmountData.amountInBaseUnit;
+      computedAmount = this.searchResult.lastTrackedAmountData.trackedInBaseUnit
         ? statedAmount
         : statedAmount /
           (this.searchResult.productData.serving?.baseUnitAmount ?? 1);
@@ -35,8 +37,8 @@ export class ProductCardComponent {
   }
 
   get computedUnit(): string {
-    if (this.searchResult.lastTrackedData) {
-      return !this.searchResult.lastTrackedData.trackedInBaseUnit &&
+    if (this.searchResult.lastTrackedAmountData) {
+      return !this.searchResult.lastTrackedAmountData.trackedInBaseUnit &&
         this.searchResult.productData.serving
         ? mapServingUnitToGerman(this.searchResult.productData.serving.unit)
         : mapUnitToGerman(this.searchResult.productData.baseUnit);
@@ -49,19 +51,15 @@ export class ProductCardComponent {
 
   get shouldShowServingSize(): boolean {
     return (
-      this.searchResult.lastTrackedData == null &&
+      this.searchResult.lastTrackedAmountData == null &&
       this.searchResult.productData.serving != null
     );
   }
 
   get computedCalories(): number {
     let computedBaseUnitAmount = 0;
-    if (this.searchResult.lastTrackedData) {
-      const statedAmount = this.searchResult.lastTrackedData.amount;
-      computedBaseUnitAmount = this.searchResult.lastTrackedData
-        .trackedInBaseUnit
-        ? statedAmount
-        : (this.searchResult.productData.serving?.baseUnitAmount ?? 1);
+    if (this.searchResult.lastTrackedAmountData) {
+      computedBaseUnitAmount = this.searchResult.lastTrackedAmountData.amountInBaseUnit;
     } else {
       computedBaseUnitAmount = this.searchResult.productData.serving
         ? this.searchResult.productData.serving.baseUnitAmount
