@@ -91,12 +91,14 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
             if (queryString == '') {
               return;
             }
-            this.selectedTab = TrackFoodTab.SEARCH;
           }),
           debounceTime(400),
           distinctUntilChanged(),
         )
-        .subscribe((query) => this.triggerSearch(query)),
+        .subscribe((query) => {
+          this.selectedTab = TrackFoodTab.SEARCH;
+          this.triggerSearch(query)
+        }),
     );
   }
 

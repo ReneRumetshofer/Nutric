@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface TrackingEntryRepository extends JpaRepository<TrackingEntryDbModel, Long> {
-    List<TrackingEntryDbModel> findAllByDay_DayAndDay_UserUuid(LocalDate dayDay, UUID dayUserUuid);
+    List<TrackingEntryDbModel> findAllByDeletedFalseAndDay_DayAndDay_UserUuid(LocalDate dayDay, UUID dayUserUuid);
 
     Optional<TrackingEntryDbModel> findByUuid(UUID uuid);
 

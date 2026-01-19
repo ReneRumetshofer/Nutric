@@ -14,11 +14,9 @@ import java.util.UUID;
 public class DeleteTrackingEntryUseCase {
 
     private final TrackingEntryRepository trackingEntryRepository;
-    private final DayRepository dayRepository;
 
-    public DeleteTrackingEntryUseCase(TrackingEntryRepository trackingEntryRepository, DayRepository dayRepository) {
+    public DeleteTrackingEntryUseCase(TrackingEntryRepository trackingEntryRepository) {
         this.trackingEntryRepository = trackingEntryRepository;
-        this.dayRepository = dayRepository;
     }
 
     public void deleteTrackingEntry(UUID userUuid, UUID trackingEntryUuid) {
@@ -31,13 +29,8 @@ public class DeleteTrackingEntryUseCase {
             );
         }
 
-        trackingEntryRepository.delete(trackingEntryDbModel);
-
-        List<TrackingEntryDbModel> trackingEntriesLeft = trackingEntryRepository
-                .findAllByDay_DayAndDay_UserUuid(trackingEntryDbModel.getDay().getDay(), userUuid);
-        if (trackingEntriesLeft.isEmpty()) {
-            dayRepository.delete(trackingEntryDbModel.getDay());
-        }
+        trackingEntryDbModel.setDeleted(true);
+        trackingEntryRepository.save(trackingEntryDbModel);
     }
 
 }

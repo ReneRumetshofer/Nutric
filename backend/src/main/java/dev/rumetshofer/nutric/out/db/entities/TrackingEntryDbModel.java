@@ -63,4 +63,7 @@ public class TrackingEntryDbModel {
     @Column(name = "tracked_at", nullable = false)
     private LocalDateTime trackedAt;
 
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
+
 }

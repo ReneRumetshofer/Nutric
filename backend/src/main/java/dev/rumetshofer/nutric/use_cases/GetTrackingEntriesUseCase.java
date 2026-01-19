@@ -23,7 +23,7 @@ public class GetTrackingEntriesUseCase {
     }
 
     public List<TrackingEntryData> getEntries(UUID userUuid, LocalDate day) {
-        return trackingEntryRepository.findAllByDay_DayAndDay_UserUuid(day, userUuid)
+        return trackingEntryRepository.findAllByDeletedFalseAndDay_DayAndDay_UserUuid(day, userUuid)
                 .stream()
                 .map(this::toTrackingEntryData)
                 .toList();
