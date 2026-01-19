@@ -24,6 +24,7 @@ import { AutoFocus } from 'primeng/autofocus';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TrackFoodTab } from './tabs.enum';
 import LastTrackedFoodService from '../../services/last-tracked-food.service';
+import {LastTrackedFood} from '../../data/models/last-tracked-food.model';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -123,18 +124,18 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.queryControl.setValue('');
   }
 
-  showTrackDialog(searchResult: SearchResult): void {
+  showTrackDialog(entry: SearchResult | LastTrackedFood): void {
     this.trackDialogVisible = true;
-    this.selectedProduct = searchResult.productData;
-    this.initialAmountSelection = searchResult.lastTrackedAmountData
+    this.selectedProduct = entry.productData;
+    this.initialAmountSelection = entry.lastTrackedAmountData
       ? ({
           amount:
-            searchResult.lastTrackedAmountData?.amount /
-            (searchResult.lastTrackedAmountData.trackedInBaseUnit
+            entry.lastTrackedAmountData?.amountInBaseUnit /
+            (entry.lastTrackedAmountData.trackedInBaseUnit
               ? 1
-              : (searchResult.productData.serving?.baseUnitAmount ?? 1)),
+              : (entry.productData.serving?.baseUnitAmount ?? 1)),
           baseUnitSelected:
-            searchResult.lastTrackedAmountData?.trackedInBaseUnit,
+            entry.lastTrackedAmountData?.trackedInBaseUnit,
         } as InitialAmountSelection)
       : null;
   }

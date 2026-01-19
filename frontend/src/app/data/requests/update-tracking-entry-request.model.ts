@@ -1,4 +1,4 @@
 export interface UpdateTrackingEntryRequest {
-  amount: number;
+  amountInBaseUnit: number;
   trackedInBaseUnit: boolean;
 }

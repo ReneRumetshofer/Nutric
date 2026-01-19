@@ -9,7 +9,7 @@ public class LastTrackedAmountDataFactory {
 
     public LastTrackedAmountData fromTrackingEntryDbModel(TrackingEntryDbModel trackingEntryDbModel) {
         return LastTrackedAmountData.builder()
-                .amount(trackingEntryDbModel.getAmount())
+                .amountInBaseUnit(trackingEntryDbModel.getAmountInBaseUnit())
                 .trackedInBaseUnit(trackingEntryDbModel.isTrackedInBaseUnit())
                 .build();
     }

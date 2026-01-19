@@ -22,7 +22,7 @@ export class ProductCardComponent {
   get computedAmountFormatted(): number {
     let computedAmount = 0;
     if (this.searchResult.lastTrackedAmountData) {
-      const statedAmount = this.searchResult.lastTrackedAmountData.amount;
+      const statedAmount = this.searchResult.lastTrackedAmountData.amountInBaseUnit;
       computedAmount = this.searchResult.lastTrackedAmountData.trackedInBaseUnit
         ? statedAmount
         : statedAmount /
@@ -57,11 +57,7 @@ export class ProductCardComponent {
   get computedCalories(): number {
     let computedBaseUnitAmount = 0;
     if (this.searchResult.lastTrackedAmountData) {
-      const statedAmount = this.searchResult.lastTrackedAmountData.amount;
-      computedBaseUnitAmount = this.searchResult.lastTrackedAmountData
-        .trackedInBaseUnit
-        ? statedAmount
-        : (this.searchResult.productData.serving?.baseUnitAmount ?? 1);
+      computedBaseUnitAmount = this.searchResult.lastTrackedAmountData.amountInBaseUnit;
     } else {
       computedBaseUnitAmount = this.searchResult.productData.serving
         ? this.searchResult.productData.serving.baseUnitAmount

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Builder
 public record LastTrackedAmountData(
-        BigDecimal amount,
+        BigDecimal amountInBaseUnit,
         boolean trackedInBaseUnit
 ) {
 }

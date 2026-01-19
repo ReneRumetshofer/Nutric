@@ -1,4 +1,4 @@
 export interface LastTrackedAmountData {
-  amount: number;
+  amountInBaseUnit: number;
   trackedInBaseUnit: boolean;
 }

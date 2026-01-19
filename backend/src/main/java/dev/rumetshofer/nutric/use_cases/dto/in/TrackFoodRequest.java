@@ -14,7 +14,7 @@ public record TrackFoodRequest(
         ProductData product,
         LocalDate day,
         MealType mealType,
-        BigDecimal amount,
+        BigDecimal amountInBaseUnit,
         Unit baseUnit,
         UUID userUuid,
         boolean trackedInBaseUnit

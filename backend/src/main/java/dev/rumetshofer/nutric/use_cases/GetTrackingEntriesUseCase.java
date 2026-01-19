@@ -34,7 +34,7 @@ public class GetTrackingEntriesUseCase {
                 .uuid(trackingEntryDbModel.getUuid())
                 .mealType(trackingEntryDbModel.getMealType())
                 .product(productDataFactory.fromProductDbModel(trackingEntryDbModel.getProduct()))
-                .amount(trackingEntryDbModel.getAmount())
+                .amountInBaseUnit(trackingEntryDbModel.getAmountInBaseUnit())
                 .baseUnit(trackingEntryDbModel.getBaseUnit())
                 .trackedInBaseUnit(trackingEntryDbModel.isTrackedInBaseUnit())
                 .nutritionPerBaseUnit(Nutrition.builder()

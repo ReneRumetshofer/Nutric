@@ -13,7 +13,7 @@ public record TrackingEntryData (
         UUID uuid,
         MealType mealType,
         ProductData product,
-        BigDecimal amount,
+        BigDecimal amountInBaseUnit,
         Unit baseUnit,
         Nutrition nutritionPerBaseUnit,
         boolean trackedInBaseUnit,

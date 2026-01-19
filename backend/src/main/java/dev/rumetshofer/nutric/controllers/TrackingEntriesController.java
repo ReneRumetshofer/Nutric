@@ -41,7 +41,7 @@ public class TrackingEntriesController {
                 .day(day)
                 .product(trackFoodRequest.product())
                 .mealType(trackFoodRequest.mealType())
-                .amount(trackFoodRequest.amount())
+                .amountInBaseUnit(trackFoodRequest.amountInBaseUnit())
                 .baseUnit(trackFoodRequest.baseUnit())
                 .trackedInBaseUnit(trackFoodRequest.trackedInBaseUnit())
                 .build();
