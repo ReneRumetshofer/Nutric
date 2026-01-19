@@ -24,7 +24,7 @@ import { AutoFocus } from 'primeng/autofocus';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TrackFoodTab } from './tabs.enum';
 import LastTrackedFoodService from '../../services/last-tracked-food.service';
-import {LastTrackedFood} from '../../data/models/last-tracked-food.model';
+import { LastTrackedFood } from '../../data/models/last-tracked-food.model';
 import FrequentlyTrackedFoodService from '../../services/frequently-tracked-food.service';
 
 @Component({
@@ -85,7 +85,9 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
       this.mealType = params['mealType'];
 
       if (this.mealType) {
-        this.frequentlyTrackedFoodService.loadFrequentlyTrackedFood(this.mealType);
+        this.frequentlyTrackedFoodService.loadFrequentlyTrackedFood(
+          this.mealType,
+        );
       }
     });
 
@@ -98,13 +100,13 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
             if (queryString == '') {
               return;
             }
+            this.selectedTab = TrackFoodTab.SEARCH;
           }),
           debounceTime(400),
           distinctUntilChanged(),
         )
         .subscribe((query) => {
-          this.selectedTab = TrackFoodTab.SEARCH;
-          this.triggerSearch(query)
+          this.triggerSearch(query);
         }),
     );
   }
@@ -140,8 +142,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
             (entry.lastTrackedAmountData.trackedInBaseUnit
               ? 1
               : (entry.productData.serving?.baseUnitAmount ?? 1)),
-          baseUnitSelected:
-            entry.lastTrackedAmountData?.trackedInBaseUnit,
+          baseUnitSelected: entry.lastTrackedAmountData?.trackedInBaseUnit,
         } as InitialAmountSelection)
       : null;
   }
