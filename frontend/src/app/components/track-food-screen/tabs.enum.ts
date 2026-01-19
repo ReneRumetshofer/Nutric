@@ -1,5 +1,5 @@
 export enum TrackFoodTab {
   LAST = 0,
-  REGULAR = 1,
+  FREQUENTLY = 1,
   SEARCH = 2,
 }

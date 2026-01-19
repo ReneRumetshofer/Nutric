@@ -25,6 +25,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TrackFoodTab } from './tabs.enum';
 import LastTrackedFoodService from '../../services/last-tracked-food.service';
 import {LastTrackedFood} from '../../data/models/last-tracked-food.model';
+import FrequentlyTrackedFoodService from '../../services/frequently-tracked-food.service';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -74,6 +75,7 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     protected productSearchService: ProductSearchService,
     protected trackingEntriesService: TrackingEntriesService,
     protected lastTrackedFoodService: LastTrackedFoodService,
+    protected frequentlyTrackedFoodService: FrequentlyTrackedFoodService,
     private router: Router,
   ) {}
 
@@ -81,6 +83,10 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params) => {
       this.day = params['day'];
       this.mealType = params['mealType'];
+
+      if (this.mealType) {
+        this.frequentlyTrackedFoodService.loadFrequentlyTrackedFood(this.mealType);
+      }
     });
 
     this.lastTrackedFoodService.loadLastTrackedFood();

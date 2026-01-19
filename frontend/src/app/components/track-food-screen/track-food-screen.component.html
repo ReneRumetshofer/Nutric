@@ -50,9 +50,8 @@
             Letzte
           </p-tab>
           <p-tab
-            [value]="TrackFoodTab.REGULAR"
+            [value]="TrackFoodTab.FREQUENTLY"
             class="flex items-center"
-            disabled
           >
             Häufig
           </p-tab>
@@ -61,7 +60,7 @@
           </p-tab>
         </p-tablist>
         <p-tabpanels>
-          <p-tabpanel [value]="0">
+          <p-tabpanel [value]="TrackFoodTab.LAST">
             @if (lastTrackedFoodService.loading$()) {
               <div class="flex justify-center">
                 <p-progress-spinner ariaLabel="loading" />
@@ -84,7 +83,30 @@
               </div>
             }
           </p-tabpanel>
-          <p-tabpanel [value]="2">
+          <p-tabpanel [value]="TrackFoodTab.FREQUENTLY">
+            @if (frequentlyTrackedFoodService.loading$()) {
+              <div class="flex justify-center">
+                <p-progress-spinner ariaLabel="loading" />
+              </div>
+            } @else if (frequentlyTrackedFoodService.error$()) {
+              <p-message severity="error" variant="outlined">{{
+                  frequentlyTrackedFoodService.error$()
+                }}</p-message>
+            } @else {
+              <div class="flex flex-col gap-2">
+                @for (
+                  frequentlyTrackedResult of frequentlyTrackedFoodService.frequentlyTrackedFoods$();
+                  track frequentlyTrackedResult
+                  ) {
+                  <app-product-card
+                    [searchResult]="frequentlyTrackedResult"
+                    (onAdd)="showTrackDialog(frequentlyTrackedResult)"
+                  ></app-product-card>
+                }
+              </div>
+            }
+          </p-tabpanel>
+          <p-tabpanel [value]="TrackFoodTab.SEARCH">
             @if (productSearchService.loading$()) {
               <div class="flex justify-center">
                 <p-progress-spinner ariaLabel="loading" />

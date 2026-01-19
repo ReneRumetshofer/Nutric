@@ -2,13 +2,14 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { LastTrackedFood } from '../data/models/last-tracked-food.model';
+import MealType from '../data/meal-type.enum';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class LastTrackedFoodService {
-  private _lastTrackedFoods = signal<LastTrackedFood[] | null>(null);
-  lastTrackedFoods$ = this._lastTrackedFoods.asReadonly();
+export default class FrequentlyTrackedFoodService {
+  private _frequentlyTrackedFoods = signal<LastTrackedFood[] | null>(null);
+  frequentlyTrackedFoods$ = this._frequentlyTrackedFoods.asReadonly();
 
   private _error = signal<string | null>(null);
   error$ = this._error.asReadonly();
@@ -18,29 +19,33 @@ export default class LastTrackedFoodService {
 
   constructor(private httpClient: HttpClient) {}
 
-  loadLastTrackedFood() {
+  loadFrequentlyTrackedFood(mealType: MealType) {
     this._loading.set(true);
     this._error.set(null);
 
     this.httpClient
-      .get<LastTrackedFood[]>('/api/tracking-entries/last-tracked')
+      .get<LastTrackedFood[]>('/api/tracking-entries/frequently-tracked', {
+        params: {
+          mealType: mealType
+        }
+      })
       .pipe(
         catchError((err) => {
           console.error(err);
           this._loading.set(false);
-          this._error.set('Failed to load last tracked foods!');
+          this._error.set('Failed to load frequently tracked foods!');
           return of(null);
         }),
       )
-      .subscribe((searchResults) => {
+      .subscribe((frequentlyTrackedResults) => {
         this._loading.set(false);
-        this._lastTrackedFoods.set(searchResults);
+        this._frequentlyTrackedFoods.set(frequentlyTrackedResults);
       });
   }
 
   reset(): void {
     this._loading.set(false);
     this._error.set(null);
-    this._lastTrackedFoods.set(null);
+    this._frequentlyTrackedFoods.set(null);
   }
 }
