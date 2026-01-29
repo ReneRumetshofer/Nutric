@@ -9,12 +9,11 @@
       [min]="min"
       [max]="max"
       class="w-full"
-      [disabled]="disabled"
     >
     </p-inputnumber>
     <label for="on_label">{{ label }}</label>
   </p-floatlabel>
-  @if (postfix && !disabled) {
+  @if (postfix) {
     <p-inputgroup-addon>
       <div class="w-8 flex justify-center">
         {{ postfix }}

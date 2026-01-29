@@ -17,8 +17,9 @@ import {
 import { InputText } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Select } from 'primeng/select';
-import { InputNumber } from 'primeng/inputnumber';
 import { NumberUnitInputComponent } from '../shared/number-unit-input/number-unit-input.component';
+import { Button } from 'primeng/button';
+import { conditionalValidator } from '../../utils/validation.utils';
 
 @Component({
   selector: 'app-create-product-screen',
@@ -28,22 +29,40 @@ import { NumberUnitInputComponent } from '../shared/number-unit-input/number-uni
     InputText,
     FloatLabel,
     Select,
-    InputNumber,
     NumberUnitInputComponent,
+    Button,
   ],
   templateUrl: './create-product-screen.html',
   styleUrl: './create-product-screen.scss',
 })
-export class CreateProductScreen implements OnInit {
+export class CreateProductScreen {
   protected productNameControl = new FormControl('', Validators.required);
   protected producerControl = new FormControl('');
   protected baseUnitControl = new FormControl(Unit.GRAMS, Validators.required);
-  protected caloriesPerHundredControl = new FormControl(0, Validators.required);
-  protected proteinPerHundredControl = new FormControl(0, Validators.required);
-  protected carbsPerHundredControl = new FormControl(0, Validators.required);
-  protected fatPerHundredControl = new FormControl(0, Validators.required);
+  protected caloriesPerHundredControl = new FormControl(null, [
+    Validators.required,
+    Validators.min(0),
+  ]);
+  protected proteinPerHundredControl = new FormControl(null, [
+    Validators.required,
+    Validators.min(0),
+  ]);
+  protected carbsPerHundredControl = new FormControl(null, [
+    Validators.required,
+    Validators.min(0),
+  ]);
+  protected fatPerHundredControl = new FormControl(null, [
+    Validators.required,
+    Validators.min(0),
+  ]);
   protected servingUnitControl = new FormControl(null);
-  protected servingSizeControl = new FormControl(null);
+  protected servingSizeControl = new FormControl(
+    { value: null, disabled: this.servingUnitControl.value === null },
+    conditionalValidator(
+      () => this.servingUnitControl.value !== null,
+      Validators.compose([Validators.min(0), Validators.required]),
+    ),
+  );
 
   protected form: FormGroup = new FormGroup({
     productName: this.productNameControl,
@@ -71,13 +90,22 @@ export class CreateProductScreen implements OnInit {
       value: unit,
     }));
 
-  constructor(private location: Location) {}
-
-  ngOnInit(): void {}
+  constructor(private location: Location) {
+    this.servingUnitControl.valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.servingSizeControl.disable({ emitEvent: false });
+        this.servingSizeControl.setValue(null, { emitEvent: false });
+      } else {
+        this.servingSizeControl.enable({ emitEvent: false });
+      }
+    });
+  }
 
   onBack(): void {
     this.location.back();
   }
+
+  onSave(): void {}
 
   protected readonly mapUnitToGerman = mapUnitToGerman;
 }

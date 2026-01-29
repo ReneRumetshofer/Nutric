@@ -104,10 +104,18 @@
       [control]="servingSizeControl"
       [maxFractionDigits]="1"
       [min]="0"
-      label="Portionsgröße in Basiseinheit *"
-      [postfix]="mapUnitToGerman(baseUnitControl.value!)"
-      [disabled]="servingUnitControl.value === null"
+      [label]="'Portionsgröße in Basiseinheit' + (servingUnitControl.value ? ' *' : '')"
+      [postfix]="servingUnitControl.value ? mapUnitToGerman(baseUnitControl.value!): null"
     >
     </app-number-unit-input>
+  </div>
+
+  <div class="flex justify-end">
+    <p-button
+      styleClass="mt-4"
+      label="Speichern"
+      (click)="onSave()"
+      [disabled]="form.invalid"
+    ></p-button>
   </div>
 </div>

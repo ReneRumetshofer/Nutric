@@ -23,7 +23,6 @@ import {
 })
 export class NumberUnitInputComponent {
   @Input() control!: FormControl;
-  @Input() disabled: boolean = false;
   @Input() inputId!: string;
   @Input() label: string = '';
   @Input() postfix: string | null = null;
