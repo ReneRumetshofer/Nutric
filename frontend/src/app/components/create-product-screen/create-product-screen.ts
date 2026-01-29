@@ -2,19 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import { Location } from '@angular/common';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Unit } from '../../data/models/product.model';
+import {
+  Unit,
+  ServingUnit,
+  UnitMapping,
+  ServingUnitMapping,
+  mapUnitToGerman,
+} from '../../data/models/product.model';
 import { InputText } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
+import { Select } from 'primeng/select';
+import { InputNumber } from 'primeng/inputnumber';
+import { NumberUnitInputComponent } from '../shared/number-unit-input/number-unit-input.component';
 
 @Component({
   selector: 'app-create-product-screen',
-  imports: [PageHeaderComponent, ReactiveFormsModule, InputText, FloatLabel],
+  imports: [
+    PageHeaderComponent,
+    ReactiveFormsModule,
+    InputText,
+    FloatLabel,
+    Select,
+    InputNumber,
+    NumberUnitInputComponent,
+  ],
   templateUrl: './create-product-screen.html',
   styleUrl: './create-product-screen.scss',
 })
@@ -41,6 +57,20 @@ export class CreateProductScreen implements OnInit {
     servingSize: this.servingSizeControl,
   });
 
+  protected baseUnitOptions = [Unit.GRAMS, Unit.MILLILITERS].map((unit) => ({
+    label: UnitMapping[unit],
+    value: unit,
+  }));
+
+  protected servingUnitOptions = Object.values(ServingUnit)
+    .filter(
+      (unit) => unit !== ServingUnit.GRAMS && unit !== ServingUnit.MILLILITERS,
+    )
+    .map((unit) => ({
+      label: ServingUnitMapping[unit],
+      value: unit,
+    }));
+
   constructor(private location: Location) {}
 
   ngOnInit(): void {}
@@ -48,4 +78,6 @@ export class CreateProductScreen implements OnInit {
   onBack(): void {
     this.location.back();
   }
+
+  protected readonly mapUnitToGerman = mapUnitToGerman;
 }

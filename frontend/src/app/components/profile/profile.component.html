@@ -2,7 +2,7 @@
   <app-page-header headerTitle="Profil" (onBack)="onBack()"></app-page-header>
 
   <div class="mt-6 flex flex-col gap-3" [formGroup]="form">
-    <app-profile-number-input
+    <app-number-unit-input
       [control]="weightControl"
       [minFractionDigits]="1"
       [maxFractionDigits]="1"
@@ -11,39 +11,39 @@
       label="Gewicht"
       postfix="kg"
     >
-    </app-profile-number-input>
+    </app-number-unit-input>
 
-    <app-profile-number-input
+    <app-number-unit-input
       [control]="calorieGoalControl"
       [min]="0"
       label="Kalorien"
       postfix="kcal"
     >
-    </app-profile-number-input>
+    </app-number-unit-input>
 
-    <app-profile-number-input
+    <app-number-unit-input
       [control]="carbGramsControl"
       [min]="0"
       label="Kohlenhydrate"
       postfix="g"
     >
-    </app-profile-number-input>
+    </app-number-unit-input>
 
-    <app-profile-number-input
+    <app-number-unit-input
       [control]="proteinGramsControl"
       [min]="0"
       label="Proteine"
       postfix="g"
     >
-    </app-profile-number-input>
+    </app-number-unit-input>
 
-    <app-profile-number-input
+    <app-number-unit-input
       [control]="fatGramsControl"
       [min]="0"
       label="Fette"
       postfix="g"
     >
-    </app-profile-number-input>
+    </app-number-unit-input>
   </div>
 
   <div class="flex justify-end">

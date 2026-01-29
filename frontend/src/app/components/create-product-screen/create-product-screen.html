@@ -3,7 +3,8 @@
   (onBack)="onBack()"
 ></app-page-header>
 
-<div class="mt-6 flex flex-col gap-3" [formGroup]="form">
+<div class="mt-6 flex flex-col gap-4" [formGroup]="form">
+  <!-- Product Name (Required) -->
   <p-floatlabel variant="on" class="flex">
     <input
       pInputText
@@ -12,8 +13,10 @@
       class="w-full"
       formControlName="productName"
     />
-    <label for="on_label">Produktname</label>
+    <label for="productName">Produktname *</label>
   </p-floatlabel>
+
+  <!-- Producer (Optional) -->
   <p-floatlabel variant="on" class="flex">
     <input
       pInputText
@@ -22,6 +25,89 @@
       class="w-full"
       formControlName="producer"
     />
-    <label for="on_label">Hersteller</label>
+    <label for="producer">Hersteller</label>
   </p-floatlabel>
+
+  <!-- Base Unit (Required) -->
+  <p-floatlabel variant="on" class="flex">
+    <p-select
+      [options]="baseUnitOptions"
+      id="baseUnit"
+      class="w-full"
+      formControlName="baseUnit"
+      optionLabel="label"
+      optionValue="value"
+    />
+    <label for="baseUnit">Basiseinheit *</label>
+  </p-floatlabel>
+
+  <!-- Nutrition Values Section -->
+  <div class="flex flex-col gap-4 mt-2">
+    <h3 class="text-sm font-semibold">
+      Nährwerte pro 100{{ mapUnitToGerman(baseUnitControl.value!) }}
+    </h3>
+
+    <app-number-unit-input
+      [control]="caloriesPerHundredControl"
+      [maxFractionDigits]="1"
+      [min]="0"
+      label="Kalorien *"
+      postfix="kcal"
+    >
+    </app-number-unit-input>
+
+    <app-number-unit-input
+      [control]="fatPerHundredControl"
+      [maxFractionDigits]="1"
+      [min]="0"
+      label="Fett *"
+      [postfix]="mapUnitToGerman(baseUnitControl.value!)"
+    >
+    </app-number-unit-input>
+
+    <app-number-unit-input
+      [control]="carbsPerHundredControl"
+      [maxFractionDigits]="1"
+      [min]="0"
+      label="Kohlenhydrate *"
+      [postfix]="mapUnitToGerman(baseUnitControl.value!)"
+    >
+    </app-number-unit-input>
+
+    <app-number-unit-input
+      [control]="proteinPerHundredControl"
+      [maxFractionDigits]="1"
+      [min]="0"
+      label="Eiweiß *"
+      [postfix]="mapUnitToGerman(baseUnitControl.value!)"
+    >
+    </app-number-unit-input>
+  </div>
+
+  <div class="flex flex-col gap-4 ,t-2">
+    <h3 class="text-sm font-semibold">Portionsgröße (optional)</h3>
+
+    <p-floatlabel variant="on" class="flex">
+      <p-select
+        [options]="servingUnitOptions"
+        id="servingUnit"
+        class="w-full"
+        formControlName="servingUnit"
+        optionLabel="label"
+        optionValue="value"
+        [showClear]="true"
+      />
+      <label for="servingUnit">Portionseinheit</label>
+    </p-floatlabel>
+
+    <app-number-unit-input
+      [control]="servingSizeControl"
+      [maxFractionDigits]="1"
+      [min]="0"
+      label="Portionsgröße in Basiseinheit *"
+      [postfix]="mapUnitToGerman(baseUnitControl.value!)"
+      [disabled]="servingUnitControl.value === null"
+    >
+    </app-number-unit-input>
+  </div>
 </div>

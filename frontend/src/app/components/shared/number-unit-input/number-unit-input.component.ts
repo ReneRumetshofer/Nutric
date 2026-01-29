@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-profile-number-input',
+  selector: 'app-number-unit-input',
   imports: [
     FloatLabel,
     InputGroup,
@@ -18,11 +18,12 @@ import {
     InputNumber,
     ReactiveFormsModule,
   ],
-  templateUrl: './profile-number-input.component.html',
-  styleUrl: './profile-number-input.component.scss',
+  templateUrl: './number-unit-input.component.html',
+  styleUrl: './number-unit-input.component.scss',
 })
-export class ProfileNumberInputComponent {
+export class NumberUnitInputComponent {
   @Input() control!: FormControl;
+  @Input() disabled: boolean = false;
   @Input() inputId!: string;
   @Input() label: string = '';
   @Input() postfix: string | null = null;

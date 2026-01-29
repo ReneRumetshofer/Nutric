@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ProfileNumberInputComponent } from './profile-number-input/profile-number-input.component';
+import { NumberUnitInputComponent } from '../shared/number-unit-input/number-unit-input.component';
 import { Button } from 'primeng/button';
 import ProfileService from '../../services/profile.service';
 import { UpdateProfileRequest } from '../../data/requests/update-profile-request.model';
@@ -21,7 +21,7 @@ import { Toast } from 'primeng/toast';
   imports: [
     PageHeaderComponent,
     ReactiveFormsModule,
-    ProfileNumberInputComponent,
+    NumberUnitInputComponent,
     Button,
     Toast,
   ],
