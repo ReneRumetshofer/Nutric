@@ -208,7 +208,8 @@ export class DashboardComponent implements OnInit {
     return this.trackingEntriesService
       .trackingEntries$()!
       .reduce(
-        (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.energy,
+        (acc, entry) =>
+          acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.energy,
         0,
       );
   }
@@ -221,7 +222,8 @@ export class DashboardComponent implements OnInit {
     return this.trackingEntriesService
       .trackingEntries$()!
       .reduce(
-        (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.carbs,
+        (acc, entry) =>
+          acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.carbs,
         0,
       );
   }
@@ -234,7 +236,8 @@ export class DashboardComponent implements OnInit {
     return this.trackingEntriesService
       .trackingEntries$()!
       .reduce(
-        (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.protein,
+        (acc, entry) =>
+          acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.protein,
         0,
       );
   }
@@ -247,7 +250,8 @@ export class DashboardComponent implements OnInit {
     return this.trackingEntriesService
       .trackingEntries$()!
       .reduce(
-        (acc, entry) => acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.fat,
+        (acc, entry) =>
+          acc + entry.amountInBaseUnit * entry.nutritionPerBaseUnit.fat,
         0,
       );
   }

@@ -1,13 +1,20 @@
-<div class="relative flex items-center justify-between">
-  <p-button
-    icon="pi pi-arrow-left"
-    [link]="true"
-    severity="warn"
-    class="absolute"
-    (onClick)="onBack.emit()"
-  >
+<div class="flex items-center justify-between">
+  <p-button icon="pi pi-arrow-left" [link]="true" (onClick)="onBack.emit()">
   </p-button>
   @if (headerTitle) {
-    <span class="mx-auto text-3xl font-bold">{{ headerTitle }}</span>
+    <span class="text-3xl font-bold">{{ headerTitle }}</span>
+  }
+  @if (menuItems) {
+    <div>
+      <p-button
+        icon="pi pi-ellipsis-v"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="menu.toggle($event)"
+      />
+      <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+    </div>
+  } @else {
+    <div>&nbsp;</div>
   }
 </div>

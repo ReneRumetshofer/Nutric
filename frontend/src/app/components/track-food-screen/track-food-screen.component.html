@@ -6,6 +6,7 @@
   <div [formGroup]="trackFoodForm">
     <app-page-header
       [headerTitle]="mapMealTypeToGerman(mealType)"
+      [menuItems]="menuItems"
       (onBack)="onBack()"
     ></app-page-header>
 

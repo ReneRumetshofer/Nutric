@@ -1,0 +1,27 @@
+<app-page-header
+  headerTitle="Produkt erstellen"
+  (onBack)="onBack()"
+></app-page-header>
+
+<div class="mt-6 flex flex-col gap-3" [formGroup]="form">
+  <p-floatlabel variant="on" class="flex">
+    <input
+      pInputText
+      type="text"
+      id="productName"
+      class="w-full"
+      formControlName="productName"
+    />
+    <label for="on_label">Produktname</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on" class="flex">
+    <input
+      pInputText
+      type="text"
+      id="producer"
+      class="w-full"
+      formControlName="producer"
+    />
+    <label for="on_label">Hersteller</label>
+  </p-floatlabel>
+</div>

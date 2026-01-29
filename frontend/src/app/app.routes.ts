@@ -20,4 +20,12 @@ export const routes: Routes = [
       ),
     canActivate: [isAuthenticated],
   },
+  {
+    path: 'create-product',
+    loadComponent: () =>
+      import('./components/create-product-screen/create-product-screen').then(
+        (m) => m.CreateProductScreen,
+      ),
+    canActivate: [isAuthenticated],
+  },
 ];

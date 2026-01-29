@@ -26,6 +26,7 @@ import { TrackFoodTab } from './tabs.enum';
 import LastTrackedFoodService from '../../services/last-tracked-food.service';
 import { LastTrackedFood } from '../../data/models/last-tracked-food.model';
 import FrequentlyTrackedFoodService from '../../services/frequently-tracked-food.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-track-food-screen',
@@ -67,6 +68,14 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   trackFoodForm: FormGroup = new FormGroup({
     queryControl: this.queryControl,
   });
+
+  menuItems: MenuItem[] = [
+    {
+      label: 'Produkt erstellen',
+      icon: 'pi pi-plus',
+      command: () => this.onCreateProduct(),
+    },
+  ];
 
   private subscriptions: Subscription[] = [];
 
@@ -126,6 +135,10 @@ export class TrackFoodScreenComponent implements OnInit, OnDestroy {
   onBack(): void {
     this.productSearchService.reset();
     this.router.navigate(['/']);
+  }
+
+  onCreateProduct(): void {
+    this.router.navigate(['/create-product']);
   }
 
   clearQuery(): void {
