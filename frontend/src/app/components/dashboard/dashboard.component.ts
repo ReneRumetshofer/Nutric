@@ -125,7 +125,8 @@ export class DashboardComponent implements OnInit {
 
   changeDay(difference: number): void {
     const newDate = new Date(this.selectedDay);
-    newDate.setDate(newDate.getDate() + difference);
+    newDate.setUTCDate(newDate.getUTCDate() + difference);
+    newDate.setUTCHours(0, 0, 0, 0);
     this.changeToDate(newDate);
   }
 
