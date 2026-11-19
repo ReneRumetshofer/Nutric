@@ -8,7 +8,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:stable-alpine
+
+FROM nginx:1.31.9-alpine
 
 RUN apk add --no-cache gettext
 
